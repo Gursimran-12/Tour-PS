@@ -1,0 +1,577 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Plan Information — AI Tour Planner</title>
+
+  <!-- Fonts & Bootstrap -->
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous" defer></script>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <style>
+    :root {
+      --bg: #fffaf8;
+      --surface: #ffffff;
+      --pastel-sky: #c2e2f4;
+      --pastel-peach: #f7d4bf;
+      --pastel-lav: #e0c6f2;
+      --pastel-mint: #cdeee6;
+      --accent: #2155ff;
+      --accent-2: #6b3be8;
+      --text: #253238;
+      --muted: #61646a;
+      --radius: 18px;
+      --shadow: 0 20px 50px rgba(30, 40, 60, .12);
+    }
+
+    html,
+    body {
+      height: 100%
+    }
+
+    body {
+      font-family: "Poppins", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      background:
+        linear-gradient(135deg,
+          #cde7ff 0%,
+          #fff4ea 50%,
+          #ffffff 100%);
+      color: var(--text);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* Navbar (same vibe as home) */
+    .navbar {
+      background: linear-gradient(90deg,
+          rgba(255, 255, 255, .78),
+          rgba(255, 255, 255, .72));
+
+      padding: 1.05rem 1rem;
+
+      transition:
+        padding .28s ease,
+        box-shadow .28s ease,
+        backdrop-filter .28s ease;
+
+      z-index: 60;
+
+      backdrop-filter: blur(6px);
+    }
+
+    .navbar .navbar-brand {
+      font-weight: 800;
+      font-size: 1.35rem;
+
+      background: linear-gradient(90deg,
+          #6b3be8,
+          #8b5cf6);
+
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+
+      letter-spacing: .3px;
+
+      transition: .3s ease;
+    }
+
+    .nav-link {
+      color: var(--text) !important;
+
+      font-weight: 500;
+      font-size: .95rem;
+
+      padding: .65rem 1rem !important;
+
+      border-radius: 12px;
+
+      transition: all .3s ease;
+
+      position: relative;
+
+      white-space: nowrap;
+    }
+
+    .nav-link:hover {
+      color: var(--accent) !important;
+
+      background: rgba(107, 59, 232, .08);
+
+      transform: translateY(-2px);
+    }
+
+    .nav-link.active {
+      background: rgba(107, 59, 232, .10);
+
+      color: var(--accent) !important;
+
+      border-radius: 12px;
+
+      font-weight: 600;
+    }
+
+    .nav-link i {
+      font-size: .9rem;
+      margin-right: 6px;
+      vertical-align: middle;
+    }
+
+    .navbar.shrink {
+      padding: .46rem 1rem;
+
+      box-shadow: 0 12px 28px rgba(20, 20, 30, .07);
+
+      backdrop-filter: blur(8px);
+    }
+
+    /* Page header card */
+    .hero-wrap {
+      padding-top: 130px;
+      padding-bottom: 70px;
+    }
+
+    .panel {
+      border-radius: 24px;
+      background: rgba(255, 255, 255, .9);
+      box-shadow: var(--shadow);
+      padding: 2rem 2rem;
+    }
+
+    .option-card {
+      border-radius: 24px;
+      background: rgba(255, 255, 255, .95);
+      box-shadow: 0 15px 40px rgba(0, 0, 0, .08);
+      padding: 2.2rem;
+      border: 1px solid rgba(255, 255, 255, .4);
+      backdrop-filter: blur(10px);
+      transition: all .3s ease;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .option-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 6px;
+      background: linear-gradient(to right, var(--accent), var(--accent-2));
+    }
+
+    .option-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 25px 60px rgba(0, 0, 0, .12);
+    }
+
+    .btn-pill {
+      border-radius: 999px;
+      padding: .95rem 1.6rem;
+      font-weight: 700;
+      transition: all .3s ease;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, .08);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .btn-pill:hover {
+      transform: translateY(-2px);
+    }
+
+    .btn-accent {
+      background: linear-gradient(135deg, var(--accent), #4f7dff);
+      color: #fff;
+      border: none;
+      box-shadow: 0 10px 25px rgba(33, 85, 255, .18);
+      transition: all .3s ease;
+    }
+
+    .btn-accent:hover {
+      color: #fff;
+      transform: translateY(-2px);
+      box-shadow: 0 14px 30px rgba(33, 85, 255, .28);
+      background: linear-gradient(135deg, #1d4ce0, #6a8cff);
+    }
+
+    .btn-ghost {
+      background: linear-gradient(90deg, var(--accent-2), #8a6cff);
+      color: #fff;
+      border: none;
+      box-shadow: 0 10px 25px rgba(107, 59, 232, .18);
+      transition: all .3s ease;
+    }
+
+    .btn-ghost:hover {
+      color: #fff;
+      transform: translateY(-2px);
+      box-shadow: 0 14px 30px rgba(107, 59, 232, .28);
+      background: linear-gradient(90deg, #5e2fe0, #9b7cff);
+    }
+
+    .soft {
+      color: var(--muted)
+    }
+
+    .form-card {
+      border-radius: 22px;
+      background: #fff;
+      box-shadow: var(--shadow);
+      padding: 1.5rem;
+    }
+
+    .form-control {
+      border-radius: 14px;
+      padding: .85rem 1rem;
+      border: 1px solid #dde3ea;
+      transition: .3s ease;
+      box-shadow: none !important;
+    }
+
+    .form-control:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 4px rgba(33, 85, 255, .12) !important;
+    }
+
+    .form-check {
+      background: #f8f9ff;
+      border-radius: 14px;
+      padding: .8rem 1rem;
+      border: 1px solid #edf0ff;
+    }
+
+    .form-check:hover {
+      background: #eef2ff;
+    }
+
+    .badge-chip {
+      border-radius: 999px;
+      padding: .45rem .8rem;
+      background: #f3f3ff;
+      color: #3a3ab3;
+      font-weight: 600;
+    }
+
+    @media (max-width: 992px) {
+      .option-card {
+        padding: 1.4rem
+      }
+    }
+
+    /* Toast (optional welcome) */
+    .toast-container {
+      position: fixed;
+      top: 1rem;
+      right: 1rem;
+      z-index: 1080
+    }
+  </style>
+</head>
+
+<body>
+  <nav class="navbar navbar-expand-lg fixed-top">
+    <div class="container">
+
+      <a class="navbar-brand" href="/">
+        AI Tour Planner
+      </a>
+
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav" aria-expanded="false"
+        aria-label="Toggle navigation">
+
+        <span class="navbar-toggler-icon"></span>
+
+      </button>
+
+      <div class="collapse navbar-collapse" id="nav">
+
+        <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-1">
+
+          <li class="nav-item">
+            <a class="nav-link" href="/home">
+              <i class="fas fa-house me-1"></i>
+              Home
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="/sightseeing_suggestion">
+              <i class="fas fa-location-dot me-1"></i>
+              Locations
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="/hotel">
+              <i class="fas fa-hotel me-1"></i>
+              Hotels
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="/findmyway">
+              <i class="fas fa-map-location-dot me-1"></i>
+              Find My Way
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="/hotels_reviews">
+              <i class="fas fa-star me-1"></i>
+              Reviews
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="/routefinder">
+              <i class="fas fa-route me-1"></i>
+              Route Finder
+            </a>
+          </li>
+
+        </ul>
+
+      </div>
+    </div>
+  </nav>
+  <!-- /NAVBAR -->
+
+  <main class="hero-wrap">
+    <div class="container">
+      <div class="panel mb-4">
+        <h1 class="fw-bold display-5 mb-3">
+          Plan Your Journey Smartly ✈️
+        </h1>
+        <p class="soft mb-0">Choose one to continue.</p>
+      </div>
+
+      <div class="row g-4">
+        <!-- Nearby Planner -->
+        <div class="col-lg-6">
+          <div class="option-card h-100">
+            <div class="mb-3">
+              <i class="fas fa-location-arrow fa-2x text-primary"></i>
+            </div>
+
+            <h4 class="fw-bold mb-2">
+              Generate Plan for Nearby Locations
+            </h4>
+            <p class="soft">Use your current location and time window.</p>
+
+            <div class="d-flex flex-wrap gap-2 mb-3">
+              <span class="badge-chip">Nearby Places</span>
+              <span class="badge-chip">Smart Routes</span>
+              <span class="badge-chip">Quick Planning</span>
+            </div>
+            <button id="btn-nearby" class="btn btn-ghost btn-pill mt-2">
+              Use Nearby Planner
+            </button>
+          </div>
+        </div>
+
+        <!-- City Planner -->
+        <div class="col-lg-6">
+          <div class="option-card h-100">
+            <div class="mb-3">
+              <i class="fas fa-city fa-2x text-primary"></i>
+            </div>
+
+            <h4 class="fw-bold mb-2">
+              Generate Complete City Trip
+            </h4>
+            <p class="soft">Tell us the city, days, time and categories.</p>
+            <button class="btn btn-accent btn-pill mt-2" data-bs-toggle="collapse" data-bs-target="#cityFormWrap"
+              aria-expanded="false">
+              Plan a City Trip
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Collapsible City Form -->
+      <div class="collapse mt-4" id="cityFormWrap">
+        <div class="form-card">
+          <form id="cityForm" autocomplete="on">
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label class="form-label fw-semibold">City name</label>
+                <input type="text" class="form-control" id="city" name="city" placeholder="e.g., Jaipur" required>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label fw-semibold">State name</label>
+                <input type="text" class="form-control" id="state" name="state" placeholder="e.g., Rajasthan" required>
+              </div>
+
+              <div class="col-md-4">
+                <label class="form-label fw-semibold">Number of days</label>
+                <input type="number" class="form-control" id="days" name="days" min="1" max="14" step="1" value="2"
+                  required>
+              </div>
+              <div class="col-md-4">
+                <label class="form-label fw-semibold">Start time</label>
+                <input type="time" class="form-control" id="start_time" name="start_time" value="09:00" required>
+              </div>
+              <div class="col-md-4">
+                <label class="form-label fw-semibold">Stop time</label>
+                <input type="time" class="form-control" id="stop_time" name="stop_time" value="19:00" required>
+              </div>
+
+              <div class="col-12">
+                <label class="form-label fw-semibold">Categories</label>
+                <div class="row g-2">
+                  <!-- Feel free to adjust / add IDs; they’ll be read dynamically -->
+                  <div class="col-6 col-md-4">
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" value="culture" id="cat_culture" checked>
+                      <label class="form-check-label" for="cat_culture">Culture & History</label>
+                    </div>
+                  </div>
+                  <div class="col-6 col-md-4">
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" value="nature" id="cat_nature" checked>
+                      <label class="form-check-label" for="cat_nature">Nature & Parks</label>
+                    </div>
+                  </div>
+                  <div class="col-6 col-md-4">
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" value="food" id="cat_food" checked>
+                      <label class="form-check-label" for="cat_food">Food & Cafés</label>
+                    </div>
+                  </div>
+                  <div class="col-6 col-md-4">
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" value="shopping" id="cat_shop">
+                      <label class="form-check-label" for="cat_shop">Shopping</label>
+                    </div>
+                  </div>
+                  <div class="col-6 col-md-4">
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" value="adventure" id="cat_adv">
+                      <label class="form-check-label" for="cat_adv">Adventure</label>
+                    </div>
+                  </div>
+                  <div class="col-6 col-md-4">
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" value="kids" id="cat_kids">
+                      <label class="form-check-label" for="cat_kids">Kids & Family</label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-12 d-flex align-items-center gap-2">
+                <span class="badge-chip"><i class="fas fa-map-marker-alt me-1"></i> Geoapify validated</span>
+                <button id="btn-generate" class="btn btn-ghost btn-pill ms-auto" type="submit">
+                  Generate Plan
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Optional toast -->
+  <div class="toast-container">
+    <div id="welcomeToast" class="toast align-items-center text-bg-success border-0" role="alert" aria-live="assertive"
+      aria-atomic="true" data-bs-delay="3400">
+      <div class="d-flex">
+        <div class="toast-body">
+          ✅ Ready to plan your trip!
+        </div>
+        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"
+          aria-label="Close"></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" defer></script>
+  <script>
+    // ------------ CONFIG ------------
+    // Prefer passing from Flask: {{ GEOAPIFY_KEY|tojson|safe }}
+    const GEOAPIFY_KEY = ({{ GEOAPIFY_KEY| tojson if GEOAPIFY_KEY is defined else '"YOUR_GEOAPIFY_KEY"' }});
+
+    // ------------ NAVBAR SHRINK ------------
+    (function () {
+      const nav = document.querySelector('.navbar');
+      const shrinkPoint = 80;
+      const onScroll = () => { if (!nav) return; window.scrollY > shrinkPoint ? nav.classList.add('shrink') : nav.classList.remove('shrink'); };
+      window.addEventListener('scroll', onScroll, { passive: true }); onScroll();
+      // tiny welcome toast
+      window.addEventListener('DOMContentLoaded', () => {
+        const t = document.getElementById('welcomeToast');
+        if (t && window.bootstrap) new bootstrap.Toast(t).show();
+      });
+    })();
+
+    // ------------ BUTTON: NEARBY ------------
+    document.getElementById('btn-nearby')?.addEventListener('click', () => {
+      // If you're using Flask, this route likely exists:
+      // window.location.href = "/dynamic";
+      // If you're using static files:
+      // window.location.href = "dynamic.html";
+      window.location.href = (window.location.pathname.endsWith('.html') ? "dynamic.html" : "/dynamic");
+    });
+
+    // ------------ CITY FORM SUBMIT ------------
+    document.getElementById('cityForm')?.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const city = document.getElementById('city').value.trim();
+      const state = document.getElementById('state').value.trim();
+      const days = document.getElementById('days').value;
+      const start = document.getElementById('start_time').value;
+      const stop = document.getElementById('stop_time').value;
+
+      const catChecks = Array.from(document.querySelectorAll('#cityForm input[type="checkbox"]:checked'));
+      const categories = catChecks.map(c => c.value).join(',');
+
+      if (!city || !state) {
+        alert("Please enter both city and state.");
+        return;
+      }
+
+      // Validate & geocode city/state with Geoapify
+      try {
+        const q = encodeURIComponent(`${city}, ${state}`);
+        const url = `https://api.geoapify.com/v1/geocode/search?text=${q}&limit=1&apiKey=${GEOAPIFY_KEY}`;
+        const r = await fetch(url, { timeout: 10000 });
+        if (!r.ok) throw new Error("Geoapify request failed");
+
+        const data = await r.json();
+        const f = data && data.features && data.features[0];
+        if (!f) {
+          alert("Couldn't locate that city/state. Please check the spelling.");
+          return;
+        }
+
+        const { lat, lon } = f.properties;
+        // Build query for generate page
+        const params = new URLSearchParams({
+          city, state, days, start, stop, categories, lat, lon
+        }).toString();
+
+        // If Flask route exists:
+        // window.location.href = `/generate?${params}`;
+        // If static HTML:
+        // window.location.href = `generate.html?${params}`;
+        const target = (window.location.pathname.endsWith('.html') ? "generate.html" : "/generate");
+        window.location.href = `${target}?${params}`;
+
+      } catch (err) {
+        console.error(err);
+        alert("Sorry, we couldn't validate the location right now. Please try again.");
+      }
+    });
+  </script>
+</body>
+
+</html>

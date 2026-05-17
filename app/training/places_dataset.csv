@@ -1,0 +1,121 @@
+Name,Google_Rating,Google_Reviews_Lakh,Entrance_Fee_INR,Established_Year,Opening_Time,Closing_Time,Avg_Visit_Duration_hr,Category,Significance,City,State,Zone,Airport_within_50km,Weekly_Off,DSLR_Allowed,Best_Time_to_Visit,Popularity_Score,Avg_Visit_Duration_min
+Heritage Gallery 1,4.4,0.263,10,1973,08:00,22:00,1.39,leisure.park,Nature,Jaipur,Rajasthan,RJ,Yes,Wednesday,Yes,All Year,69,81
+Lotus Gurudwara 2,4.21,0.102,0,2009,08:00,20:00,1.16,entertainment.cinema,Cultural,Jaipur,Rajasthan,RJ,Yes,Monday,Yes,Nov–Feb,90,76
+Harmony Mall 3,4.25,0.037,0,1953,06:00,20:00,1.09,entertainment.museum,Popular,Bengaluru,Karnataka,KA,No,Wednesday,No,Jun–Aug,45,82
+Riverside Fort 4,4.51,0.188,100,1984,06:00,20:00,0.62,entertainment.museum,Family,Patiala,Punjab,PB,No,Friday,No,Nov–Feb,76,27
+Central Park 5,3.65,0.168,0,1967,07:00,20:00,1.22,tourism.sights.viewpoint,Spiritual,Jalandhar,Punjab,PB,Yes,Friday,No,Jun–Aug,60,76
+Starlight Restaurant 6,4.15,0.098,0,2002,07:00,17:00,1.26,entertainment.zoo,Historic,Patiala,Punjab,PB,Yes,Saturday,Yes,Jun–Aug,66,49
+Lotus Mall 7,4.33,0.015,500,1950,09:00,23:00,1.19,entertainment.museum,Popular,Patiala,Punjab,PB,Yes,None,Unknown,Nov–Feb,72,85
+Central Square 8,4.56,0.015,0,1990,09:00,23:00,2.1,commercial.shopping_mall,Family,Lucknow,Uttar Pradesh,UP,Yes,Saturday,No,Mar–May,70,143
+Old Town Temple 9,4.1,0.221,20,1993,08:00,19:00,0.88,entertainment.museum,Nature,Jaipur,Rajasthan,RJ,Yes,Thursday,Unknown,All Year,52,52
+Harmony Gallery 10,4.59,0.165,50,1976,06:00,23:00,2.14,religion.place_of_worship.sikhism,Family,Chandigarh,Chandigarh,CH,Yes,Sunday,No,Oct–Mar,68,127
+Galaxy Temple 11,3.63,0.142,500,1972,10:00,23:00,2.33,catering.restaurant,Local,Pune,Maharashtra,MH,Yes,Wednesday,Yes,Oct–Mar,45,151
+Central Mall 12,4.12,0.035,500,1994,06:00,21:00,1.16,catering.fast_food.pizza,Historic,Mumbai,Maharashtra,MH,No,Wednesday,Unknown,Mar–May,65,74
+Old Town Viewpoint 13,4.75,0.453,0,1950,06:00,19:00,1.64,sport.fitness.fitness_centre,Family,Mumbai,Maharashtra,MH,Yes,Thursday,Unknown,Jun–Aug,88,94
+Sunset Mall 14,3.14,0.05,0,1993,08:00,22:00,1.78,heritage.unesco,Family,Mumbai,Maharashtra,MH,No,Monday,Yes,All Year,46,85
+Riverside Arena 15,3.93,0.059,0,1988,07:00,19:00,1.38,religion.place_of_worship.sikhism,Spiritual,Chandigarh,Chandigarh,CH,Yes,Saturday,No,Jun–Aug,48,68
+Royal Zoo 16,4.24,0.14,0,1950,08:00,22:00,1.15,tourism.attraction,Local,Kolkata,West Bengal,WB,Yes,Monday,Unknown,Jun–Aug,64,51
+Riverside Arena 17,4.66,0.054,50,1973,10:00,20:00,2.1,catering.fast_food.pizza,Nature,Lucknow,Uttar Pradesh,UP,Yes,Thursday,No,Nov–Feb,73,129
+Starlight Arcade 18,4.4,0.033,10,1952,09:00,20:00,1.93,entertainment.museum,Popular,Kolkata,West Bengal,WB,No,Tuesday,Unknown,All Year,52,117
+Meadow Arena 19,3.78,0.235,0,1950,08:00,20:00,1.88,commercial.shopping_mall,Historic,Ahmedabad,Gujarat,GJ,Yes,Tuesday,No,Nov–Feb,47,123
+Fort Museum 20,4.95,0.052,0,2009,06:00,18:00,1.82,tourism.attraction,Historic,Bengaluru,Karnataka,KA,No,Sunday,Yes,All Year,89,111
+Fort Square 21,3.96,0.241,100,1969,06:00,20:00,0.82,entertainment.museum,Local,Pune,Maharashtra,MH,No,Wednesday,Yes,Nov–Feb,61,62
+Central Gallery 22,4.27,0.235,20,1990,09:00,17:00,0.53,entertainment.cinema,Spiritual,Pune,Maharashtra,MH,Yes,Tuesday,Yes,Mar–May,65,26
+Royal Zoo 23,4.01,0.273,50,1982,09:00,19:00,0.61,religion.place_of_worship.sikhism,Local,Bengaluru,Karnataka,KA,No,Wednesday,Unknown,Nov–Feb,47,25
+Green Arena 24,4.55,0.199,50,1979,06:00,20:00,1.31,commercial.shopping_mall,Popular,Agra,Uttar Pradesh,UP,No,Sunday,Unknown,Mar–May,80,85
+Grand Park 25,4.2,0.17,50,1966,09:00,20:00,0.25,catering.restaurant,Nature,Amritsar,Punjab,PB,Yes,Wednesday,Unknown,Nov–Feb,46,11
+Starlight Arena 26,4.33,0.612,0,1995,10:00,23:00,1.91,entertainment.cinema,Cultural,Ludhiana,Punjab,PB,Yes,Monday,Yes,Oct–Mar,58,92
+Grand Viewpoint 27,4.02,0.037,10,2003,07:00,19:00,2.19,tourism.attraction,Popular,Amritsar,Punjab,PB,No,Wednesday,Unknown,Nov–Feb,52,134
+Grand Fort 28,4.22,0.42,50,1982,06:00,19:00,0.59,entertainment.amusement_arcade,Spiritual,Agra,Uttar Pradesh,UP,No,Wednesday,Yes,All Year,69,62
+Sunset Gurudwara 29,3.93,0.059,20,2009,07:00,23:00,0.25,leisure.playground,Spiritual,Jaipur,Rajasthan,RJ,No,None,Unknown,All Year,73,15
+Starlight Temple 30,4.73,0.318,200,1964,09:00,18:00,2.29,heritage.unesco,Local,Ludhiana,Punjab,PB,Yes,Wednesday,Yes,Nov–Feb,76,125
+Old Town Gurudwara 31,4.18,0.156,0,2007,07:00,22:00,1.07,sport.fitness.fitness_centre,Family,Bengaluru,Karnataka,KA,No,Sunday,Yes,All Year,67,36
+Heritage Arena 32,4.59,0.063,500,2017,10:00,20:00,1.09,leisure.park,Historic,Kolkata,West Bengal,WB,Yes,Monday,Yes,Nov–Feb,88,54
+Blue Mall 33,4.16,0.114,50,2011,06:00,20:00,1.11,entertainment.amusement_arcade,Local,Mumbai,Maharashtra,MH,No,None,Yes,Mar–May,51,62
+Royal Arcade 34,4.01,0.159,50,1950,10:00,23:00,0.98,heritage.unesco,Local,Ludhiana,Punjab,PB,No,Thursday,No,Jun–Aug,52,88
+Old Town Mall 35,3.73,0.026,0,2018,06:00,22:00,1.68,entertainment.amusement_arcade,Nature,Jaipur,Rajasthan,RJ,Yes,None,Unknown,Jun–Aug,59,112
+Heritage Museum 36,3.83,0.135,0,1982,10:00,23:00,1.45,tourism.sights.viewpoint,Historic,Ludhiana,Punjab,PB,No,Tuesday,Yes,Jun–Aug,53,95
+Central Cinema 37,5.0,0.23,20,1951,06:00,20:00,1.57,religion.place_of_worship.sikhism,Cultural,Amritsar,Punjab,PB,Yes,Saturday,Yes,Jun–Aug,86,96
+Lotus Park 38,3.44,0.206,0,2000,08:00,21:00,2.52,entertainment.zoo,Spiritual,Jalandhar,Punjab,PB,No,Thursday,Yes,Oct–Mar,60,158
+Green Garden 39,3.74,0.064,0,1995,07:00,21:00,1.97,catering.fast_food.pizza,Popular,Jalandhar,Punjab,PB,No,Sunday,No,All Year,58,109
+Lotus Cinema 40,4.12,0.373,0,1983,08:00,17:00,1.11,sport.fitness.fitness_centre,Cultural,Ludhiana,Punjab,PB,Yes,Wednesday,Unknown,Oct–Mar,82,66
+Fort Park 41,4.41,0.008,0,1985,07:00,21:00,1.35,entertainment.museum,Family,Chandigarh,Chandigarh,CH,No,Thursday,Yes,Mar–May,76,90
+Lotus Fort 42,4.19,0.093,50,1973,10:00,20:00,1.59,commercial.shopping_mall,Popular,Ahmedabad,Gujarat,GJ,Yes,Thursday,Unknown,All Year,79,89
+Royal Park 43,4.04,0.466,10,1962,08:00,19:00,1.71,tourism.sights.castle,Cultural,Pune,Maharashtra,MH,Yes,Thursday,No,Jun–Aug,64,101
+Grand Arena 44,4.24,0.2,0,1961,06:00,20:00,1.98,tourism.sights.viewpoint,Popular,Jalandhar,Punjab,PB,No,Sunday,No,All Year,76,131
+Meadow Viewpoint 45,4.45,0.019,0,1988,07:00,21:00,2.0,leisure.playground,Cultural,Amritsar,Punjab,PB,Yes,Friday,Yes,Oct–Mar,72,145
+Harmony Gallery 46,4.56,0.403,100,1995,10:00,18:00,1.9,sport.fitness.fitness_centre,Spiritual,Chandigarh,Chandigarh,CH,Yes,Monday,Yes,Nov–Feb,80,110
+Meadow Temple 47,4.22,0.053,10,2014,09:00,17:00,0.56,entertainment.zoo,Historic,Bengaluru,Karnataka,KA,Yes,Saturday,Yes,All Year,58,54
+Fort Arcade 48,3.39,0.474,0,2016,10:00,21:00,2.76,entertainment.museum,Local,Patiala,Punjab,PB,Yes,Friday,Yes,Nov–Feb,62,137
+Sunset Fort 49,4.54,0.346,50,1952,10:00,20:00,2.11,leisure.park,Historic,Jaipur,Rajasthan,RJ,No,Tuesday,Yes,Nov–Feb,70,133
+Fort Gurudwara 50,4.48,0.051,500,1993,10:00,21:00,1.18,religion.place_of_worship.sikhism,Cultural,Lucknow,Uttar Pradesh,UP,Yes,Friday,No,Nov–Feb,72,71
+Riverside Gallery 51,4.24,0.697,10,1998,06:00,21:00,0.88,religion.place_of_worship.sikhism,Cultural,Patiala,Punjab,PB,No,None,No,Nov–Feb,56,76
+Sunset Viewpoint 52,4.35,0.637,0,1973,09:00,21:00,1.67,sport.fitness.fitness_centre,Local,Jalandhar,Punjab,PB,Yes,Wednesday,Yes,Nov–Feb,59,91
+Royal Square 53,3.35,0.175,0,1990,09:00,19:00,1.08,tourism.sights.viewpoint,Cultural,Mumbai,Maharashtra,MH,No,Friday,Unknown,Jun–Aug,50,93
+Heritage Park 54,4.58,0.231,0,1995,08:00,21:00,1.04,tourism.sights.viewpoint,Nature,Mumbai,Maharashtra,MH,Yes,Thursday,Yes,All Year,70,72
+Sunset Gallery 55,4.51,0.017,200,1954,06:00,22:00,1.62,leisure.playground,Local,Chandigarh,Chandigarh,CH,No,Saturday,Unknown,Jun–Aug,73,81
+Fort Cinema 56,4.34,0.369,100,1950,10:00,23:00,1.43,heritage.unesco,Family,Amritsar,Punjab,PB,No,None,Unknown,Mar–May,69,90
+Fort Fort 57,4.81,0.579,100,1966,10:00,22:00,1.75,tourism.attraction,Historic,Ludhiana,Punjab,PB,Yes,Friday,No,All Year,70,93
+Lotus Temple 58,3.85,0.421,50,1983,09:00,23:00,0.96,tourism.sights.viewpoint,Popular,Jaipur,Rajasthan,RJ,Yes,Thursday,Unknown,Oct–Mar,60,46
+Sunset Gurudwara 59,4.82,0.147,200,2003,09:00,21:00,1.59,leisure.playground,Popular,Jaipur,Rajasthan,RJ,No,Tuesday,Yes,Mar–May,71,133
+Galaxy Gallery 60,4.76,0.204,100,1987,09:00,18:00,1.19,heritage.unesco,Family,Jaipur,Rajasthan,RJ,No,Saturday,Unknown,All Year,86,45
+Grand Gurudwara 61,3.73,0.469,0,1987,06:00,23:00,0.25,commercial.shopping_mall,Local,Patiala,Punjab,PB,No,Sunday,No,Mar–May,71,10
+Harmony Restaurant 62,3.52,0.123,500,2002,07:00,21:00,1.46,religion.place_of_worship.hinduism,Local,Jaipur,Rajasthan,RJ,Yes,Monday,No,Jun–Aug,54,67
+Central Square 63,4.39,0.123,10,1965,09:00,20:00,0.25,tourism.sights.viewpoint,Local,Jaipur,Rajasthan,RJ,Yes,Thursday,Yes,Nov–Feb,75,11
+Heritage Mall 64,5.0,0.038,0,1968,10:00,21:00,1.24,entertainment.museum,Spiritual,Chandigarh,Chandigarh,CH,Yes,Sunday,No,Jun–Aug,67,55
+Blue Gurudwara 65,4.22,0.153,0,1995,07:00,17:00,1.11,heritage.unesco,Family,Jalandhar,Punjab,PB,Yes,None,Yes,Mar–May,84,67
+Riverside Gallery 66,3.92,0.414,500,2010,06:00,18:00,1.67,religion.place_of_worship.sikhism,Historic,Jalandhar,Punjab,PB,No,None,Unknown,Nov–Feb,60,101
+Blue Garden 67,4.52,0.054,50,1951,10:00,18:00,1.56,leisure.park,Local,Pune,Maharashtra,MH,No,Friday,No,Jun–Aug,76,98
+Green Square 68,5.0,0.023,0,1964,06:00,23:00,2.4,tourism.attraction,Historic,Ahmedabad,Gujarat,GJ,No,Tuesday,Unknown,Mar–May,78,143
+Riverside Mall 69,3.78,0.079,0,1966,10:00,20:00,0.98,catering.fast_food.pizza,Local,Kolkata,West Bengal,WB,No,Sunday,Unknown,Nov–Feb,34,53
+Central Gallery 70,4.08,0.176,50,1957,06:00,20:00,3.24,sport.fitness.fitness_centre,Nature,Patiala,Punjab,PB,Yes,Thursday,No,Oct–Mar,58,184
+Old Town Garden 71,4.76,0.169,0,2019,10:00,17:00,0.45,entertainment.cinema,Family,Pune,Maharashtra,MH,No,Tuesday,Unknown,Nov–Feb,72,23
+Green Temple 72,4.02,0.035,0,2011,06:00,23:00,1.0,leisure.playground,Historic,Amritsar,Punjab,PB,No,Saturday,Yes,Nov–Feb,62,74
+Green Arcade 73,4.2,0.257,100,2015,08:00,18:00,1.86,leisure.playground,Local,Ahmedabad,Gujarat,GJ,Yes,Saturday,No,All Year,73,100
+Riverside Gurudwara 74,3.97,0.111,10,1961,06:00,18:00,0.7,commercial.shopping_mall,Local,New Delhi,Delhi,DL,No,Wednesday,No,Nov–Feb,57,44
+Blue Museum 75,4.51,0.077,10,1955,07:00,18:00,1.51,leisure.playground,Spiritual,Patiala,Punjab,PB,No,Saturday,Unknown,Nov–Feb,90,120
+Fort Garden 76,4.45,0.018,0,1966,06:00,19:00,0.69,sport.fitness.fitness_centre,Historic,Ahmedabad,Gujarat,GJ,Yes,Saturday,Unknown,Jun–Aug,93,32
+Central Arena 77,4.11,0.38,50,1999,10:00,19:00,1.63,entertainment.museum,Spiritual,Jaipur,Rajasthan,RJ,Yes,Sunday,Yes,All Year,63,95
+Sunset Mall 78,4.67,0.03,50,1963,09:00,22:00,1.7,heritage.unesco,Spiritual,Patiala,Punjab,PB,No,Friday,No,Oct–Mar,69,109
+Royal Square 79,4.46,0.477,0,1991,06:00,18:00,0.47,leisure.playground,Cultural,Lucknow,Uttar Pradesh,UP,No,None,Unknown,Jun–Aug,67,48
+Grand Arena 80,3.93,0.072,50,1964,06:00,17:00,0.25,entertainment.museum,Cultural,Ludhiana,Punjab,PB,Yes,None,Yes,Nov–Feb,46,10
+Lotus Garden 81,3.9,0.052,10,2019,08:00,23:00,1.54,entertainment.museum,Family,Ahmedabad,Gujarat,GJ,Yes,Sunday,Unknown,All Year,67,109
+Blue Gallery 82,4.88,0.17,500,2006,06:00,21:00,1.47,religion.place_of_worship.hinduism,Nature,Chandigarh,Chandigarh,CH,No,Tuesday,Unknown,Jun–Aug,86,75
+Riverside Square 83,4.23,0.287,200,1987,10:00,23:00,1.12,leisure.park,Family,Agra,Uttar Pradesh,UP,No,Monday,Unknown,All Year,57,34
+Lotus Arena 84,4.22,0.155,0,2017,09:00,21:00,3.5,commercial.shopping_mall,Spiritual,Pune,Maharashtra,MH,No,Wednesday,Yes,Jun–Aug,73,230
+Central Gallery 85,4.37,0.058,0,1960,07:00,22:00,3.0,catering.restaurant,Local,Agra,Uttar Pradesh,UP,No,Monday,Unknown,All Year,63,158
+Galaxy Temple 86,4.53,0.486,0,2009,08:00,20:00,0.3,leisure.playground,Cultural,New Delhi,Delhi,DL,No,None,No,Mar–May,83,28
+Sunset Arena 87,3.95,0.016,0,1990,08:00,23:00,1.35,leisure.playground,Local,Amritsar,Punjab,PB,No,Tuesday,No,Nov–Feb,56,74
+Galaxy Viewpoint 88,4.04,0.363,0,2003,08:00,23:00,1.16,tourism.attraction,Historic,Agra,Uttar Pradesh,UP,No,Sunday,No,Jun–Aug,55,68
+Meadow Mall 89,4.63,0.001,0,2012,09:00,17:00,1.03,tourism.sights.viewpoint,Local,Patiala,Punjab,PB,Yes,Thursday,No,Nov–Feb,57,20
+Lotus Cinema 90,4.26,0.007,500,2003,06:00,23:00,2.12,sport.fitness.fitness_centre,Popular,Lucknow,Uttar Pradesh,UP,No,Friday,Yes,Mar–May,76,117
+Old Town Restaurant 91,3.84,0.048,10,1998,09:00,22:00,0.92,tourism.sights.viewpoint,Family,Ahmedabad,Gujarat,GJ,No,Thursday,No,Oct–Mar,58,72
+Harmony Museum 92,3.97,0.074,0,2000,08:00,19:00,0.77,catering.fast_food.pizza,Historic,Pune,Maharashtra,MH,Yes,Monday,Yes,Mar–May,55,14
+Starlight Restaurant 93,3.63,0.362,10,1950,08:00,23:00,2.67,catering.restaurant,Popular,Kolkata,West Bengal,WB,No,Sunday,Yes,All Year,77,189
+Green Gallery 94,3.97,0.29,0,1957,10:00,23:00,0.25,catering.restaurant,Family,Patiala,Punjab,PB,No,Friday,No,Jun–Aug,58,23
+Green Gallery 95,4.53,0.105,0,1981,07:00,23:00,0.44,entertainment.museum,Historic,Bengaluru,Karnataka,KA,No,Friday,Unknown,Mar–May,70,27
+Royal Mall 96,3.92,0.223,0,2003,06:00,23:00,0.92,commercial.shopping_mall,Cultural,Patiala,Punjab,PB,Yes,Friday,Yes,Jun–Aug,68,58
+Grand Mall 97,4.89,0.327,500,1981,08:00,20:00,1.85,religion.place_of_worship.sikhism,Popular,Lucknow,Uttar Pradesh,UP,No,Thursday,Unknown,Jun–Aug,61,97
+Lotus Viewpoint 98,4.29,0.266,100,1968,09:00,21:00,0.93,tourism.attraction,Cultural,Lucknow,Uttar Pradesh,UP,Yes,Thursday,Yes,Oct–Mar,75,53
+Heritage Gallery 99,3.99,0.06,0,1961,09:00,21:00,2.34,commercial.shopping_mall,Historic,Chandigarh,Chandigarh,CH,Yes,Thursday,Yes,All Year,72,130
+Starlight Garden 100,4.58,0.05,500,1973,06:00,18:00,1.21,commercial.shopping_mall,Popular,Bengaluru,Karnataka,KA,No,Monday,Yes,Jun–Aug,74,73
+Blue Restaurant 101,3.67,0.133,10,1958,07:00,21:00,1.4,entertainment.amusement_arcade,Nature,Patiala,Punjab,PB,Yes,None,No,Mar–May,40,77
+Green Restaurant 102,3.8,0.028,500,1986,08:00,22:00,2.98,entertainment.cinema,Cultural,Amritsar,Punjab,PB,Yes,Tuesday,Yes,Jun–Aug,40,187
+Grand Park 103,5.0,0.354,0,1976,06:00,23:00,2.07,entertainment.cinema,Historic,Patiala,Punjab,PB,No,Wednesday,Unknown,Mar–May,83,139
+Royal Square 104,4.87,0.039,500,1975,10:00,20:00,2.31,sport.fitness.fitness_centre,Historic,Kolkata,West Bengal,WB,No,Thursday,Unknown,Jun–Aug,73,160
+Riverside Mall 105,4.35,0.041,0,1975,10:00,21:00,1.41,leisure.park,Popular,Ludhiana,Punjab,PB,Yes,Thursday,Unknown,All Year,65,103
+Old Town Zoo 106,4.29,0.189,500,2004,10:00,17:00,1.85,catering.restaurant,Cultural,Chandigarh,Chandigarh,CH,Yes,None,No,Mar–May,69,85
+Royal Museum 107,4.31,0.375,500,1975,07:00,21:00,1.28,entertainment.amusement_arcade,Family,Agra,Uttar Pradesh,UP,No,Thursday,Unknown,Mar–May,54,57
+Fort Viewpoint 108,4.86,0.182,0,1984,08:00,18:00,0.94,catering.restaurant,Local,Amritsar,Punjab,PB,Yes,Saturday,Yes,Jun–Aug,84,71
+Fort Viewpoint 109,4.45,0.09,0,1998,10:00,17:00,0.25,tourism.sights.castle,Local,Jalandhar,Punjab,PB,Yes,Monday,Yes,Nov–Feb,68,24
+Lotus Gallery 110,4.27,0.413,50,1970,06:00,23:00,0.43,commercial.shopping_mall,Local,Lucknow,Uttar Pradesh,UP,No,Sunday,Yes,Mar–May,74,46
+Starlight Gurudwara 111,4.74,0.011,20,1981,07:00,23:00,2.32,commercial.shopping_mall,Nature,Agra,Uttar Pradesh,UP,No,Sunday,Yes,Jun–Aug,55,135
+Starlight Temple 112,4.34,0.043,0,2008,10:00,18:00,1.03,leisure.playground,Historic,Ludhiana,Punjab,PB,No,None,Yes,Nov–Feb,80,21
+Riverside Arena 113,4.74,0.091,10,1994,07:00,19:00,2.54,entertainment.museum,Local,Jaipur,Rajasthan,RJ,No,None,Yes,Mar–May,64,172
+Fort Viewpoint 114,4.1,0.076,10,1974,10:00,18:00,1.61,sport.fitness.fitness_centre,Family,Bengaluru,Karnataka,KA,No,Sunday,Yes,Mar–May,36,108
+Sunset Temple 115,4.11,0.124,500,1962,10:00,18:00,2.3,leisure.playground,Popular,New Delhi,Delhi,DL,Yes,Tuesday,No,Mar–May,57,159
+Royal Arena 116,5.0,0.414,500,1959,06:00,23:00,1.21,entertainment.amusement_arcade,Spiritual,Agra,Uttar Pradesh,UP,Yes,Sunday,Yes,Oct–Mar,96,65
+Central Fort 117,4.03,0.088,0,2017,07:00,22:00,1.27,tourism.sights.viewpoint,Spiritual,Patiala,Punjab,PB,Yes,Sunday,No,All Year,45,86
+Sunset Cinema 118,4.1,0.027,500,1986,10:00,21:00,0.79,tourism.attraction,Local,Jalandhar,Punjab,PB,No,Sunday,Yes,Nov–Feb,60,35
+Fort Viewpoint 119,5.0,0.037,500,2008,09:00,21:00,0.97,tourism.sights.castle,Spiritual,Patiala,Punjab,PB,No,Monday,Yes,Jun–Aug,92,83
+Starlight Garden 120,3.57,0.039,0,1952,10:00,21:00,1.56,catering.restaurant,Nature,Lucknow,Uttar Pradesh,UP,Yes,Saturday,Yes,Nov–Feb,39,102

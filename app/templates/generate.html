@@ -1,0 +1,1204 @@
+<!doctype html>
+<html lang="en" data-bs-theme="light">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Generated Plan — AI Tour Planner</title>
+
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet" />
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+
+  <style>
+    :root {
+
+      --bg: #fffaf8;
+      --surface: #ffffff;
+
+      --pastel-sky: #c2e2f4;
+      --pastel-mint: #cdeee6;
+      --pastel-peach: #f7d4bf;
+      --pastel-lav: #e0c6f2;
+      --pastel-sand: #ffe8c9;
+
+      --accent: #6b3be8;
+      --accent-light: #8d6bff;
+
+      --text: #253238;
+      --muted: #6b7280;
+
+      --success: #16a34a;
+      --warning: #ca8a04;
+      --danger: #dc2626;
+
+      --radius: 20px;
+
+      --shadow:
+        0 10px 40px rgba(15, 23, 42, 0.08);
+
+      --glass:
+        rgba(255, 255, 255, 0.75);
+
+      --border:
+        rgba(255, 255, 255, 0.35);
+    }
+
+    html,
+    body {
+      min-height: 100%;
+    }
+
+    body {
+      margin: 0;
+
+      font-family: "Poppins", sans-serif;
+
+      background:
+        linear-gradient(180deg,
+          #c2e2f4 0%,
+          #fffaf8 65%);
+
+      color: var(--text);
+
+      overflow-x: hidden;
+
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* SCROLLBAR */
+
+    ::-webkit-scrollbar {
+      width: 10px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background:
+        linear-gradient(180deg,
+          var(--accent),
+          #9d7cff);
+
+      border-radius: 999px;
+    }
+
+    /* NAVBAR */
+
+    .navbar {
+      background:
+        linear-gradient(90deg,
+          rgba(255, 255, 255, 0.78),
+          rgba(255, 255, 255, 0.72));
+
+      padding: 1rem;
+
+      transition:
+        padding .3s ease,
+        box-shadow .3s ease;
+
+      backdrop-filter: blur(8px);
+
+      z-index: 999;
+    }
+
+    .navbar.shrink {
+      padding: .5rem 1rem;
+
+      box-shadow:
+        0 12px 28px rgba(20, 20, 30, 0.07);
+    }
+
+    .navbar-brand {
+      font-weight: 800;
+
+      font-size: 1.35rem;
+
+      background:
+        linear-gradient(90deg,
+          #6b3be8,
+          #8b5cf6);
+
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .nav-link {
+      color: var(--text) !important;
+
+      font-weight: 500;
+
+      padding:
+        0.65rem 1rem !important;
+
+      border-radius: 12px;
+
+      transition: all .3s ease;
+    }
+
+    .nav-link:hover {
+      color: var(--accent) !important;
+
+      background:
+        rgba(107, 59, 232, 0.08);
+
+      transform:
+        translateY(-2px);
+    }
+
+    .nav-link.active {
+      background:
+        rgba(107, 59, 232, 0.1);
+
+      color: var(--accent) !important;
+
+      font-weight: 600;
+    }
+
+    /* HERO */
+
+    .hero {
+      padding-top: 120px;
+      padding-bottom: 30px;
+    }
+
+    /* GLASS CARDS */
+
+    .card-glass,
+    .weather-card,
+    .poi,
+    .nearby-card,
+    .modal-content,
+    .offcanvas,
+    .spinner,
+    .alert {
+
+      background: var(--glass) !important;
+
+      backdrop-filter: blur(18px);
+
+      border:
+        1px solid rgba(255, 255, 255, 0.5) !important;
+
+      border-radius: 28px !important;
+
+      box-shadow: var(--shadow);
+
+      overflow: hidden;
+
+      position: relative;
+    }
+
+    .card-glass::before {
+      content: "";
+
+      position: absolute;
+
+      width: 240px;
+      height: 240px;
+
+      background:
+        radial-gradient(rgba(107, 59, 232, 0.15),
+          transparent);
+
+      top: -100px;
+      right: -80px;
+
+      border-radius: 50%;
+    }
+
+    /* BUTTONS */
+
+    .btn {
+      border-radius: 16px !important;
+
+      padding: 12px 20px;
+
+      font-weight: 600;
+
+      transition: all .35s ease;
+    }
+
+    .btn-primary {
+      background:
+        linear-gradient(135deg,
+          var(--accent),
+          var(--accent-light));
+
+      border: none;
+
+      box-shadow:
+        0 10px 25px rgba(107, 59, 232, 0.25);
+    }
+
+    .btn-primary:hover {
+      transform:
+        translateY(-3px);
+
+      box-shadow:
+        0 18px 35px rgba(107, 59, 232, 0.3);
+    }
+
+    .btn-outline-primary {
+      border: none;
+
+      background: white;
+
+      color: var(--accent);
+    }
+
+    .btn-outline-primary:hover {
+      background:
+        rgba(107, 59, 232, 0.08);
+
+      color: var(--accent);
+    }
+
+    /* CHIPS */
+
+    .chip,
+    .pill {
+      display: inline-flex;
+
+      align-items: center;
+
+      gap: 8px;
+
+      padding:
+        10px 16px;
+
+      border-radius: 999px;
+
+      background:
+        rgba(255, 255, 255, 0.75);
+
+      font-weight: 600;
+
+      box-shadow:
+        0 6px 20px rgba(0, 0, 0, 0.05);
+    }
+
+    /* POI CARDS */
+
+    .poi {
+      padding: 22px;
+
+      transition: all .35s ease;
+
+      margin-bottom: 20px;
+    }
+
+    .poi:hover {
+      transform:
+        translateY(-6px);
+
+      box-shadow:
+        0 20px 40px rgba(107, 59, 232, 0.12);
+    }
+
+    .poi::before {
+      content: "";
+
+      position: absolute;
+
+      top: 0;
+      left: 0;
+
+      width: 6px;
+      height: 100%;
+
+      background:
+        linear-gradient(180deg,
+          var(--accent),
+          #b79bff);
+    }
+
+    /* FORM ELEMENTS */
+
+    .form-select,
+    .form-control {
+
+      border-radius: 16px !important;
+
+      padding: 14px 18px;
+
+      border: none;
+
+      background: #fff;
+
+      box-shadow:
+        0 8px 25px rgba(0, 0, 0, 0.04);
+    }
+
+    .form-select:focus,
+    .form-control:focus {
+      box-shadow:
+        0 0 0 4px rgba(107, 59, 232, 0.15);
+
+      border: none;
+    }
+
+    /* DAY TABS */
+
+    .nav-pills .nav-link {
+      border-radius: 999px;
+    }
+
+    .nav-pills .nav-link.active {
+
+      background:
+        linear-gradient(135deg,
+          var(--accent),
+          var(--accent-light));
+
+      color: white !important;
+
+      font-weight: 700;
+
+      box-shadow:
+        0 10px 25px rgba(107, 59, 232, 0.25);
+    }
+
+    /* WEATHER */
+
+    .weather-card {
+      padding: 24px;
+    }
+
+    /* NEARBY */
+
+    .nearby-card {
+      padding: 18px;
+    }
+
+    /* LOADER */
+
+    .spinner {
+      padding: 24px;
+    }
+
+    /* SMALL TEXT */
+
+    .smallmuted,
+    .tiny {
+      color: var(--muted);
+    }
+
+    /* BACK TO TOP */
+
+    #backToTop {
+      position: fixed;
+
+      right: 18px;
+      bottom: 18px;
+
+      z-index: 999;
+
+      display: none;
+
+      border-radius: 50% !important;
+    }
+
+    /* MOBILE */
+
+    @media(max-width:768px) {
+
+      .hero {
+        padding-top: 110px;
+      }
+
+      .card-glass {
+        padding: 22px !important;
+      }
+
+      .btn {
+        width: 100%;
+      }
+
+      .navbar-brand {
+        font-size: 1.15rem;
+      }
+    }
+  </style>
+
+</head>
+
+<body>
+
+  <!-- GLOBAL LOAD BAR -->
+  <div id="loadbar"></div>
+
+  <nav class="navbar navbar-expand-lg fixed-top">
+    <div class="container">
+
+      <a class="navbar-brand" href="/">
+        AI Tour Planner
+      </a>
+
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav">
+
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="nav">
+
+        <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-1">
+
+          <li class="nav-item">
+            <a class="nav-link" href="/home">
+              <i class="fas fa-house me-1"></i>
+              Home
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="/sightseeing_suggestion">
+              <i class="fas fa-location-dot me-1"></i>
+              Locations
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="/hotel">
+              <i class="fas fa-hotel me-1"></i>
+              Hotels
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="/findmyway">
+              <i class="fas fa-map-location-dot me-1"></i>
+              Find My Way
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="/hotels_reviews">
+              <i class="fas fa-star me-1"></i>
+              Reviews
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="/generate">
+              <i class="fas fa-route me-1"></i>
+              Generated Plan
+            </a>
+          </li>
+
+        </ul>
+
+      </div>
+    </div>
+  </nav>
+
+
+  <!-- HEADER -->
+  <section class="hero">
+    <div class="container">
+      <div class="card-glass p-4 p-md-5">
+        <div class="d-flex flex-wrap align-items-center gap-3">
+          <div>
+            <h1 class="h3 fw-bold mb-1">Your City Plan</h1>
+            <div class="smallmuted">
+              <span id="summary-city">{{ city or '' }}</span>,
+              <span id="summary-state">{{ state or '' }}</span> •
+              <span id="summary-days">{{ days or '' }}</span> day(s) •
+              <span id="summary-time">{{ start_time or '' }}–{{ stop_time or '' }}</span>
+            </div>
+          </div>
+
+        </div>
+        <div class="smallmuted mt-2">Categories:
+          <span id="summary-cats">{{ (categories|join(', ')) if categories else '' }}</span>
+        </div>
+
+        <!-- ---------------- ADDED: WEATHER + NEARBY CONTROLS ---------------- -->
+        <div class="mt-4">
+          <div class="row g-3">
+            <div class="col-12 col-lg-6">
+              <div class="weather-card">
+                <div class="d-flex align-items-center justify-content-between">
+                  <div>
+                    <div class="fw-semibold"><i class="bi bi-cloud-sun me-1"></i>Destination Weather</div>
+                    <div class="tiny">Powered by OpenWeather</div>
+                  </div>
+                  <div class="d-flex align-items-center gap-2">
+                    <button id="btnWeather" class="btn btn-sm btn-primary"><i class="bi bi-arrow-clockwise me-1"></i>Get
+                      Weather</button>
+                  </div>
+                </div>
+                <div id="weatherPanel" class="mt-2">
+                  <div class="tiny dim">Click “Get Weather” to load current conditions.</div>
+                </div>
+              </div>
+            </div>
+            <div class="col-12 col-lg-6">
+              <div class="card-glass p-3">
+                <div class="d-flex align-items-center justify-content-between">
+                  <div class="fw-semibold"><i class="bi bi-geo-alt me-1"></i>Search Nearby</div>
+                  <button class="btn btn-sm btn-outline-secondary" type="button" data-bs-toggle="offcanvas"
+                    data-bs-target="#filtersCanvas" aria-controls="filtersCanvas">
+                    <i class="bi bi-sliders"></i> Filters
+                  </button>
+                </div>
+                <div class="toolbelt mt-2">
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" id="optHotels" value="hotels">
+                    <label class="form-check-label" for="optHotels">Hotels</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" id="optRestaurants" value="restaurants">
+                    <label class="form-check-label" for="optRestaurants">Restaurants</label>
+                  </div>
+                  <select id="radiusSelect" class="form-select form-select-sm" style="width:auto">
+                    <option value="1500">Radius: 1.5 km</option>
+                    <option value="3000" selected>Radius: 3 km</option>
+                    <option value="5000">Radius: 5 km</option>
+                    <option value="10000">Radius: 10 km</option>
+                  </select>
+                  <button id="btnNearby" class="btn btn-sm btn-outline-primary">
+                    <i class="bi bi-search"></i> Search
+                  </button>
+                </div>
+                <div id="nearbyPanel" class="mt-3">
+                  <div class="tiny dim">Choose one or both options, pick a radius, then press “Search”.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- ---------------- END ADDED ---------------- -->
+      </div>
+    </div>
+  </section>
+
+  <!-- RESULTS -->
+  <section class="py-4">
+    <div class="container">
+      <!-- Slim progress info -->
+      <div id="loading" class="spinner card-glass p-4 mb-3">
+        <div class="spinner-border" role="status" aria-hidden="true"></div>
+        <strong>Building your itinerary…</strong>
+      </div>
+
+      <div id="error" class="alert alert-danger d-none" role="alert"></div>
+
+      <!-- NEW: Sticky tabs wrapper -->
+      <div class="sticky-tabs">
+        <ul class="nav nav-pills mb-3 px-1" id="dayTabs" role="tablist" aria-label="Itinerary days"></ul>
+      </div>
+      <div class="tab-content" id="dayContent"></div>
+
+      <!-- Skeleton placeholder (visible before content) -->
+      <div id="skeletonHolder" class="mt-3">
+        <div class="card-glass p-3 d-none" id="skeletonCard">
+          <div class="skeleton rounded-3 mb-3" style="height:18px;width:160px;"></div>
+          <div class="skeleton rounded-3 mb-2" style="height:14px;width:60%;"></div>
+          <div class="skeleton rounded-3 mb-2" style="height:14px;width:70%;"></div>
+          <div class="skeleton rounded-3" style="height:14px;width:50%;"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SHARE / PRINT MODAL -->
+  <div class="modal fade" id="shareModal" tabindex="-1" aria-labelledby="shareModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="shareModalLabel"><i class="bi bi-share me-2"></i>Share or Print</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p class="tiny mb-2">Copy a read-only link or print to PDF.</p>
+          <div class="input-group">
+            <input id="shareLink" type="text" class="form-control" readonly value="">
+            <button class="btn btn-outline-secondary" id="copyShare"><i class="bi bi-clipboard"></i></button>
+          </div>
+          <div class="d-flex gap-2 mt-3">
+            <button id="printBtn" class="btn btn-primary"><i class="bi bi-printer me-1"></i>Print / Save PDF</button>
+            <button id="openMaps" class="btn btn-outline-primary"><i class="bi bi-map me-1"></i>Open in Maps</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- OFFCANVAS FILTERS (non-breaking; purely UI) -->
+  <div class="offcanvas offcanvas-end" tabindex="-1" id="filtersCanvas" aria-labelledby="filtersCanvasLabel">
+    <div class="offcanvas-header">
+      <h5 class="offcanvas-title" id="filtersCanvasLabel"><i class="bi bi-sliders me-1"></i>Display Options</h5>
+      <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+      <div class="form-check mb-2">
+        <input class="form-check-input" type="checkbox" value="" id="toggleDescriptions" checked>
+        <label class="form-check-label" for="toggleDescriptions">Show descriptions</label>
+      </div>
+      <div class="form-check mb-2">
+        <input class="form-check-input" type="checkbox" value="" id="toggleDistances" checked>
+        <label class="form-check-label" for="toggleDistances">Show distances</label>
+      </div>
+      <div class="form-check mb-2">
+        <input class="form-check-input" type="checkbox" value="" id="toggleTransport" checked>
+        <label class="form-check-label" for="toggleTransport">Show travel mode badges</label>
+      </div>
+      <div class="mt-3">
+        <button class="btn btn-sm btn-primary" data-bs-dismiss="offcanvas">Apply</button>
+      </div>
+      <hr>
+      <p class="tiny mb-0">These options only affect what you see; they don't change your saved plan.</p>
+    </div>
+  </div>
+
+  <!-- TOASTS -->
+  <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 1080">
+    <div id="appToast" class="toast align-items-center text-bg-dark border-0" role="alert" aria-live="assertive"
+      aria-atomic="true">
+      <div class="d-flex">
+        <div class="toast-body" id="toastMsg">Done</div>
+        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"
+          aria-label="Close"></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- BACK TO TOP -->
+  <button id="backToTop" class="btn btn-primary rounded-circle btn-lg" aria-label="Back to top">
+    <i class="bi bi-arrow-up"></i>
+  </button>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    // Navbar shrink
+    (function () {
+      const nav = document.querySelector('.navbar');
+      const shrink = () => window.scrollY > 80 ? nav.classList.add('shrink') : nav.classList.remove('shrink');
+      window.addEventListener('scroll', shrink, { passive: true }); shrink();
+    })();
+
+    // Tooltips
+    const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+    tooltipTriggerList.map(el => new bootstrap.Tooltip(el));
+
+    // Toast helper
+    function showToast(msg) {
+      const el = document.getElementById('appToast');
+      document.getElementById('toastMsg').textContent = msg || 'Done';
+      const t = new bootstrap.Toast(el, { delay: 2000 });
+      t.show();
+    }
+
+    // Global slim load bar controls
+    const loadbar = document.getElementById('loadbar');
+    function loadbarStart() { loadbar.style.width = '45%'; }
+    function loadbarAdvance() { loadbar.style.width = '75%'; }
+    function loadbarDone() { loadbar.style.width = '100%'; setTimeout(() => { loadbar.style.width = '0' }, 400); }
+
+    // Util: minutes -> HH:MM
+    function m2hm(m) {
+      m = Math.max(0, parseInt(m || 0, 10));
+      const h = Math.floor(m / 60), mm = m % 60;
+      return String(h).padStart(2, '0') + ':' + String(mm).padStart(2, '0');
+    }
+
+    // Read context from Jinja OR URL query (fallback)
+    function readContext() {
+      const q = new URLSearchParams(location.search);
+      const ctx = {
+        city: document.getElementById('summary-city')?.textContent.trim() || q.get('city') || '',
+        state: document.getElementById('summary-state')?.textContent.trim() || q.get('state') || '',
+        days: parseInt(document.getElementById('summary-days')?.textContent.trim() || q.get('days') || '1', 10),
+        start: document.getElementById('summary-time')?.textContent.split('–')[0]?.trim() || q.get('start') || '09:00',
+        stop: document.getElementById('summary-time')?.textContent.split('–')[1]?.trim() || q.get('stop') || '18:00',
+        lat: parseFloat(document.getElementById('summary-lat')?.textContent || q.get('lat')),
+        lon: parseFloat(document.getElementById('summary-lon')?.textContent || q.get('lon')),
+        categories: (document.getElementById('summary-cats')?.textContent || q.get('categories') || '')
+          .split(',').map(s => s.trim()).filter(Boolean)
+      };
+      return ctx;
+    }
+
+    // Copy coords
+    document.getElementById('copyCoords')?.addEventListener('click', async () => {
+      const ctx = readContext();
+      try {
+        await navigator.clipboard.writeText(`${ctx.lat}, ${ctx.lon}`);
+        showToast('Coordinates copied');
+      } catch { showToast('Could not copy'); }
+    });
+
+    // Theme toggle (purely UI)
+    document.getElementById('themeToggle')?.addEventListener('click', () => {
+      const html = document.documentElement;
+      const now = html.getAttribute('data-bs-theme') === 'light' ? 'dark' : 'light';
+      html.setAttribute('data-bs-theme', now);
+    });
+
+    // Build share link and print
+    const shareInput = document.getElementById('shareLink');
+    document.getElementById('copyShare')?.addEventListener('click', async () => {
+      if (shareInput?.value) { await navigator.clipboard.writeText(shareInput.value); showToast('Share link copied'); }
+    });
+    document.getElementById('printBtn')?.addEventListener('click', () => window.print());
+    document.getElementById('openMaps')?.addEventListener('click', () => {
+      const { lat, lon } = readContext();
+      if (!isNaN(lat) && !isNaN(lon)) {
+        window.open(`https://www.google.com/maps/search/?api=1&query=${lat},${lon}`, '_blank', 'noopener');
+      }
+    });
+
+    // Back to top
+    const btt = document.getElementById('backToTop');
+    window.addEventListener('scroll', () => { btt.style.display = window.scrollY > 400 ? 'inline-flex' : 'none'; }, { passive: true });
+    btt.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+    // Render skeletons (enhanced perceived speed)
+    function showSkeletons(count = 2) {
+      const holder = document.getElementById('skeletonHolder');
+      const card = document.getElementById('skeletonCard');
+      if (!holder || !card) return;
+      holder.innerHTML = '';
+      for (let i = 0; i < count; i++) {
+        const clone = card.cloneNode(true);
+        clone.id = '';
+        clone.classList.remove('d-none');
+        holder.appendChild(clone);
+      }
+    }
+    function hideSkeletons() {
+      const holder = document.getElementById('skeletonHolder');
+      if (holder) holder.innerHTML = '';
+    }
+
+    async function buildPlan() {
+      const ctx = readContext();
+      // guard
+      if (isNaN(ctx.lat) || isNaN(ctx.lon)) {
+        showError("Missing or invalid coordinates. Please go back and try again.");
+        return;
+      }
+      document.getElementById('loading').classList.remove('d-none');
+      loadbarStart();
+      showSkeletons(3);
+
+      try {
+        const payload = {
+          lat: ctx.lat, lon: ctx.lon,
+          stay_days: ctx.days,
+          start_time: ctx.start,
+          end_time: ctx.stop,
+          selected_domains: ctx.categories,     // your backend accepts this
+          include_restaurants: false,           // toggle if needed
+          max_pois_per_day: 6,
+          radius_m: 15000
+        };
+        const r = await fetch('/generate_schedule', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        loadbarAdvance();
+        if (!r.ok) { throw new Error('Planner failed: ' + r.status); }
+        const data = await r.json();
+
+        // Set share link with current params (read-only style)
+        if (shareInput) {
+          const u = new URL(location.href);
+          u.searchParams.set('city', ctx.city || '');
+          u.searchParams.set('state', ctx.state || '');
+          u.searchParams.set('days', ctx.days || '');
+          u.searchParams.set('start', ctx.start || '');
+          u.searchParams.set('stop', ctx.stop || '');
+          u.searchParams.set('lat', ctx.lat || '');
+          u.searchParams.set('lon', ctx.lon || '');
+          if (ctx.categories?.length) { u.searchParams.set('categories', ctx.categories.join(',')); }
+          shareInput.value = u.toString();
+        }
+
+        renderSchedule(data.schedule || {});
+        showToast('Itinerary ready');
+      } catch (err) {
+        console.error(err);
+        showError("Sorry, we couldn’t generate the plan right now.");
+      } finally {
+        document.getElementById('loading').classList.add('d-none');
+        hideSkeletons();
+        loadbarDone();
+      }
+    }
+
+    function showError(msg) {
+      const e = document.getElementById('error');
+      e.textContent = msg;
+      e.classList.remove('d-none');
+    }
+
+    function renderSchedule(schedule) {
+      const tabs = document.getElementById('dayTabs');
+      const content = document.getElementById('dayContent');
+      tabs.innerHTML = ''; content.innerHTML = '';
+
+      const days = Object.keys(schedule).sort((a, b) => {
+        const ia = parseInt(a.replace(/\D/g, ''), 10) || 0;
+        const ib = parseInt(b.replace(/\D/g, ''), 10) || 0;
+        return ia - ib;
+      });
+      if (!days.length) {
+        showError("No items found for the selected window/categories.");
+        return;
+      }
+
+      days.forEach((key, idx) => {
+        // tab
+        const li = document.createElement('li'); li.className = 'nav-item';
+        li.innerHTML = `
+          <button class="nav-link ${idx === 0 ? 'active' : ''}" id="tab-${key}" data-bs-toggle="pill"
+                  data-bs-target="#pane-${key}" type="button" role="tab" aria-controls="pane-${key}"
+                  aria-selected="${idx === 0 ? 'true' : 'false'}">
+            ${key.replace('_', ' ')}
+          </button>`;
+        tabs.appendChild(li);
+
+        // pane
+        const pane = document.createElement('div');
+        pane.className = `tab-pane fade ${idx === 0 ? 'show active' : ''}`;
+        pane.id = `pane-${key}`;
+        pane.setAttribute('role', 'tabpanel');
+        pane.setAttribute('aria-labelledby', `tab-${key}`);
+
+        const day = schedule[key] || [];
+        if (!day.length) {
+          pane.innerHTML = `<div class="alert alert-warning"><i class="bi bi-exclamation-triangle me-2"></i>No items for ${key}.</div>`;
+        } else {
+          const items = day
+            .filter(it =>
+              it.name &&
+              it.name.trim() !== '' &&
+              it.name.toLowerCase() !== 'unnamed' &&
+              it.name.toLowerCase() !== 'place'
+            )
+            .map(it => {
+              const isWalk = String(it.how_to_reach || '').toLowerCase().includes('walk');
+              const badge = isWalk
+                ? `<span class="badge badge-walk px-2 py-1 transport-badge">Walk</span>`
+                : `<span class="badge badge-drive px-2 py-1 transport-badge">Drive</span>`;
+              const dist = it.distance_km != null ? `${it.distance_km.toFixed(2)} km` : '';
+              return `
+              <div class="poi">
+                <div class="d-flex flex-wrap align-items-center gap-3">
+                  <div class="time-box"><i class="bi bi-alarm me-1"></i>${m2hm(it.arrival_min)}–${m2hm(it.depart_min)}</div>
+                  <div class="flex-grow-1">
+                  <div class="fw-semibold">
+
+  ${it.name}
+
+</div>
+
+<div class="tiny text-secondary mt-1">
+
+  <i class="fas fa-location-dot"></i>
+
+  ${it.address || 'Address unavailable'}
+
+</div>
+                    <div class="smallmuted poi-meta">
+                      <span class="transport-wrap">${badge}</span>
+                      <span class="ms-2">${it.category || ''}</span>
+                      ${dist ? `<span class="ms-2 distance-wrap">• ${dist}</span>` : `<span class="distance-wrap d-none"></span>`}
+                    </div>
+                    ${it.description ? `<div class="small text-secondary mt-1 desc-wrap">${it.description}</div>` : `<div class="desc-wrap d-none"></div>`}
+                  </div>
+                </div>
+              </div>`;
+            }).join('');
+          pane.innerHTML = `<div class="card-glass p-3">${items}</div>`;
+        }
+        content.appendChild(pane);
+      });
+
+      // Apply display toggles immediately
+      applyDisplayToggles();
+    }
+
+    // init
+    buildPlan();
+
+    /* ============================== ADDED: WEATHER + NEARBY ============================== */
+
+    const GEOAPIFY_KEY = '';      // <-- set your key
+    const OPENWEATHER_KEY = '';     // <-- set your key
+
+    // Wire buttons
+    document.getElementById('btnWeather')?.addEventListener('click', handleWeatherClick, { passive: true });
+    document.getElementById('btnNearby')?.addEventListener('click', handleNearbyClick, { passive: true });
+
+    function ctxOrError() {
+      const ctx = readContext();
+      if (isNaN(ctx.lat) || isNaN(ctx.lon)) {
+        throw new Error('Missing coordinates');
+      }
+      return ctx;
+    }
+
+    async function handleWeatherClick() {
+      const panel = document.getElementById('weatherPanel');
+      try {
+        panel.innerHTML = `<div class="spinner"><div class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></div><span>Loading weather…</span></div>`;
+        const { lat, lon, city, state } = ctxOrError();
+        if (!OPENWEATHER_KEY || OPENWEATHER_KEY.includes('YOUR_OPENWEATHER_KEY_HERE')) {
+          panel.innerHTML = `<div class="text-danger tiny">OpenWeather API key missing. Please configure it in the code.</div>`;
+          return;
+        }
+        const url = new URL('https://api.openweathermap.org/data/2.5/weather');
+        url.searchParams.set('lat', lat);
+        url.searchParams.set('lon', lon);
+        url.searchParams.set('units', 'metric');
+        url.searchParams.set('appid', OPENWEATHER_KEY);
+        const r = await fetch(url);
+        if (!r.ok) throw new Error('Weather API error: ' + r.status);
+        const w = await r.json();
+
+        const name = (city || w.name || 'Destination') + (state ? `, ${state}` : '');
+        const temp = Math.round(w.main?.temp ?? 0);
+        const feels = Math.round(w.main?.feels_like ?? temp);
+        const cond = (w.weather && w.weather[0]?.description) ? w.weather[0].description : '—';
+        const humid = w.main?.humidity ?? '—';
+        const wind = w.wind?.speed != null ? `${w.wind.speed} m/s` : '—';
+        const icon = w.weather && w.weather[0]?.icon ? `https://openweathermap.org/img/wn/${w.weather[0].icon}@2x.png` : '';
+
+        panel.innerHTML = `
+          <div class="d-flex align-items-center gap-3">
+            ${icon ? `<img alt="icon" src="${icon}" width="60" height="60" />` : ''}
+            <div>
+              <div class="fw-semibold">${name}</div>
+              <div class="h4 m-0">${temp}°C <span class="tiny">feels ${feels}°C</span></div>
+              <div class="tiny text-capitalize">${cond}</div>
+              <div class="tiny">Humidity ${humid}% • Wind ${wind}</div>
+            </div>
+          </div>`;
+      } catch (err) {
+        console.error(err);
+        panel.innerHTML = `<div class="text-danger tiny">Could not load weather.</div>`;
+      }
+    }
+
+    async function handleNearbyClick() {
+      const panel = document.getElementById('nearbyPanel');
+      const hotels = document.getElementById('optHotels')?.checked;
+      const restaurants = document.getElementById('optRestaurants')?.checked;
+      const radius = parseInt(document.getElementById('radiusSelect')?.value || '3000', 10);
+
+      if (!hotels && !restaurants) {
+        panel.innerHTML = `<div class="tiny dim">Please select at least one option.</div>`;
+        return;
+      }
+      if (!GEOAPIFY_KEY || GEOAPIFY_KEY.includes('YOUR_GEOAPIFY_KEY_HERE')) {
+        panel.innerHTML = `<div class="text-danger tiny">Geoapify API key missing. Please configure it in the code.</div>`;
+        return;
+      }
+
+      try {
+        panel.innerHTML = `<div class="spinner"><div class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></div><span>Searching nearby…</span></div>`;
+        const { lat, lon } = ctxOrError();
+
+        const results = [];
+        if (hotels) {
+          const resHotels = await fetchGeoapify(lat, lon, radius, 'accommodation.hotel,accommodation.guest_house'); // hotels
+          results.push(...resHotels.map(r => ({ ...r, _type: 'Hotel' })));
+        }
+        if (restaurants) {
+          const resRest = await fetchGeoapify(lat, lon, radius, 'catering.restaurant,catering.cafe'); // restaurants
+          results.push(...resRest.map(r => ({ ...r, _type: 'Restaurant' })));
+        }
+
+        // sort by distance ASC, then rating/popularity desc
+        results.sort((a, b) => {
+          const da = a.distance || 0, db = b.distance || 0;
+          if (da !== db) return da - db;
+          const ra = (a.properties?.rating ?? a.properties?.rank?.popularity) || 0;
+          const rb = (b.properties?.rating ?? b.properties?.rank?.popularity) || 0;
+          return rb - ra;
+        });
+
+        if (!results.length) {
+          panel.innerHTML = `<div class="alert alert-warning tiny mb-0">No places found within ${Math.round(radius / 1000)} km.</div>`;
+          return;
+        }
+
+        panel.innerHTML = results
+          .filter(p => {
+
+            const name =
+              p.properties?.name;
+
+            return (
+              name &&
+              name.trim() !== '' &&
+              name.toLowerCase() !== 'unnamed' &&
+              name.toLowerCase() !== 'place'
+            );
+
+          })
+          .slice(0, 20)
+          .map((p) => {
+            const props = p.properties || {};
+            const name = props.name || '(Unnamed)';
+            const addr = [props.address_line1, props.address_line2].filter(Boolean).join(', ') || (props.formatted || '');
+            const dist = (p.distance != null) ? (p.distance / 1000).toFixed(2) + ' km' : '';
+            const rating = (props.rating != null) ? `Rating: ${props.rating}/5` :
+              (props.rank?.popularity ? `Popularity: ${props.rank.popularity}` : '');
+            const url = props.website || props.datasource?.raw?.url || '';
+            const phone = props.datasource?.raw?.phone || props.contact?.phone || '';
+            return `
+            <div class="nearby-card">
+              <div class="d-flex flex-wrap align-items-start justify-content-between gap-2">
+                <div>
+                  <div class="fw-semibold">${name} <span class="pill ms-1">${p._type}</span></div>
+                  <div class="tiny">${addr || 'Address not available'}</div>
+                  <div class="tiny">${rating ? rating + ' • ' : ''}${dist ? 'Distance: ' + dist : ''}</div>
+                  ${phone ? `<div class="tiny">☎ ${phone}</div>` : ''}
+                  ${url ? `<a class="tiny linkish" href="${url}" target="_blank" rel="noopener">Website</a>` : ''}
+                </div>
+                <div class="text-end tiny dim">
+                  ${props.opening_hours ? `Hours: ${props.opening_hours}` : ''}
+                </div>
+              </div>
+            </div>`;
+          }).join('');
+      } catch (err) {
+        console.error(err);
+        panel.innerHTML = `<div class="text-danger tiny">Search failed. Please try again.</div>`;
+      }
+    }
+
+    async function fetchGeoapify(lat, lon, radius, category) {
+
+      const url = new URL(
+        'https://api.geoapify.com/v2/places'
+      );
+
+      url.searchParams.set(
+        'categories',
+        category
+      );
+
+      url.searchParams.set(
+        'filter',
+        `circle:${lon},${lat},${radius}`
+      );
+
+      url.searchParams.set(
+        'bias',
+        `proximity:${lon},${lat}`
+      );
+
+      url.searchParams.set(
+        'limit',
+        '30'
+      );
+
+      url.searchParams.set(
+        'apiKey',
+        GEOAPIFY_KEY
+      );
+
+      const r = await fetch(url);
+
+      if (!r.ok) {
+
+        throw new Error(
+          'Geoapify error: ' + r.status
+        );
+
+      }
+
+      const data = await r.json();
+
+      // =========================================
+      // IMPORTANT FIX
+      // Geoapify returns "features"
+      // not "success"
+      // =========================================
+
+      if (!data.features) {
+
+        throw new Error(
+          "No nearby places found"
+        );
+
+      }
+
+      return (data.features || []).map(f => {
+
+        const [flon, flat] =
+          f.geometry?.coordinates || [lon, lat];
+
+        const distance = haversine(
+          lat,
+          lon,
+          flat,
+          flon
+        );
+
+        return {
+          ...f,
+          distance
+        };
+
+      });
+
+    }
+
+    // Haversine distance (meters)
+    function haversine(lat1, lon1, lat2, lon2) {
+      const R = 6371000;
+      const toRad = (d) => d * Math.PI / 180;
+      const dLat = toRad(lat2 - lat1);
+      const dLon = toRad(lon2 - lon1);
+      const a = Math.sin(dLat / 2) ** 2 + Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * sin2(dLon / 2);
+      return 2 * R * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+      function sin2(x) { return Math.sin(x) ** 2 }
+    }
+
+    // Display toggles (descriptions/distances/transport badges)
+    function applyDisplayToggles() {
+      const showDesc = document.getElementById('toggleDescriptions')?.checked !== false;
+      const showDist = document.getElementById('toggleDistances')?.checked !== false;
+      const showTrans = document.getElementById('toggleTransport')?.checked !== false;
+
+      document.querySelectorAll('.desc-wrap').forEach(n => n.classList.toggle('d-none', !showDesc));
+      document.querySelectorAll('.distance-wrap').forEach(n => n.classList.toggle('d-none', !showDist));
+      document.querySelectorAll('.transport-wrap').forEach(n => n.classList.toggle('d-none', !showTrans));
+      document.querySelectorAll('.transport-badge').forEach(n => n.classList.toggle('d-none', !showTrans));
+    }
+
+    document.getElementById('toggleDescriptions')?.addEventListener('change', applyDisplayToggles);
+    document.getElementById('toggleDistances')?.addEventListener('change', applyDisplayToggles);
+    document.getElementById('toggleTransport')?.addEventListener('change', applyDisplayToggles);
+
+    // Populate share link on open
+    const shareModal = document.getElementById('shareModal');
+    shareModal?.addEventListener('show.bs.modal', () => {
+      const ctx = readContext();
+      if (shareInput) {
+        const u = new URL(location.href);
+        u.searchParams.set('city', ctx.city || '');
+        u.searchParams.set('state', ctx.state || '');
+        u.searchParams.set('days', ctx.days || '');
+        u.searchParams.set('start', ctx.start || '');
+        u.searchParams.set('stop', ctx.stop || '');
+        u.searchParams.set('lat', ctx.lat || '');
+        u.searchParams.set('lon', ctx.lon || '');
+        if (ctx.categories?.length) { u.searchParams.set('categories', ctx.categories.join(',')); }
+        shareInput.value = u.toString();
+      }
+    });
+  </script>
+</body>
+
+</html>

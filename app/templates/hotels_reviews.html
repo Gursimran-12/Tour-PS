@@ -1,0 +1,1578 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Nearby Hotels & Restaurants — Sentiment Reviews</title>
+
+  <!-- Google Font -->
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+  <style>
+    :root {
+      --bg: #fffaf8;
+      --surface: #ffffff;
+      --pastel-sky: #c2e2f4;
+      --pastel-mint: #cdeee6;
+      --pastel-peach: #f7d4bf;
+      --pastel-lav: #e0c6f2;
+      --pastel-sand: #ffe8c9;
+
+      --accent: #6b3be8;
+      --accent-light: #8d6bff;
+
+      --text: #253238;
+      --muted: #6b7280;
+
+      --success: #16a34a;
+      --warning: #ca8a04;
+      --danger: #dc2626;
+
+      --radius: 18px;
+
+      --shadow:
+        0 10px 40px rgba(15, 23, 42, 0.08);
+
+      --glass:
+        rgba(255, 255, 255, 0.75);
+
+      --border:
+        rgba(255, 255, 255, 0.35);
+    }
+
+    html,
+    body {
+      height: 100%;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Poppins", sans-serif;
+
+      background:
+        linear-gradient(180deg,
+          #c2e2f4 0%,
+          #fffaf8 65%);
+
+      color: var(--text);
+
+      overflow-x: hidden;
+
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* =========================================
+   SCROLLBAR
+========================================= */
+
+    ::-webkit-scrollbar {
+      width: 10px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: linear-gradient(180deg,
+          var(--accent),
+          #9d7cff);
+      border-radius: 999px;
+    }
+
+    /* =========================================
+   NAVBAR
+========================================= */
+
+    .navbar {
+      background: linear-gradient(90deg, rgba(255, 255, 255, 0.78), rgba(255, 255, 255, 0.72));
+      padding: 1.05rem 1rem;
+      transition: padding .28s ease, box-shadow .28s ease, backdrop-filter .28s ease;
+      z-index: 60;
+      backdrop-filter: blur(6px);
+    }
+
+    .navbar .navbar-brand {
+      font-weight: 800;
+      font-size: 1.35rem;
+
+      background: linear-gradient(90deg,
+          #6b3be8,
+          #8b5cf6);
+
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+
+      letter-spacing: 0.3px;
+
+      transition: 0.3s ease;
+    }
+
+    .nav-link {
+      color: var(--text) !important;
+
+      font-weight: 500;
+      font-size: 0.95rem;
+
+      padding:
+        0.65rem 1rem !important;
+
+      border-radius: 12px;
+
+      transition:
+        all 0.3s ease;
+
+      position: relative;
+    }
+
+    .nav-link:hover {
+      color: var(--accent) !important;
+
+      background:
+        rgba(107, 59, 232, 0.08);
+
+      transform:
+        translateY(-2px);
+    }
+
+    .nav-link.active {
+
+      background:
+        rgba(107, 59, 232, 0.10);
+
+      color:
+        var(--accent) !important;
+
+      border-radius: 12px;
+
+      font-weight: 600;
+    }
+
+    .nav-link i {
+      font-size: 0.9rem;
+      margin-right: 6px;
+      vertical-align: middle;
+    }
+
+    .nav-link {
+      white-space: nowrap;
+    }
+
+    .navbar.shrink {
+      padding: .46rem 1rem;
+      box-shadow: 0 12px 28px rgba(20, 20, 30, 0.07);
+      backdrop-filter: blur(8px);
+    }
+
+    .nav-link:focus {
+      outline: none;
+      box-shadow: 0 0 0 var(--focus);
+      border-radius: 6px;
+    }
+
+    /* =========================================
+   PAGE WRAP
+========================================= */
+
+    .page-wrap {
+
+      padding-top: 120px;
+
+      padding-bottom: 60px;
+    }
+
+    /* =========================================
+   HERO IMAGES
+========================================= */
+    .hero-row {
+
+      display: flex;
+
+      justify-content: center;
+
+      align-items: center;
+
+      flex-wrap: wrap;
+
+      gap: 22px;
+
+      padding: 10px 5px 25px;
+
+      margin: auto;
+    }
+
+    .hero-card {
+
+      flex: 0 0 auto;
+
+      width: 220px;
+
+      height: 220px;
+
+      border-radius: 24px;
+
+      overflow: hidden;
+
+      position: relative;
+
+      background: #fff;
+
+      box-shadow: var(--shadow);
+
+      transition: all .45s ease;
+    }
+
+    .hero-card:hover {
+
+      transform:
+        translateY(-10px) scale(1.02);
+
+      box-shadow:
+        0 20px 50px rgba(107, 59, 232, 0.18);
+    }
+
+    .hero-card img {
+
+      width: 100%;
+
+      height: 100%;
+
+      object-fit: cover;
+
+      transition: transform .7s ease;
+    }
+
+    .hero-card:hover img {
+
+      transform: scale(1.1);
+    }
+
+    /* =========================================
+   MAIN CARD
+========================================= */
+
+    .center-card {
+
+      background: var(--glass);
+
+      backdrop-filter: blur(18px);
+
+      border:
+        1px solid rgba(255, 255, 255, 0.5);
+
+      border-radius: 28px;
+
+      padding: 35px;
+
+      box-shadow: var(--shadow);
+
+      animation: fadeUp .8s ease;
+
+      position: relative;
+
+      overflow: hidden;
+    }
+
+    .center-card::before {
+
+      content: "";
+
+      position: absolute;
+
+      width: 250px;
+
+      height: 250px;
+
+      background:
+        radial-gradient(rgba(107, 59, 232, 0.15),
+          transparent);
+
+      top: -120px;
+
+      right: -100px;
+
+      border-radius: 50%;
+    }
+
+    @keyframes fadeUp {
+
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .center-card h1 {
+
+      font-size: 2rem;
+
+      font-weight: 800;
+
+      margin-bottom: 10px;
+
+      display: flex;
+
+      align-items: center;
+
+      gap: 12px;
+    }
+
+    .center-card .lead {
+
+      color: var(--muted);
+
+      font-size: 1rem;
+    }
+
+    /* =========================================
+   STATUS BOX
+========================================= */
+
+    .status {
+
+      background:
+        linear-gradient(135deg,
+          rgba(255, 255, 255, 0.95),
+          rgba(255, 255, 255, 0.7));
+
+      padding: 14px 18px;
+
+      border-radius: 14px;
+
+      font-weight: 600;
+
+      box-shadow:
+        0 6px 20px rgba(0, 0, 0, 0.04);
+
+      border:
+        1px solid rgba(255, 255, 255, 0.5);
+
+      animation: pulseGlow 2s infinite;
+    }
+
+    @keyframes pulseGlow {
+
+      0% {
+        box-shadow: 0 0 0 rgba(107, 59, 232, 0);
+      }
+
+      50% {
+        box-shadow: 0 0 20px rgba(107, 59, 232, 0.12);
+      }
+
+      100% {
+        box-shadow: 0 0 0 rgba(107, 59, 232, 0);
+      }
+    }
+
+    /* =========================================
+   INPUTS
+========================================= */
+
+    .form-select {
+
+      border-radius: 16px !important;
+
+      padding: 14px 18px;
+
+      border: none;
+
+      background: #fff;
+
+      box-shadow:
+        0 8px 25px rgba(0, 0, 0, 0.04);
+
+      transition: all .3s ease;
+    }
+
+    .nearby-title {
+
+      display: flex;
+
+      align-items: center;
+
+      gap: 10px;
+
+      font-size: 1.1rem;
+
+      font-weight: 700;
+
+      margin-bottom: 14px;
+
+      color: var(--text);
+    }
+
+    .nearby-title i {
+
+      color: var(--accent);
+    }
+
+    .form-select:focus {
+
+      box-shadow:
+        0 0 0 4px rgba(107, 59, 232, 0.15);
+
+      border: none;
+    }
+
+    /* =========================================
+   BUTTONS
+========================================= */
+
+    .btn {
+
+      border-radius: 16px !important;
+
+      padding: 12px 22px;
+
+      font-weight: 600;
+
+      transition: all .35s ease;
+    }
+
+    .btn-primary-custom {
+
+      background:
+        linear-gradient(135deg,
+          var(--accent),
+          var(--accent-light));
+
+      border: none;
+
+      color: #fff;
+
+      box-shadow:
+        0 10px 25px rgba(107, 59, 232, 0.25);
+    }
+
+    .btn-primary-custom:hover {
+
+      transform:
+        translateY(-3px) scale(1.02);
+
+      box-shadow:
+        0 18px 35px rgba(107, 59, 232, 0.3);
+    }
+
+    .location-refresh-btn {
+
+      width: 52px;
+
+      height: 52px;
+
+      border: none;
+
+      border-radius: 18px;
+
+      background:
+        linear-gradient(135deg,
+          #ffffff,
+          #f7f4ff);
+
+      color: var(--accent);
+
+      font-size: 18px;
+
+      display: flex;
+
+      align-items: center;
+
+      justify-content: center;
+
+      box-shadow:
+        0 10px 25px rgba(107, 59, 232, 0.12);
+
+      transition: all .35s ease;
+    }
+
+    .location-refresh-btn:hover {
+
+      transform:
+        translateY(-4px) rotate(8deg);
+
+      box-shadow:
+        0 18px 35px rgba(107, 59, 232, 0.18);
+    }
+
+    .btn-secondary-custom {
+
+      background: #fff;
+
+      border: none;
+
+      color: #333;
+
+      box-shadow:
+        0 8px 20px rgba(0, 0, 0, 0.05);
+    }
+
+    .btn-secondary-custom:hover {
+
+      transform: translateY(-3px);
+    }
+
+    /* =========================================
+   RESULTS AREA
+========================================= */
+
+    #resultArea {
+
+      margin-top: 35px;
+
+      padding: 24px;
+
+      border-radius: 24px;
+
+      background:
+        rgba(255, 255, 255, 0.55);
+
+      backdrop-filter: blur(12px);
+
+      border:
+        1px solid rgba(255, 255, 255, 0.45);
+
+      animation: fadeUp .5s ease;
+
+      box-shadow:
+        0 10px 35px rgba(0, 0, 0, 0.04);
+    }
+
+    /* =========================================
+   PLACE META
+========================================= */
+
+    #placeMeta {
+
+      background:
+        rgba(255, 255, 255, 0.75);
+
+      padding: 18px;
+
+      border-radius: 18px;
+
+      box-shadow:
+        0 8px 25px rgba(0, 0, 0, 0.04);
+
+      border:
+        1px solid rgba(255, 255, 255, 0.5);
+
+      line-height: 1.8;
+
+      font-size: 15px;
+    }
+
+    /* =========================================
+   REVIEWS
+========================================= */
+
+    .review {
+
+      background:
+        rgba(255, 255, 255, 0.82);
+
+      backdrop-filter: blur(10px);
+
+      border-radius: 22px;
+
+      padding: 22px;
+
+      margin-bottom: 20px;
+
+      border:
+        1px solid rgba(255, 255, 255, 0.6);
+
+      box-shadow:
+        0 10px 30px rgba(0, 0, 0, 0.05);
+
+      transition: all .35s ease;
+
+      position: relative;
+
+      overflow: hidden;
+
+      animation: fadeUp .45s ease;
+    }
+
+    .review:hover {
+
+      transform:
+        translateY(-6px);
+
+      box-shadow:
+        0 20px 40px rgba(107, 59, 232, 0.12);
+    }
+
+    .review::before {
+
+      content: "";
+
+      position: absolute;
+
+      top: 0;
+
+      left: 0;
+
+      width: 6px;
+
+      height: 100%;
+
+      background:
+        linear-gradient(180deg,
+          var(--accent),
+          #b79bff);
+    }
+
+    /* =========================================
+   REVIEW AUTHOR
+========================================= */
+
+    .review-author {
+
+      display: flex;
+
+      align-items: center;
+
+      gap: 12px;
+
+      margin-bottom: 12px;
+    }
+
+    .author-avatar {
+
+      width: 50px;
+
+      height: 50px;
+
+      border-radius: 50%;
+
+      background:
+        linear-gradient(135deg,
+          var(--accent),
+          #a98eff);
+
+      display: flex;
+
+      align-items: center;
+
+      justify-content: center;
+
+      color: white;
+
+      font-weight: 700;
+
+      font-size: 18px;
+    }
+
+    /* =========================================
+   SENTIMENT
+========================================= */
+
+    .sentiment {
+
+      margin-top: 15px;
+
+      display: inline-flex;
+
+      align-items: center;
+
+      gap: 10px;
+
+      padding: 10px 16px;
+
+      border-radius: 999px;
+
+      font-weight: 600;
+
+      font-size: 14px;
+    }
+
+    .sent-positive {
+
+      background:
+        rgba(22, 163, 74, 0.12);
+
+      color: var(--success);
+    }
+
+    .sent-neutral {
+
+      background:
+        rgba(202, 138, 4, 0.12);
+
+      color: var(--warning);
+    }
+
+    .sent-negative {
+
+      background:
+        rgba(220, 38, 38, 0.12);
+
+      color: var(--danger);
+    }
+
+    /* =========================================
+   FOOTER
+========================================= */
+
+    .site-footer {
+
+      margin-top: 40px;
+
+      padding: 28px;
+
+      border-radius: 24px;
+
+      background:
+        rgba(255, 255, 255, 0.7);
+
+      backdrop-filter: blur(12px);
+
+      text-align: center;
+
+      box-shadow:
+        0 10px 30px rgba(0, 0, 0, 0.04);
+    }
+
+    /* =========================================
+   ERROR BOX
+========================================= */
+
+    .error {
+
+      background:
+        rgba(255, 230, 230, 0.9);
+
+      border: none;
+
+      padding: 14px 18px;
+
+      border-radius: 14px;
+
+      color: #b91c1c;
+
+      font-weight: 500;
+
+      box-shadow:
+        0 8px 20px rgba(220, 38, 38, 0.08);
+    }
+
+    /* =========================================
+   MOBILE
+========================================= */
+
+    @media(max-width:768px) {
+
+      .center-card {
+
+        padding: 22px;
+      }
+
+      .hero-card {
+
+        width: 160px;
+
+        height: 160px;
+      }
+
+      .center-card h1 {
+
+        font-size: 1.55rem;
+      }
+
+      .btn {
+
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Skip link for accessibility -->
+  <a href="#main-content" class="visually-hidden-focusable"
+    style="position:absolute;left:-999px;top:auto;width:1px;height:1px;overflow:hidden"
+    onfocus="this.style.left='1rem';this.style.top='1rem';this.style.width='auto';this.style.height='auto';this.style.background='#fff';this.style.padding='0.5rem 0.75rem';this.style.borderRadius='6px';this.style.boxShadow='0 8px 24px rgba(0,0,0,0.12)';">Skip
+    to content</a>
+
+  <!-- NAVBAR (now matches your AI Tour Planner navbar) -->
+  <nav class="navbar navbar-expand-lg fixed-top">
+    <div class="container">
+      <a class="navbar-brand" href="/">AI Tour Planner</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav" aria-expanded="false"
+        aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="nav">
+        <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-1">
+
+          <li class="nav-item">
+            <a class="nav-link" href="/home">
+              <i class="fas fa-house me-1"></i>
+              Home
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="/sightseeing_suggestion">
+              <i class="fas fa-location-dot me-1"></i>
+              Locations
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="/hotel">
+              <i class="fas fa-hotel me-1"></i>
+              Hotels
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="/findmyway">
+              <i class="fas fa-map-location-dot me-1"></i>
+              Find My Way
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link active" href="/hotels_reviews">
+              <i class="fas fa-star me-1"></i>
+              Reviews
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="/routefinder">
+              <i class="fas fa-route me-1"></i>
+              Route Finder
+            </a>
+          </li>
+
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Page content wrapper -->
+  <div class="page-wrap">
+
+    <!-- Hero tiles (keeps same content but styled to match theme) -->
+    <div class="hero-row container">
+      <div class="hero-card">
+        <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?q=80&w=1200&auto=format&fit=crop"
+          alt="Luxury Hotel" loading="lazy">
+      </div>
+      <div class="hero-card"><img
+          src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?q=80&w=1200&auto=format&fit=crop"
+          alt="tile 2" loading="lazy"></div>
+      <div class="hero-card"><img
+          src="https://images.unsplash.com/photo-1504754524776-8f4f37790ca0?q=80&w=1200&auto=format&fit=crop"
+          alt="tile 3" loading="lazy"></div>
+      <div class="hero-card"><img
+          src="https://images.unsplash.com/photo-1501785888041-af3ef285b470?q=80&w=1200&auto=format&fit=crop"
+          alt="tile 4" loading="lazy"></div>
+      <div class="hero-card"><img
+          src="https://images.unsplash.com/photo-1493558103817-58b2924bce98?q=80&w=1200&auto=format&fit=crop"
+          alt="Luxury travel destination" loading="lazy"></div>
+    </div>
+
+    <!-- Main centered card -->
+    <main id="main-content" class="container">
+      <div class="center-card">
+
+        <div class="d-flex align-items-center justify-content-between flex-wrap mb-2">
+          <div>
+            <h1>
+              <i class="fas fa-map-marker-alt"></i>
+              Nearby Hotels & Restaurants
+            </h1>
+            <p class="lead">
+              Find nearby places, browse categories, and explore real user experiences with AI-driven sentiment
+              insights.
+            </p>
+          </div>
+        </div>
+
+        <!-- error box -->
+        <div id="errorBox" class="error" style="margin-bottom:10px;"></div>
+
+        <!-- controls -->
+        <div class="controls-row mb-3">
+          <div class="status" id="status">Detecting location…</div>
+          <div class="ms-auto d-flex gap-2">
+            <div class="ms-auto d-flex gap-2">
+            </div>
+          </div>
+        </div>
+
+        <div class="row gx-3 align-items-center">
+          <div class="col-12 col-md-6 mb-2">
+            <select id="choice" class="form-select">
+              <option value="">-- Choose Category --</option>
+              <option value="restaurant">Restaurant</option>
+              <option value="hotel">Hotel</option>
+            </select>
+          </div>
+          <div class="col-12 col-md-6 text-md-end mb-2">
+            <button class="btn btn-primary-custom" id="searchBtn" disabled>Search Nearby</button>
+          </div>
+        </div>
+
+        <!-- results -->
+        <div id="resultArea">
+          <label class="form-label nearby-title">
+            <i class="fas fa-compass"></i>
+            Nearby Results
+          </label>
+          <select id="placesDropdown" class="form-select"></select>
+          <pre id="placeMeta" style="font-size:14px;color:#333;margin-top:8px;white-space:pre-wrap;"></pre>
+
+          <div class="d-flex gap-2 mt-2 mb-3">
+            <button class="btn btn-primary-custom" id="getReviewsBtn" style="display:none">Get Reviews</button>
+          </div>
+
+          <div id="reviewsArea" style="display:none">
+            <h4 class="mb-3">Reviews</h4>
+            <div id="reviewsList"></div>
+            <div id="reviewsFooter" style="margin-top:12px;color:#333;font-size:14px"></div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Pastel footer (matching AI Tour Planner) -->
+      <div class="site-footer mt-3">
+        © 2025 GNDEC | Designed by G13
+      </div>
+    </main>
+  </div>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" defer></script>
+
+  <!-- Your original logic (unchanged behavior / endpoints / event handlers) -->
+  <script>
+    const BACKEND_BASE = "http://127.0.0.1:5000";
+    let userLat, userLon, currentPlaces = [];
+
+    const statusEl = document.getElementById('status');
+    const searchBtn = document.getElementById('searchBtn');
+    const choiceEl = document.getElementById('choice');
+    const resultArea = document.getElementById('resultArea');
+    const placesDropdown = document.getElementById('placesDropdown');
+    const placeMeta = document.getElementById('placeMeta');
+    const getReviewsBtn = document.getElementById('getReviewsBtn');
+    const openMapsBtn = document.getElementById('openMapsBtn');
+    const reviewsArea = document.getElementById('reviewsArea');
+    const reviewsList = document.getElementById('reviewsList');
+    const reviewsFooter = document.getElementById('reviewsFooter');
+    const errorBox = document.getElementById('errorBox');
+
+    function showError(txt) {
+      errorBox.textContent = txt;
+      errorBox.style.display = txt ? 'block' : 'none';
+    }
+
+    function setStatus(txt) {
+
+      statusEl.innerHTML = `
+
+    <div style="
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:18px;
+      width:100%;
+    ">
+
+      <div style="
+        display:flex;
+        align-items:center;
+        gap:12px;
+        flex:1;
+        min-width:0;
+      ">
+
+        <i class="fas fa-location-dot"
+           style="
+              color:#ff5722;
+              font-size:20px;
+              flex-shrink:0;
+           ">
+        </i>
+
+        <span style="
+          white-space:nowrap;
+          overflow:hidden;
+          text-overflow:ellipsis;
+        ">
+          ${txt}
+        </span>
+
+      </div>
+
+      <button
+        onclick="detectLocation()"
+        title="Reload Location"
+
+        style="
+          width:42px;
+          height:42px;
+
+          border:none;
+
+          border-radius:14px;
+
+          background:
+            linear-gradient(
+              135deg,
+              #6b3be8,
+              #8f6bff
+            );
+
+          color:white;
+
+          display:flex;
+          align-items:center;
+          justify-content:center;
+
+          cursor:pointer;
+
+          transition:all .35s ease;
+
+          box-shadow:
+            0 8px 20px rgba(107,59,232,0.18);
+        "
+
+        onmouseover="
+          this.style.transform='rotate(90deg) scale(1.05)'
+        "
+
+        onmouseout="
+          this.style.transform='rotate(0deg) scale(1)'
+        "
+      >
+
+        <i class="fas fa-rotate-right"></i>
+
+      </button>
+
+    </div>
+  `;
+    }
+
+    function detectLocation() {
+
+      showError('');
+      setStatus("Detecting location… please allow");
+      searchBtn.disabled = true;
+
+      if (!navigator.geolocation) {
+        setStatus("Geolocation not supported");
+        return;
+      }
+
+      navigator.geolocation.getCurrentPosition(pos => {
+
+        userLat = pos.coords.latitude;
+        userLon = pos.coords.longitude;
+
+        fetch(`${BACKEND_BASE}/reverse_geocode?lat=${userLat}&lon=${userLon}`)
+          .then(r => r.json())
+          .then(d => {
+
+            console.log("Reverse Geocode Response:", d);
+
+            // =========================================
+            // Proper Location Extraction
+            // =========================================
+
+            let placeText =
+
+              d?.features?.[0]?.properties?.formatted ||
+
+              d?.features?.[0]?.properties?.city ||
+
+              d?.results?.[0]?.formatted ||
+
+              d?.results?.[0]?.city ||
+
+              d?.formatted ||
+
+              d?.address?.formatted ||
+
+              d?.address?.city ||
+
+              d?.city ||
+
+              d?.state ||
+
+              d?.country ||
+
+              "Detected Location";
+
+            // =========================================
+            // Update UI
+            // =========================================
+
+            setStatus(placeText);
+
+            searchBtn.disabled = false;
+
+          })
+
+          .catch(() => {
+
+            setStatus("Detected location");
+
+            searchBtn.disabled = false;
+
+          });
+
+      }, err => {
+
+        setStatus("Location denied or unavailable");
+
+      });
+    }
+
+    function searchPlaces() {
+
+      showError('');
+
+      const type = choiceEl.value;
+
+      if (!type) return alert("Choose type");
+
+      setStatus("Searching nearby " + type + "s…");
+
+      resultArea.style.display = 'none';
+
+      fetch(`${BACKEND_BASE}/nearby?lat=${userLat}&lon=${userLon}&type=${type}`)
+
+        .then(r => r.json())
+
+        .then(data => {
+
+          currentPlaces = (data.places || [])
+
+            .filter(p => {
+
+              if (!p.name) return false;
+
+              const name = p.name.trim().toLowerCase();
+
+              const blockedNames = [
+                "unnamed",
+                "unknown",
+                "null",
+                "n/a",
+                "na",
+                "-",
+                "no name",
+                "unnamed road"
+              ];
+
+              return !blockedNames.includes(name);
+
+            });
+
+          resultArea.style.display = 'block';
+
+          placesDropdown.innerHTML = '';
+
+          const def = document.createElement('option');
+
+          def.text = '-- Select a ' + type + ' --';
+
+          def.value = '';
+
+          placesDropdown.append(def);
+
+          currentPlaces.forEach((p, i) => {
+
+            const o = document.createElement('option');
+
+            o.text = `${p.name} — ${p.address || ''}`;
+
+            o.value = i;
+
+            o.dataset.meta = JSON.stringify(p);
+
+            placesDropdown.append(o);
+
+          });
+
+          setStatus("Found " + currentPlaces.length + " " + type + "s near you.");
+
+        })
+
+        .catch(e => {
+
+          showError("Error fetching nearby places: " + (e.message || e));
+
+          setStatus("Search failed");
+
+        });
+    }
+
+    placesDropdown.onchange = function () {
+
+      const sel = this.selectedOptions[0];
+
+      if (!sel || !sel.dataset.meta) {
+
+        placeMeta.textContent = '';
+
+        getReviewsBtn.style.display = 'none';
+
+        openMapsBtn.style.display = 'none';
+
+        return;
+      }
+
+      const meta = JSON.parse(sel.dataset.meta);
+
+      placeMeta.textContent = `${meta.name}\n${meta.address || ''}`;
+      getReviewsBtn.style.display = 'inline-block';
+
+      openMapsBtn.style.display = 'inline-block';
+
+      openMapsBtn.onclick = () =>
+        window.open(
+          `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(meta.name + ' ' + (meta.address || ''))}`,
+          '_blank'
+        );
+    }
+
+    getReviewsBtn.onclick = function () {
+
+      const idx = placesDropdown.value;
+
+      if (idx === '') return alert("Select a place");
+
+      const p = currentPlaces[idx];
+
+      const lat = (p.coords && p.coords.lat) || p.lat || p.latitude || null;
+
+      const lon = (p.coords && p.coords.lon) || p.lon || p.longitude || null;
+
+      const payload = {
+        name: p.name,
+        address: p.address,
+        lat: lat,
+        lon: lon
+      };
+
+      setStatus("Fetching reviews… please wait");
+
+      reviewsArea.style.display = 'none';
+
+      fetch(`${BACKEND_BASE}/reviews`, {
+
+        method: 'POST',
+
+        headers: {
+          'Content-Type': 'application/json'
+        },
+
+        body: JSON.stringify(payload)
+
+      })
+
+        .then(r => r.json())
+
+        .then(data => {
+
+          /* =========================================
+             NEW ADDITION FOR NO REVIEWS / API FAILURE
+             ========================================= */
+
+          if (data.error || !data.reviews || data.reviews.length === 0) {
+
+            const selectedType = choiceEl.value;
+
+            let message = "";
+
+            if (selectedType === "restaurant") {
+
+              message = "Right now, we do not have any feedback for this restaurant.";
+
+            }
+            else if (selectedType === "hotel") {
+
+              message = "Right now, we do not have any feedback for this hotel.";
+
+            }
+            else {
+
+              message = "Right now, we do not have any feedback available.";
+
+            }
+
+            reviewsArea.style.display = 'block';
+
+            reviewsList.innerHTML = `
+          <div class="review">
+            <strong>${message}</strong>
+          </div>
+        `;
+
+            reviewsFooter.innerHTML = "";
+
+            showError('');
+
+            setStatus("No reviews available");
+
+            return;
+          }
+
+          /* =========================================
+             ORIGINAL CODE CONTINUES
+             ========================================= */
+
+          reviewsArea.style.display = 'block';
+
+          reviewsList.innerHTML = '';
+
+          (data.reviews || []).forEach(rv => {
+
+            const d = document.createElement('div');
+
+            d.className = 'review';
+
+            const initial = (rv.author || 'A').charAt(0).toUpperCase();
+
+            d.innerHTML = `
+
+  <div class="review-author">
+
+    <div class="author-avatar">
+      ${initial}
+    </div>
+
+    <div>
+      <div style="font-weight:700;font-size:16px;">
+        ${rv.author || 'Anonymous'}
+      </div>
+
+      <div style="color:#6b7280;font-size:14px;">
+        <i class="fas fa-star" style="color:#fbbf24;"></i>
+        Rating: ${rv.rating || 'N/A'}
+      </div>
+    </div>
+
+  </div>
+
+  <div style="
+      line-height:1.8;
+      color:#374151;
+      font-size:15px;
+  ">
+    ${rv.text || 'No review text available.'}
+  </div>
+`;
+
+            const s = rv.sentiment || {
+              label: 'neutral',
+              compound: 0
+            };
+
+            let icon = 'fa-face-meh',
+              cls = 'sent-neutral';
+
+            if (s.label === 'positive') {
+
+              icon = 'fa-face-smile';
+
+              cls = 'sent-positive';
+
+            }
+            else if (s.label === 'negative') {
+
+              icon = 'fa-face-angry';
+
+              cls = 'sent-negative';
+
+            }
+            const sdiv = document.createElement('div');
+
+            sdiv.className = 'sentiment ' + cls;
+
+            sdiv.innerHTML = `
+  <i class="fas ${icon}"></i>
+  ${s.label.charAt(0).toUpperCase() + s.label.slice(1)} Sentiment
+  • Score: ${Number(s.compound || 0).toFixed(2)}
+`;
+
+            d.append(sdiv);
+
+            reviewsList.append(d);
+
+          });
+
+          const s = data.sentiment_summary || {
+            count: 0,
+            positive: 0,
+            neutral: 0,
+            negative: 0,
+            avg_compound: 0
+          };
+
+          let summaryIcon = 'fa-face-meh';
+
+          if (s.avg_compound >= 0.05) {
+
+            summaryIcon = 'fa-face-smile';
+
+          }
+          else if (s.avg_compound <= -0.05) {
+
+            summaryIcon = 'fa-face-angry';
+
+          }
+
+          reviewsFooter.innerHTML = `
+
+<div style="
+    background:rgba(255,255,255,0.85);
+    border-radius:20px;
+    padding:24px;
+    margin-top:20px;
+    box-shadow:0 10px 30px rgba(0,0,0,0.05);
+">
+
+  <div style="
+      display:flex;
+      align-items:center;
+      gap:12px;
+      margin-bottom:18px;
+      font-size:20px;
+      font-weight:700;
+  ">
+      <i class="fas ${summaryIcon}" style="color:#6b3be8;"></i>
+      Review Analytics
+  </div>
+
+  <div style="
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(120px,1fr));
+      gap:14px;
+  ">
+
+      <div class="status">
+          <div>Total Reviews</div>
+          <strong>${s.count}</strong>
+      </div>
+
+      <div class="status">
+          <div>Positive</div>
+          <strong>${s.positive}</strong>
+      </div>
+
+      <div class="status">
+          <div>Neutral</div>
+          <strong>${s.neutral}</strong>
+      </div>
+
+      <div class="status">
+          <div>Negative</div>
+          <strong>${s.negative}</strong>
+      </div>
+
+      <div class="status">
+          <div>Average Score</div>
+          <strong>${Number(s.avg_compound || 0).toFixed(3)}</strong>
+      </div>
+
+  </div>
+
+</div>
+`;
+          showError('');
+
+          setStatus("Reviews loaded successfully");
+
+        })
+
+        .catch(e => {
+
+          /* =========================================
+             EXTRA FRIENDLY ERROR HANDLING
+             ========================================= */
+
+          const selectedType = choiceEl.value;
+
+          let message = "";
+
+          if (selectedType === "restaurant") {
+
+            message = "Right now, we do not have any feedback for this restaurant.";
+
+          }
+          else if (selectedType === "hotel") {
+
+            message = "Right now, we do not have any feedback for this hotel.";
+
+          }
+          else {
+
+            message = "Right now, we do not have any feedback available.";
+
+          }
+
+          reviewsArea.style.display = 'block';
+
+          reviewsList.innerHTML = `
+        <div class="review">
+          <strong>${message}</strong>
+        </div>
+      `;
+
+          reviewsFooter.innerHTML = "";
+
+          showError('');
+
+          setStatus("No reviews available");
+
+        });
+    }
+
+    searchBtn.onclick = searchPlaces;
+
+    detectLocation();
+
+    /* Navbar shrink effect */
+
+    (function () {
+
+      const nav = document.querySelector('.navbar');
+
+      const shrinkPoint = 80;
+
+      const onScroll = () => {
+
+        window.scrollY > shrinkPoint
+          ? nav.classList.add('shrink')
+          : nav.classList.remove('shrink');
+
+      };
+
+      window.addEventListener('scroll', onScroll, {
+        passive: true
+      });
+
+      onScroll();
+
+    })();
+  </script>
+</body>
+
+</html>

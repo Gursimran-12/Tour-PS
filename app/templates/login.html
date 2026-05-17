@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login | AI Tour Planner</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <style>
+    :root {
+      --bg: #fffaf8;
+      --pastel-sky: #c2e2f4;
+      --pastel-mint: #cdeee6;
+      --pastel-peach: #f7d4bf;
+      --pastel-lav: #e0c6f2;
+      --accent: #6b3be8;
+      --text: #253238;
+      --muted: #606366;
+    }
+
+    /* PAGE BACKGROUND */
+
+    body {
+      margin: 0;
+      font-family: "Poppins", sans-serif;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(180deg, var(--pastel-sky) 0%, var(--bg) 65%);
+      overflow: hidden;
+    }
+
+    /* PASTEL GLOW (same style as hero section) */
+
+    body::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(130deg, var(--pastel-peach), var(--pastel-lav), var(--pastel-mint));
+      filter: blur(70px);
+      opacity: .65;
+      z-index: -1;
+      animation: moveBg 20s linear infinite;
+    }
+
+    @keyframes moveBg {
+      0% {
+        transform: translateX(-6%) scale(1.02)
+      }
+
+      50% {
+        transform: translateX(6%) scale(1.04)
+      }
+
+      100% {
+        transform: translateX(-6%) scale(1.02)
+      }
+    }
+
+    /* GLASS LOGIN CARD */
+
+    .login-container {
+      width: 390px;
+      padding: 40px 35px;
+      border-radius: 22px;
+      background: rgba(255, 255, 255, .92);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 20px 45px rgba(35, 35, 55, .15);
+      text-align: center;
+      animation: fadeIn .6s ease;
+    }
+
+    /* TITLE */
+
+    .login-container h2 {
+      margin-bottom: 25px;
+      font-weight: 700;
+      font-size: 26px;
+      color: var(--text);
+    }
+
+    /* INPUTS */
+
+    .input-group {
+      margin-bottom: 18px;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+    }
+
+    .input-group input {
+      width: 100%;
+      max-width: 320px;
+      padding: 14px 16px;
+      border-radius: 12px;
+      border: 1px solid #e6e6e6;
+      font-size: 15px;
+      outline: none;
+      transition: .25s;
+      background: #ffffff;
+    }
+
+    .input-group input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 8px rgba(107, 59, 232, .25);
+    }
+
+    /* LOGIN BUTTON */
+
+    .btn-login {
+      width: 100%;
+      padding: 14px;
+      margin-top: 5px;
+      border: none;
+      border-radius: 999px;
+      font-size: 16px;
+      font-weight: 600;
+      color: white;
+      background: linear-gradient(90deg, var(--accent), #8a6cff);
+      cursor: pointer;
+      transition: .25s;
+    }
+
+    .btn-login:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 25px rgba(107, 59, 232, .3);
+    }
+
+    /* ERROR */
+
+    .error {
+      color: #e63946;
+      font-size: 14px;
+      margin-bottom: 10px;
+    }
+
+    /* LINKS */
+
+    .extra-links {
+      margin-top: 20px;
+      font-size: 14px;
+      color: var(--muted);
+    }
+
+    .extra-links a {
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .extra-links a:hover {
+      text-decoration: underline;
+    }
+
+    /* ANIMATION */
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(12px)
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0)
+      }
+    }
+
+    /* MOBILE */
+
+    @media(max-width:450px) {
+      .login-container {
+        width: 90%;
+        padding: 28px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="login-container">
+
+    <h2>Login to Your Account <i class="bi bi-person-circle"></i></h2>
+
+    {% if error %}
+    <p class="error">{{ error }}</p>
+    {% endif %}
+
+    <form method="post" action="/login">
+
+      <div class="input-group">
+        <input type="text" name="username" placeholder="Username" required>
+      </div>
+
+      <div class="input-group">
+        <input type="password" name="password" placeholder="Password" required>
+      </div>
+
+      <button type="submit" class="btn-login">Login</button>
+
+    </form>
+
+    <div class="extra-links">
+      <p>Don't have an account? <a href="/signup">Sign Up</a></p>
+    </div>
+
+  </div>
+
+</body>
+
+</html>

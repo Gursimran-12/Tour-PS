@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Budget Trip Planner | AI Tour Planner</title>
+
+  <!-- Google Font (same as main) -->
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- FontAwesome -->
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous" defer></script>
+
+  <style>
+    /* ========================
+       Main pastel theme variables (identical to your main file)
+       ======================== */
+    :root{
+      --bg: #fffaf8;
+      --surface: #ffffff;
+      --pastel-sky: #c2e2f4;
+      --pastel-mint: #cdeee6;
+      --pastel-peach:#f7d4bf;
+      --pastel-lav:  #e0c6f2;
+      --pastel-sand: #ffe8c9;
+      --accent:     #6b3be8;
+      --text: #253238;
+      --muted: #606366;
+      --radius: 14px;
+      --card-shadow: 0 18px 40px rgba(35,35,55,0.10);
+      --glass: rgba(255,255,255,0.88);
+      --focus: 3px rgba(107,59,232,0.18);
+    }
+
+    html,body{height:100%;}
+    body{
+      margin:0;
+      font-family: "Poppins", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      background: linear-gradient(180deg, var(--pastel-sky) 0%, var(--bg) 62%);
+      color:var(--text);
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      overflow-x:hidden;
+    }
+
+    /* PREFERS REDUCED MOTION */
+    @media (prefers-reduced-motion: reduce){
+      *{ animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition: none !important; }
+    }
+
+    /* NAVBAR (same as main) */
+    .navbar{
+      background: linear-gradient(90deg, rgba(255,255,255,0.78), rgba(255,255,255,0.72));
+      padding:1.05rem 1rem;
+      transition: padding .28s ease, box-shadow .28s ease, backdrop-filter .28s ease;
+      z-index:60;
+      backdrop-filter: blur(6px);
+      box-shadow: 0 6px 18px rgba(20,20,30,0.04);
+    }
+    .navbar.shrink{
+      padding:.46rem 1rem;
+      box-shadow: 0 12px 28px rgba(20,20,30,0.07);
+      backdrop-filter: blur(8px);
+    }
+    .navbar .navbar-brand{
+      font-weight:800;
+      color:var(--text);
+      letter-spacing: .2px;
+    }
+    .nav-link{
+      color:var(--text) !important;
+      font-weight:500;
+      transition: color .18s ease, transform .18s ease;
+    }
+    .nav-link:hover{
+      color:var(--accent) !important;
+      transform: translateY(-2px);
+    }
+    .nav-link:focus{
+      outline: none;
+      box-shadow: 0 0 0 var(--focus);
+      border-radius: 6px;
+    }
+    .nav-link.active{ color: var(--accent) !important; }
+
+    /* subtle pastel shapes (decorative like main) */
+    .shape{
+      position:absolute;
+      border-radius:50%;
+      opacity:.45;
+      mix-blend-mode:screen;
+      filter:blur(10px);
+      animation: floatY 8s ease-in-out infinite;
+      will-change: transform;
+      z-index:0;
+    }
+    .shape.s1{ width:300px; height:300px; left:-80px; top:6%; background:var(--pastel-mint); animation-duration:9s; }
+    .shape.s2{ width:240px; height:240px; right:-50px; top:9%; background:var(--pastel-lav); animation-duration:10.5s; }
+    .shape.s3{ width:180px; height:180px; left:8%; bottom:6%; background:var(--pastel-peach); animation-duration:8.5s; }
+    @keyframes floatY{
+      0%{ transform: translateY(0) rotate(0deg) }
+      50%{ transform: translateY(-14px) rotate(3deg) }
+      100%{ transform: translateY(0) rotate(0deg) }
+    }
+
+    /* page hero header */
+    .page-hero{
+      padding-top:120px;
+      padding-bottom:18px;
+      text-align:center;
+    }
+    .page-hero h2{
+      margin:0;
+      font-size:clamp(1.6rem,3.4vw,2.6rem);
+      font-weight:800;
+      color:var(--text);
+    }
+    .page-hero p.muted{ color:var(--muted); margin-top:8px; }
+
+    /* main panel (glass card) */
+    .panel {
+      margin: 18px auto 40px;
+      background: var(--glass);
+      padding: 24px;
+      border-radius:20px;
+      box-shadow: var(--card-shadow);
+      max-width: 1100px;
+      position:relative;
+      z-index:2;
+    }
+
+    /* gallery grid (keeps original grid but styled) */
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 18px;
+    }
+    .gallery img {
+      width: 100%;
+      height: 220px;
+      object-fit: cover;
+      border-radius: 14px;
+      box-shadow: 0 8px 20px rgba(30,30,50,0.08);
+      transition: transform .28s ease, box-shadow .28s ease;
+    }
+    .gallery img:hover{ transform: translateY(-6px) scale(1.03); box-shadow: 0 22px 48px rgba(30,30,50,0.12); }
+
+    /* form controls */
+    .form-title { text-align:center; font-weight:800; margin-bottom:12px; }
+    input[type="number"], .form-control {
+      border-radius: 12px;
+      padding: 12px 16px;
+      box-shadow: 0 6px 18px rgba(20,20,50,0.04);
+      border: 1px solid rgba(0,0,0,0.06);
+    }
+
+    /* CTA button */
+    .btn-primary-custom {
+      display:inline-block;
+      padding:12px 28px;
+      border-radius:999px;
+      font-weight:700;
+      color:#fff;
+      background: linear-gradient(90deg, var(--accent), #8a6cff);
+      border:none;
+      box-shadow:0 12px 30px rgba(107,59,232,0.12);
+      transition: transform .18s ease, box-shadow .18s ease;
+    }
+    .btn-primary-custom:hover{ transform: translateY(-4px); }
+
+    /* results table style tuned to theme */
+    .results-table {
+      width:100%;
+      margin-top:20px;
+      border-collapse: collapse;
+      border-radius:12px;
+      overflow:hidden;
+      box-shadow:0 10px 30px rgba(40,40,90,0.04);
+    }
+    .results-table thead th{
+      background: linear-gradient(90deg, var(--pastel-peach), var(--pastel-sand));
+      padding:14px;
+      text-align:center;
+      color:var(--text);
+      font-weight:600;
+    }
+    .results-table tbody td{
+      background: #fff;
+      padding:12px;
+      text-align:center;
+      border-bottom:1px solid rgba(0,0,0,0.04);
+    }
+    .results-table tbody tr:hover td{ background: rgba(183,140,255,0.03); }
+
+    /* footer (same look as main) */
+    footer{ padding:36px 0; background: linear-gradient(90deg, var(--pastel-sand), rgba(255,255,255,0.9)); color:var(--text); margin-top:24px; text-align:center; }
+
+    @media (max-width:768px){
+      .page-hero{ padding-top:100px }
+      .gallery img{ height:160px }
+      .panel{ padding:16px }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- decorative pastel shapes (like main) -->
+  <div class="shape s1" aria-hidden="true"></div>
+  <div class="shape s2" aria-hidden="true"></div>
+  <div class="shape s3" aria-hidden="true"></div>
+
+  <!-- NAVBAR (identical style to main theme) -->
+  <nav class="navbar navbar-expand-lg fixed-top" role="navigation" aria-label="Primary navigation">
+    <div class="container">
+      <a class="navbar-brand" href="/">AI Tour Planner</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="nav">
+        <ul class="navbar-nav ms-auto align-items-lg-center">
+          <li class="nav-item"><a class="nav-link" href="/home">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="/sightseeing_suggestion">Locations</a></li>
+          <li class="nav-item"><a class="nav-link" href="/hotel">Hotels</a></li>
+          <li class="nav-item"><a class="nav-link" href="/dynamic">Schedule</a></li>
+          <li class="nav-item"><a class="nav-link active" href="/budget_management" aria-current="page">Budget Planner</a></li>
+          <li class="nav-item"><a class="nav-link" href="/findmyway">Find My Way</a></li>
+          <li class="nav-item"><a class="nav-link" href="/routefinder">Route Finder</a></li>
+          <li class="nav-item"><a class="nav-link" href="/hotels_reviews">Reviews</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero header -->
+  <header class="page-hero container text-center" role="banner" aria-label="Budget Trip hero">
+    <h2>💰 Budget Trip Planner</h2>
+    <p class="muted">Enter your budget and we’ll suggest travel plans that fit — quick and easy.</p>
+  </header>
+
+  <!-- Main panel (keeps original structure and JS endpoints) -->
+  <main class="panel" role="main">
+    <!-- Gallery (keeps original images) -->
+    <div class="gallery mb-4">
+      <img src="/static/images/B101.jpg" alt="Travel">
+      <img src="/static/images/B105.jpg" alt="Adventure">
+      <img src="/static/images/B103.jpg" alt="Beach">
+      <img src="/static/images/B104.jpg" alt="Hills">
+
+    </div>
+
+    <!-- Form container (original form preserved) -->
+    <div style="max-width:850px;margin:0 auto;text-align:center;">
+      <div class="form-title">Plan trips that fit your budget</div>
+      <form id="tripForm" class="mt-3" style="max-width:520px;margin:0 auto;">
+        <label for="budget" class="form-label visually-hidden">Enter Your Budget (INR)</label>
+        <input type="number" id="budget" class="form-control mb-3" placeholder="Enter budget in INR" required />
+        <button type="submit" class="btn-primary-custom"><i class="fas fa-search"></i> Get Trip Options</button>
+      </form>
+
+      <!-- Results -->
+      <section id="resultSection" style="display: none; margin-top:22px;">
+        <h3 style="text-align:center;color:var(--accent);margin-bottom:12px;">Available Trip Plans</h3>
+        <div style="overflow:auto;">
+          <table class="results-table">
+            <thead>
+              <tr>
+                <th>Place</th>
+                <th>Travel Cost</th>
+                <th>Stay Cost</th>
+                <th>Sightseeing Cost</th>
+                <th>Total Cost</th>
+              </tr>
+            </thead>
+            <tbody id="planTableBody"></tbody>
+          </table>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <!-- Footer (same as main) -->
+  <footer>
+    <div class="container text-center">
+
+      <hr>
+      <p>&copy; 2025 GNDEC | Designed by G13</p>
+    </div>
+  </footer>
+
+  <!-- Bootstrap JS (kept) -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Keep original page JS & endpoints intact -->
+  <script>
+    document.getElementById("tripForm").addEventListener("submit", async function(e) {
+      e.preventDefault();
+      const budget = document.getElementById("budget").value;
+
+      try {
+        const response = await fetch("/generate_plan", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({ budget })
+        });
+
+        const plans = await response.json();
+        const tbody = document.getElementById("planTableBody");
+        tbody.innerHTML = "";
+
+        if (!plans || plans.length === 0) {
+          tbody.innerHTML = "<tr><td colspan='5'>No plans available under your budget.</td></tr>";
+        } else {
+          plans.forEach(plan => {
+            const row = `<tr>
+              <td>📍 ${plan.Place}</td>
+              <td>₹${plan.TravelCost}</td>
+              <td>₹${plan.StayCost}</td>
+              <td>₹${plan.SightseeingCost}</td>
+              <td><strong>₹${plan.TotalCost}</strong></td>
+            </tr>`;
+            tbody.innerHTML += row;
+          });
+        }
+
+        document.getElementById("resultSection").style.display = "block";
+        // smooth scroll to results
+        document.getElementById("resultSection").scrollIntoView({ behavior: 'smooth', block: 'center' });
+      } catch (err) {
+        alert("Could not fetch plans. Please try again.");
+      }
+    });
+
+    // Shrink navbar on scroll (same as main)
+    (function(){
+      const nav = document.querySelector('.navbar');
+      const shrinkPoint = 80;
+      const onScroll = () => { window.scrollY > shrinkPoint ? nav.classList.add('shrink') : nav.classList.remove('shrink') };
+      window.addEventListener('scroll', onScroll, { passive:true }); onScroll();
+    })();
+  </script>
+</body>
+</html>

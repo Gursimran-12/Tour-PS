@@ -1,0 +1,1242 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <title>Dynamic Travel Planner</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+
+  <!-- Google Font -->
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous" defer></script>
+
+  <!-- Bootstrap (for navbar & responsive) -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+  <!-- FontAwesome (kept as defer in original) -->
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous" defer></script>
+
+  <!-- Your existing inline CSS (kept) — will be overridden where needed by theme below -->
+  <style>
+    /* Original simple styles preserved (we won't remove them) */
+    body {
+      font-family: system-ui, Arial, sans-serif;
+      margin: 18px;
+      background: #fffaf0;
+      color: #222;
+    }
+
+    .card {
+      background: white;
+      padding: 18px;
+      border-radius: 12px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+      margin-bottom: 16px;
+    }
+
+    button {
+      background: #ff7a2d;
+      border: none;
+      padding: 10px 14px;
+      border-radius: 8px;
+      color: white;
+      cursor: pointer;
+    }
+
+    button.secondary {
+      background: #444;
+      color: #fff;
+    }
+
+    input,
+    select {
+      padding: 8px;
+      border-radius: 6px;
+      border: 1px solid #ddd;
+    }
+
+    h1 {
+      margin-top: 0;
+      font-size: 2rem;
+    }
+
+    .small {
+      font-size: 0.9rem;
+      color: #666;
+    }
+
+    label.inline {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .controls-row {
+      margin-top: 10px;
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .muted {
+      color: #888;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
+
+    table th,
+    table td {
+      padding: 8px 10px;
+      border-bottom: 1px solid #eee;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    table th {
+      background: #faf6f1;
+    }
+
+    .restaurant {
+      background: #fff8f0;
+    }
+
+    .category-box {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .category-box label {
+      background: #f9f2e9;
+      padding: 6px 10px;
+      border-radius: 6px;
+      border: 1px solid #ddd;
+      cursor: pointer;
+    }
+
+    .category-box input {
+      margin-right: 6px;
+    }
+
+    .meta {
+      margin-top: 10px;
+      font-size: .95rem;
+      color: #555;
+    }
+
+    .meta code {
+      background: #f3eee8;
+      padding: 2px 6px;
+      border-radius: 6px;
+    }
+
+    .error {
+      color: #a00;
+      background: #fff0f0;
+      border: 1px solid #f2c2c2;
+      padding: 10px;
+      border-radius: 8px;
+      margin-top: 10px;
+    }
+  </style>
+
+  <!-- Pastel site theme (adapted from your index.html) -->
+  <style>
+    :root {
+      --bg: #fffaf8;
+      --surface: #ffffff;
+      --pastel-sky: #c2e2f4;
+      --pastel-mint: #cdeee6;
+      --pastel-peach: #f7d4bf;
+      --pastel-lav: #e0c6f2;
+      --pastel-sand: #ffe8c9;
+      --accent: #6b3be8;
+      --text: #253238;
+      --muted: #606366;
+      --radius: 14px;
+      --card-shadow: 0 18px 40px rgba(35, 35, 55, 0.10);
+      --glass: rgba(255, 255, 255, 0.88);
+      --focus: 3px rgba(107, 59, 232, 0.18);
+    }
+
+    html,
+    body {
+      height: 100%;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Poppins", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      background: linear-gradient(180deg, var(--pastel-sky) 0%, var(--bg) 62%);
+      color: var(--text);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      overflow-x: hidden;
+      padding-top: 78px;
+      /* space for fixed navbar */
+    }
+
+    /* NAVBAR */
+    /* NAVBAR (same as main) */
+    .navbar {
+      background: linear-gradient(90deg, rgba(255, 255, 255, 0.78), rgba(255, 255, 255, 0.72));
+      padding: 1.05rem 1rem;
+      transition: padding .28s ease, box-shadow .28s ease, backdrop-filter .28s ease;
+      z-index: 60;
+      backdrop-filter: blur(6px);
+    }
+
+    .navbar .navbar-brand {
+      font-weight: 800;
+      font-size: 1.35rem;
+
+      background: linear-gradient(90deg,
+          #6b3be8,
+          #8b5cf6);
+
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+
+      letter-spacing: 0.3px;
+
+      transition: 0.3s ease;
+    }
+
+    .nav-link {
+      color: var(--text) !important;
+
+      font-weight: 500;
+      font-size: 0.95rem;
+
+      padding:
+        0.65rem 1rem !important;
+
+      border-radius: 12px;
+
+      transition:
+        all 0.3s ease;
+
+      position: relative;
+    }
+
+    .nav-link:hover {
+      color: var(--accent) !important;
+
+      background:
+        rgba(107, 59, 232, 0.08);
+
+      transform:
+        translateY(-2px);
+    }
+
+    .nav-link.active {
+
+      background:
+        rgba(107, 59, 232, 0.10);
+
+      color:
+        var(--accent) !important;
+
+      border-radius: 12px;
+
+      font-weight: 600;
+    }
+
+    .nav-link i {
+      font-size: 0.9rem;
+      margin-right: 6px;
+      vertical-align: middle;
+    }
+
+    .nav-link {
+      white-space: nowrap;
+    }
+
+    .navbar.shrink {
+      padding: .46rem 1rem;
+      box-shadow: 0 12px 28px rgba(20, 20, 30, 0.07);
+      backdrop-filter: blur(8px);
+    }
+
+    .nav-link:focus {
+      outline: none;
+      box-shadow: 0 0 0 var(--focus);
+      border-radius: 6px;
+    }
+
+    /* HERO / page header for this planner (small subtle card look) */
+    .page-hero {
+      max-width: 1100px;
+      margin: 18px auto 18px;
+      padding: 18px;
+      border-radius: 16px;
+      background: var(--glass);
+      box-shadow: var(--card-shadow);
+      text-align: left;
+    }
+
+    .page-hero h1 {
+      margin: 0 0 6px 0;
+      font-size: 1.5rem;
+      color: var(--text);
+    }
+
+    .page-hero .small {
+      color: var(--muted);
+    }
+
+    /* Make .card follow the theme look */
+    .card {
+      border-radius: 14px;
+      box-shadow: 0 14px 36px rgba(30, 30, 50, 0.06);
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.98), #fff);
+      padding: 18px;
+    }
+
+    /* Buttons - keep original colors but polish */
+    button {
+      background: linear-gradient(90deg, #ff7a2d, #ff8f4a);
+      border: none;
+      color: white;
+      padding: 10px 14px;
+      border-radius: 10px;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 10px 28px rgba(255, 120, 40, 0.12);
+      transition: transform .16s ease, box-shadow .16s ease;
+    }
+
+    button:hover {
+      transform: translateY(-3px);
+    }
+
+    button.secondary {
+      background: linear-gradient(90deg, #5a5a5a, #3a3a3a);
+      box-shadow: none;
+    }
+
+    /* inputs slightly refined */
+    input,
+    select {
+      padding: 10px;
+      border-radius: 10px;
+      border: 1px solid rgba(37, 50, 56, 0.06);
+      background: #fff;
+      min-height: 40px;
+    }
+
+    /* result cards - allow pastel accent */
+    #result h2 {
+      margin-top: 0;
+      color: var(--accent);
+      font-size: 1.5rem;
+      font-weight: 700;
+      font-family: "Poppins", sans-serif;
+    }
+
+    .restaurant {
+      background: linear-gradient(180deg, #fff7f0, #fffaf6);
+    }
+
+    /* small responsive tweaks */
+    @media (max-width:720px) {
+      .controls-row {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      body {
+        padding-top: 72px;
+      }
+    }
+
+    /* focus visible for accessibility */
+    a:focus,
+    button:focus,
+    input:focus,
+    select:focus {
+      outline: none;
+      box-shadow: 0 0 0 var(--focus);
+      border-radius: 8px;
+    }
+
+
+    /* =========================
+   PROFESSIONAL SCHEDULE UI
+========================= */
+
+    .schedule-wrapper {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      margin-top: 20px;
+    }
+
+    .place-card {
+      background: #fff;
+      border-radius: 18px;
+      padding: 20px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+      transition: 0.3s ease;
+      border: 1px solid rgba(0, 0, 0, 0.04);
+    }
+
+    .place-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.12);
+    }
+
+    .restaurant-card {
+      background: linear-gradient(135deg,
+          #fff7f2,
+          #ffffff);
+    }
+
+    .place-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+
+    .time-badge {
+      background: #6b3be8;
+      color: white;
+      padding: 8px 14px;
+      border-radius: 30px;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .score-badge {
+      background: #fff4d8;
+      color: #b47b00;
+      padding: 8px 14px;
+      border-radius: 30px;
+      font-weight: 600;
+      font-size: 14px;
+    }
+
+    .place-name-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 15px;
+      flex-wrap: wrap;
+      margin-bottom: 16px;
+    }
+
+    .place-name-row h4 {
+      margin: 0;
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: #222;
+    }
+
+    .category-pill {
+      background: #eef2ff;
+      color: #4b57d1;
+      padding: 7px 14px;
+      border-radius: 30px;
+      font-size: 13px;
+      font-weight: 600;
+      text-transform: capitalize;
+    }
+
+    .place-details {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .detail-item {
+      background: #f7f8fc;
+      padding: 10px 14px;
+      border-radius: 12px;
+      font-size: 14px;
+      color: #444;
+    }
+
+    .description-box {
+      background: #fafafa;
+      border-radius: 14px;
+      padding: 16px;
+      line-height: 1.7;
+      color: #555;
+      font-size: 15px;
+    }
+
+    /* =========================
+   PROFESSIONAL MODALS
+========================= */
+
+    .custom-modal {
+      border: none;
+      border-radius: 24px;
+      padding: 10px;
+      overflow: hidden;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.18);
+    }
+
+    .custom-modal .modal-header {
+      padding: 20px 24px 0;
+    }
+
+    .custom-modal .modal-title {
+      font-weight: 700;
+      font-size: 1.3rem;
+      color: #222;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .custom-modal .modal-title i {
+      color: #6b3be8;
+    }
+
+    .modal-text {
+      color: #666;
+      font-size: 15px;
+      margin-bottom: 25px;
+    }
+
+    .modal-btn-group {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .location-option-btn,
+    .download-pdf-btn {
+      border: none;
+      padding: 16px;
+      border-radius: 16px;
+      font-weight: 600;
+      font-size: 15px;
+      transition: 0.3s ease;
+    }
+
+    .location-option-btn i,
+    .download-pdf-btn i {
+      margin-right: 10px;
+    }
+
+    .detected-btn {
+      background: linear-gradient(135deg, #6b3be8, #8b5cf6);
+      color: white;
+    }
+
+    .manual-btn {
+      background: #f4f4f4;
+      color: #333;
+    }
+
+    .download-pdf-btn {
+      width: 100%;
+      background: linear-gradient(135deg, #ff6b35, #ff8f4d);
+      color: white;
+    }
+
+    .location-option-btn:hover,
+    .download-pdf-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+    }
+
+    .loading-ui {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 18px;
+      padding: 60px 20px;
+    }
+
+    .loading-text {
+      font-family: "Poppins", sans-serif;
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin: 0;
+      color: var(--text);
+    }
+  </style>
+
+  <!-- CDN dependencies for PDF generation (kept per your original) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+
+<body>
+
+  <!-- NAVBAR (copied/adapted from your original index.html) -->
+  <nav class="navbar navbar-expand-lg fixed-top">
+    <div class="container">
+      <a class="navbar-brand" href="/">AI Tour Planner</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav" aria-expanded="false"
+        aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="nav">
+        <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-1">
+
+          <li class="nav-item">
+            <a class="nav-link" href="/home">
+              <i class="fas fa-house me-1"></i>
+              Home
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="/sightseeing_suggestion">
+              <i class="fas fa-location-dot me-1"></i>
+              Locations
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="/hotel">
+              <i class="fas fa-hotel me-1"></i>
+              Hotels
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link active" href="/findmyway">
+              <i class="fas fa-map-location-dot me-1"></i>
+              Find My Way
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="/hotels_reviews">
+              <i class="fas fa-star me-1"></i>
+              Reviews
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="/routefinder">
+              <i class="fas fa-route me-1"></i>
+              Route Finder
+            </a>
+          </li>
+
+        </ul>
+      </div>
+    </div>
+  </nav>
+  <br> <br> <br>
+  <!-- Keep your original HTML fully intact below (I didn't remove anything) -->
+  <div class="container">
+    <div class="card">
+      <h1 style="font-size:1.25rem;margin-bottom:8px;">Dynamic Travel Planner</h1>
+      <div id="status">Click "Detect my location" to start.</div>
+      <div style="margin-top:12px;">
+        <button id="detect">Detect my location</button>
+        <button id="clear" class="secondary" style="display:none;margin-left:8px;">Clear location</button>
+      </div>
+    </div>
+
+    <div id="controls" class="card" style="display:none;">
+      <div><b>Detected location:</b> <span id="loc" data-formatted=""></span></div>
+
+      <div class="controls-row">
+        <label>Stay days:
+          <select id="stay">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+          </select>
+        </label>
+        <label>Start: <input type="time" id="start" value="09:00"></label>
+        <label>End: <input type="time" id="end" value="18:00"></label>
+        <label class="inline"><input type="checkbox" id="showWords"> Show coords as English words</label>
+      </div>
+
+      <div style="margin-top:14px;">
+        <b>Select the types of places you want to visit:</b>
+        <div class="category-box">
+          <!-- Values must match backend keys -->
+          <label><input type="checkbox" class="cat" value="religious" checked> Religious</label>
+          <label><input type="checkbox" class="cat" value="historical" checked> Historical</label>
+          <label><input type="checkbox" class="cat" value="educational" checked> Educational</label>
+          <label><input type="checkbox" class="cat" value="leisure" checked> Leisure</label>
+          <label><input type="checkbox" class="cat" value="adventure" checked> Adventure</label>
+          <label><input type="checkbox" class="cat" value="cultural" checked> Cultural</label>
+          <label><input type="checkbox" class="cat" value="shopping"> Shopping</label>
+        </div>
+        <div class="small" style="margin-top:6px;">
+          Tip: Increase the search radius to include more famous places.
+        </div>
+      </div>
+
+      <div class="controls-row" style="margin-top:12px;">
+        <label class="inline"><input type="checkbox" id="restaurants" checked> Include restaurants (added at 13:00 &
+          18:00 if within range)</label>
+        <label>Max POIs/day: <input id="maxpois" type="number" value="6" min="1" max="12" style="width:72px"></label>
+        <label>Search radius (km): <input id="radiusKm" type="number" value="15" min="2" max="50"
+            style="width:90px"></label>
+        <button id="generateBtn" style="margin-left:8px;">Generate Plan</button>
+      </div>
+    </div>
+
+    <div id="result" class="card" style="display:none;"></div>
+  </div>
+
+  <!-- LOCATION SELECTION MODAL -->
+
+  <div class="modal fade" id="locationChoiceModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content custom-modal">
+
+        <div class="modal-header border-0">
+          <h5 class="modal-title">
+            <i class="fas fa-location-dot"></i>
+            Choose Location Type
+          </h5>
+
+          <button type="button" class="btn-close" data-bs-dismiss="modal">
+          </button>
+        </div>
+
+        <div class="modal-body text-center">
+
+          <p class="modal-text">
+            How would you like to generate your travel plan?
+          </p>
+
+          <div class="modal-btn-group">
+
+            <button class="location-option-btn detected-btn" id="useDetectedBtn">
+
+              <i class="fas fa-location-crosshairs"></i>
+              Use Detected Location
+
+            </button>
+
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- PDF DOWNLOAD MODAL -->
+
+  <div class="modal fade" id="pdfModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content custom-modal">
+
+        <div class="modal-header border-0">
+          <h5 class="modal-title">
+            <i class="fas fa-file-pdf"></i>
+            Download Schedule
+          </h5>
+
+          <button type="button" class="btn-close" data-bs-dismiss="modal">
+          </button>
+        </div>
+
+        <div class="modal-body text-center">
+
+          <p class="modal-text">
+            Your schedule has been generated successfully.
+          </p>
+
+          <button class="download-pdf-btn" id="confirmPdfBtn">
+
+            <i class="fas fa-download"></i>
+            Download as PDF
+
+          </button>
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- MANUAL LOCATION MODAL -->
+
+  <div class="modal fade" id="manualLocationModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content custom-modal">
+
+        <div class="modal-header border-0">
+          <h5 class="modal-title">
+            <i class="fas fa-city"></i>
+            Enter Location
+          </h5>
+
+          <button type="button" class="btn-close" data-bs-dismiss="modal">
+          </button>
+        </div>
+
+        <div class="modal-body">
+
+          <p class="modal-text text-center">
+            Enter your city and state
+          </p>
+
+          <div class="mb-3">
+            <label class="form-label fw-semibold">
+              State
+            </label>
+
+            <input type="text" id="manualState" class="form-control" placeholder="Enter state">
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label fw-semibold">
+              City
+            </label>
+
+            <input type="text" id="manualCity" class="form-control" placeholder="Enter city">
+          </div>
+
+          <button class="location-option-btn detected-btn w-100" id="continueGenerateBtn">
+
+            <i class="fas fa-paper-plane"></i>
+            Generate Schedule
+
+          </button>
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER (copied/adapted from original index.html) -->
+  <footer style="margin-top:28px;">
+    <div class="container text-center" style="padding:28px 0;">
+      <div class="row">
+        <p style="margin:0;color:var(--muted);">&copy; 2025 GNDEC | Designed by G13</p>
+      </div>
+  </footer>
+
+  <!-- Bootstrap bundle (kept) -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" defer></script>
+
+  <!-- Original page scripts (kept exactly as you provided) -->
+  <script>
+    const apiBase = ''; // keep empty for same origin (http://localhost:5000). Change if backend on different origin.
+
+    function coordsToEnglishWords(lat, lon) {
+      const map = { '0': 'zero', '1': 'one', '2': 'two', '3': 'three', '4': 'four', '5': 'five', '6': 'six', '7': 'seven', '8': 'eight', '9': 'nine', '-': 'minus', '.': 'point' };
+      const spell = s => s.split('').map(ch => map[ch] || ch).join(' ');
+      return `Latitude: ${spell(String(lat))} | Longitude: ${spell(String(lon))}`;
+    }
+
+    function setLocText(lat, lon, formatted) {
+      // Prefer formatted (English) place name if available.
+      const showWords = document.getElementById('showWords')?.checked;
+      const locSpan = document.getElementById('loc');
+      locSpan.dataset.formatted = formatted || '';
+      if (showWords && (lat !== undefined && lon !== undefined)) {
+        locSpan.textContent = coordsToEnglishWords(lat, lon);
+      } else {
+        // Show friendly name when available, otherwise fall back to coords string
+        locSpan.textContent = (formatted && String(formatted).trim()) ? formatted : `${lat}, ${lon}`;
+      }
+      document.getElementById('status').textContent = 'Location detected: ' + locSpan.textContent;
+    }
+
+    document.getElementById('detect').onclick = async () => {
+      const status = document.getElementById('status');
+      status.textContent = 'Getting location…';
+      if (!navigator.geolocation) {
+        status.textContent = 'Geolocation not supported.';
+        return;
+      }
+
+      navigator.geolocation.getCurrentPosition(async pos => {
+        const lat = pos.coords.latitude.toFixed(6);
+        const lon = pos.coords.longitude.toFixed(6);
+        window.__coords = { lat: parseFloat(lat), lon: parseFloat(lon) };
+        document.getElementById('controls').style.display = 'block';
+        document.getElementById('clear').style.display = 'inline-block';
+
+        // Show loading text while fetching location name
+        setLocText(lat, lon, "Detecting location...");
+
+        // Call backend to get human-readable (English) place
+        try {
+          const resp = await fetch(`${apiBase}/reverse_geocode?lat=${encodeURIComponent(lat)}&lon=${encodeURIComponent(lon)}`);
+          if (!resp.ok) {
+            // try to parse details for better error message
+            let errorBody = null;
+            try { errorBody = await resp.json(); } catch (e) { errorBody = null; }
+            const details = errorBody?.details ? ` (${errorBody.details})` : '';
+            status.textContent = `Reverse geocode failed${details}`;
+            // keep showing coords as fallback
+            return;
+          }
+          const info = await resp.json();
+          const formatted =
+            info?.features?.[0]?.properties?.formatted
+            || `${lat}, ${lon}`;
+          // Show the human-readable place
+          setLocText(lat, lon, formatted);
+        } catch (err) {
+          // network or parse error: keep coords visible
+          status.textContent = 'Unable to fetch location name.';
+          setLocText(lat, lon, `${lat}, ${lon}`);
+        }
+      }, err => {
+        status.textContent = 'Error getting location: ' + err.message;
+      }, { timeout: 15000 });
+    };
+
+    document.getElementById('clear').onclick = () => {
+      window.__coords = null;
+      document.getElementById('controls').style.display = 'none';
+      document.getElementById('result').style.display = 'none';
+      document.getElementById('status').textContent = 'Click "Detect my location" to start.';
+      document.getElementById('clear').style.display = 'none';
+      document.getElementById('loc').textContent = '';
+    };
+
+    document.getElementById('showWords').onchange = () => {
+      if (!window.__coords) return;
+      const { lat, lon } = window.__coords;
+      const formatted = document.getElementById('loc').dataset.formatted || `${lat}, ${lon}`;
+      setLocText(lat, lon, formatted);
+    };
+
+    // Generate flow: ask whether to use detected location or manual inputs
+    document.getElementById('generateBtn').onclick = async () => {
+
+      document.getElementById('continueGenerateBtn').onclick =
+        async () => {
+
+          const manualModal =
+            bootstrap.Modal.getInstance(
+              document.getElementById('manualLocationModal')
+            );
+
+          manualModal.hide();
+
+          proceedGenerate('manual');
+
+        };
+
+      const locationModal =
+        new bootstrap.Modal(
+          document.getElementById('locationChoiceModal')
+        );
+
+      locationModal.show();
+
+      document.getElementById('useDetectedBtn').onclick =
+        async () => {
+
+          locationModal.hide();
+
+          proceedGenerate('detected');
+
+        };
+
+    };
+    // Utilities
+    function mm(mins) {
+      if (mins === null || mins === undefined) return '-';
+      const h = Math.floor(mins / 60).toString().padStart(2, '0');
+      const m = Math.round(mins % 60).toString().padStart(2, '0');
+      return `${h}:${m}`;
+    }
+    function escapeHtml(s) { return s ? String(s).replace(/[&<>"']/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[m])) : ''; }
+
+    function renderScheduleTable(schedule, meta) {
+      let html = '<h2>Generated Plan</h2>';
+
+
+      const days = Object.keys(schedule || {}).sort();
+      for (const d of days) {
+        html += `<h3>${d.replace('_', ' ').toUpperCase()}</h3>`;
+        const items = schedule[d] || [];
+        if (!items.length) { html += '<div>No activities scheduled for this day</div>'; continue; }
+        html += `
+<div class="schedule-wrapper">
+`;
+
+        for (const it of items) {
+
+          if (
+            !it.name ||
+            it.name.trim() === "" ||
+            it.name.toLowerCase() === "unnamed"
+          ) {
+            continue;
+          }
+
+          const distText = it.distance_km
+            ? `${it.distance_km} km away`
+            : 'Nearby';
+
+          const score =
+            Number(it.pred_score || 0).toFixed(1);
+
+          html += `
+  <div class="place-card ${it.is_restaurant ? 'restaurant-card' : ''}">
+
+    <div class="place-top">
+
+      <div class="time-badge">
+        <i class="fas fa-clock"></i>
+        ${mm(it.arrival_min)} - ${mm(it.depart_min)}
+      </div>
+
+    </div>
+
+    <div class="place-name-row">
+
+      <h4>
+        <i class="fas fa-map-marker-alt place-icon"></i>
+        ${escapeHtml(it.name)}
+      </h4>
+
+      <span class="category-pill">
+        <i class="fas fa-tag"></i>
+        ${escapeHtml(it.category || 'Place')}
+      </span>
+
+    </div>
+
+    <div class="place-details">
+
+      <div class="detail-item">
+        <i class="fas fa-location-dot"></i>
+        ${distText}
+      </div>
+
+      <div class="detail-item">
+        <i class="fas fa-route"></i>
+        ${escapeHtml(it.how_to_reach || 'Travel')}
+      </div>
+
+      <div class="detail-item">
+        <i class="fas fa-hourglass-half"></i>
+        ${it.pred_minutes || '-'} mins
+      </div>
+
+    </div>
+
+    <div class="description-box">
+
+      <div class="desc-title">
+        <i class="fas fa-circle-info"></i>
+        Description
+      </div>
+
+      <div class="desc-text">
+        ${escapeHtml(it.description || 'No description available')}
+      </div>
+
+    </div>
+
+  </div>
+  `;
+        }
+
+        html += `</div>`;
+      }
+      document.getElementById('result').innerHTML = html;
+    }
+
+
+    async function proceedGenerate(selectedLocationType) {
+
+      let coords = window.__coords;
+
+      try {
+
+        if (selectedLocationType === 'manual') {
+
+          const state =
+            document.getElementById('manualState').value.trim();
+
+          const city =
+            document.getElementById('manualCity').value.trim();
+
+          if (!city || !state) {
+
+            alert("Please enter city and state");
+
+            return;
+          }
+
+          const res = await fetch(
+            `${apiBase}/geocode_location?city=${encodeURIComponent(city)}&state=${encodeURIComponent(state)}`
+          );
+
+          const data = await res.json();
+
+          if (!res.ok) {
+            throw new Error(data.error || "Unable to geocode");
+          }
+
+          coords = {
+            lat: data.lat,
+            lon: data.lon
+          };
+
+          window.__coords = coords;
+
+          setLocText(
+            coords.lat,
+            coords.lon,
+            data.formatted || `${coords.lat}, ${coords.lon}`
+          );
+        }
+        if (!coords) {
+          alert('Please detect location first.');
+          return;
+        }
+
+        const userWantsRestaurants =
+          document.getElementById('restaurants').checked;
+
+        const selectedDomains =
+          Array.from(document.querySelectorAll('.cat:checked'))
+            .map(c => c.value);
+
+        const radiusKm =
+          parseFloat(document.getElementById('radiusKm').value || '15');
+
+        const payload = {
+          lat: coords.lat,
+          lon: coords.lon,
+          stay_days:
+            parseInt(document.getElementById('stay').value),
+
+          start_time:
+            document.getElementById('start').value,
+
+          end_time:
+            document.getElementById('end').value,
+
+          include_restaurants:
+            !!userWantsRestaurants,
+
+          max_pois_per_day:
+            parseInt(document.getElementById('maxpois').value),
+
+          selected_domains:
+            selectedDomains,
+
+          radius_m:
+            Math.round(radiusKm * 1000)
+        };
+
+        const resDiv =
+          document.getElementById('result');
+
+        resDiv.style.display = 'block';
+
+        resDiv.innerHTML = `
+      <div class="loading-ui">
+        <div class="spinner-border text-primary"></div>
+        <h4 class="loading-text">Generating Smart Travel Schedule...</h4>
+      </div>
+    `;
+
+        const res = await fetch(
+          `${apiBase}/generate_schedule`,
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(payload)
+          }
+        );
+
+        const data = await res.json();
+
+        console.log("FULL API RESPONSE:", data);
+
+        renderScheduleTable(data.schedule, data.meta);
+
+        const pdfModal =
+          new bootstrap.Modal(
+            document.getElementById('pdfModal')
+          );
+
+        pdfModal.show();
+
+        document.getElementById('confirmPdfBtn').onclick =
+          async () => {
+
+            pdfModal.hide();
+
+            await saveResultAsPdf();
+
+          };
+
+      }
+      catch (err) {
+
+        console.error(err);
+
+      }
+
+    }
+    // Save visible #result as PDF using html2canvas + jsPDF (client-side)
+    async function saveResultAsPdf() {
+      const resDiv = document.getElementById('result');
+      if (!resDiv) return;
+      // enlarge width so content is captured well
+      const originalWidth = resDiv.style.width;
+      resDiv.style.width = '1024px';
+      // capture
+      const canvas = await html2canvas(resDiv, { scale: 2, useCORS: true });
+      const imgData = canvas.toDataURL('image/jpeg', 0.95);
+
+      const { jsPDF } = window.jspdf;
+      const pdf = new jsPDF({ orientation: 'portrait', unit: 'pt', format: 'a4' });
+      const pageWidth = pdf.internal.pageSize.getWidth();
+      const pageHeight = pdf.internal.pageSize.getHeight();
+
+      // Calculate image size to fit A4 width
+      const imgW = canvas.width;
+      const imgH = canvas.height;
+      const ratio = imgW / pageWidth;
+      const imgHeightInPdf = imgH / ratio;
+
+      pdf.addImage(imgData, 'JPEG', 0, 0, pageWidth, imgHeightInPdf);
+
+      // add pages if needed
+      if (imgHeightInPdf > pageHeight) {
+        let remaining = imgHeightInPdf - pageHeight;
+        let position = -pageHeight;
+        while (remaining > -1) {
+          position += pageHeight;
+          pdf.addPage();
+          pdf.addImage(imgData, 'JPEG', 0, position * -1, pageWidth, imgHeightInPdf);
+          remaining -= pageHeight;
+        }
+      }
+
+      const filename = `travel_plan_${new Date().toISOString().slice(0, 19).replace(/[:T]/g, '_')}.pdf`;
+      pdf.save(filename);
+      resDiv.style.width = originalWidth;
+    }
+  </script>
+
+</body>
+
+</html>
