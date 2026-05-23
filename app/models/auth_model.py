@@ -1,6 +1,6 @@
 import hashlib
 
-from app import mysql
+from db import get_connection
 
 
 # =====================================================
@@ -24,7 +24,9 @@ def get_user_by_username(
     username
 ):
 
-    cur = mysql.connection.cursor()
+    connection = get_connection()
+
+    cur = connection.cursor()
 
     cur.execute(
 
@@ -40,6 +42,7 @@ def get_user_by_username(
     user = cur.fetchone()
 
     cur.close()
+    connection.close()
 
     return user
 
@@ -58,7 +61,9 @@ def create_user(
         password
     )
 
-    cur = mysql.connection.cursor()
+    connection = get_connection()
+
+    cur = connection.cursor()
 
     cur.execute(
 
@@ -84,9 +89,10 @@ def create_user(
         )
     )
 
-    mysql.connection.commit()
+    connection.commit()
 
     cur.close()
+    connection.close()
 
 
 # =====================================================

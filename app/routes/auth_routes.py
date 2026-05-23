@@ -9,7 +9,7 @@ from flask import (
 
 import hashlib
 
-from app import mysql
+from db import get_connection
 
 auth_bp = Blueprint(
     "auth",
@@ -30,7 +30,11 @@ def login():
             password.encode()
         ).hexdigest()
 
-        cur = mysql.connection.cursor()
+        from db import get_connection
+
+        connection = get_connection()
+
+        cur = connection.cursor()
 
         cur.execute(
             "SELECT * FROM users WHERE username = %s",
@@ -38,6 +42,8 @@ def login():
         )
 
         user = cur.fetchone()
+        cur.close()
+        connection.close()
 
         if user and user["password"] == hashed_password:
 
@@ -75,7 +81,11 @@ def signup():
             password.encode()
         ).hexdigest()
 
-        cur = mysql.connection.cursor()
+        from db import get_connection
+
+        connection = get_connection()
+
+        cur = connection.cursor()
 
         cur.execute(
             "SELECT * FROM users WHERE username = %s",
@@ -104,7 +114,9 @@ def signup():
             )
         )
 
-        mysql.connection.commit()
+        connection.commit()
+        cur.close()
+        connection.close()
 
         return redirect(
             url_for("auth.login")

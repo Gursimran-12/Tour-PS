@@ -1,16 +1,8 @@
 from flask import Flask
 from flask_cors import CORS
-from flask_mysqldb import MySQL
 import logging
 
 from config import Config
-
-# =====================================================
-# Initialize Extensions
-# =====================================================
-
-mysql = MySQL()
-
 
 # =====================================================
 # Application Factory
@@ -49,7 +41,7 @@ def create_app():
     # Initialize Database
     # =================================================
 
-    mysql.init_app(app)
+   
 
     # =================================================
     # Logging Configuration
