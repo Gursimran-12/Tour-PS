@@ -9,6 +9,8 @@ from flask import (
 
 import hashlib
 
+from app.db import get_connection
+
 auth_bp = Blueprint(
     "auth",
     __name__
