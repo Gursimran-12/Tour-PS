@@ -9,7 +9,7 @@ from flask import (
 
 import hashlib
 
-from db import get_connection
+from app.db import get_connection
 
 auth_bp = Blueprint(
     "auth",
@@ -30,7 +30,7 @@ def login():
             password.encode()
         ).hexdigest()
 
-        from db import get_connection
+        from app.db import get_connection
 
         connection = get_connection()
 
@@ -81,7 +81,7 @@ def signup():
             password.encode()
         ).hexdigest()
 
-        from db import get_connection
+        from app.db import get_connection
 
         connection = get_connection()
 
