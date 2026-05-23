@@ -1,4 +1,7 @@
 from flask import Flask
+import pymysql
+pymysql.install_as_MySQLdb()
+
 from flask_cors import CORS
 import logging
 

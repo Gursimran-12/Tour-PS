@@ -69,8 +69,15 @@ class Config:
 # =====================================================
 
     MYSQL_HOST = os.getenv(
-        "MYSQL_HOST",
-        "localhost"
+    "MYSQL_HOST",
+    "localhost"
+    )
+
+    MYSQL_PORT = int(
+        os.getenv(
+            "MYSQL_PORT",
+            3306
+        )
     )
 
     MYSQL_USER = os.getenv(
@@ -86,13 +93,6 @@ class Config:
     MYSQL_DB = os.getenv(
         "MYSQL_DB",
         "Users"
-    )
-
-    MYSQL_PORT = int(
-        os.getenv(
-            "MYSQL_PORT",
-            3306
-        )
     )
 
     MYSQL_CURSORCLASS = "DictCursor"
