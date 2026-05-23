@@ -64,9 +64,9 @@ class Config:
 
     PERMANENT_SESSION_LIFETIME = 3600
 
-    # =====================================================
-    # MySQL Database Configuration
-    # =====================================================
+# =====================================================
+# MySQL Database Configuration
+# =====================================================
 
     MYSQL_HOST = os.getenv(
         "MYSQL_HOST",
@@ -86,6 +86,13 @@ class Config:
     MYSQL_DB = os.getenv(
         "MYSQL_DB",
         "Users"
+    )
+
+    MYSQL_PORT = int(
+        os.getenv(
+            "MYSQL_PORT",
+            3306
+        )
     )
 
     MYSQL_CURSORCLASS = "DictCursor"
