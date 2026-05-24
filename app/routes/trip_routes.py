@@ -190,7 +190,15 @@ def generate():
 
         lat=lat,
 
-        lon=lon
+        lon=lon,
+        
+        GEOAPIFY_KEY=current_app.config[
+            "GEOAPIFY_KEY"
+        ],
+
+        OPENWEATHER_KEY=current_app.config[
+            "OPENWEATHER_KEY"
+        ]
     )
 
 

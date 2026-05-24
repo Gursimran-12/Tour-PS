@@ -930,8 +930,8 @@
 
     /* ============================== ADDED: WEATHER + NEARBY ============================== */
 
-    const GEOAPIFY_KEY = '';      // <-- set your key
-    const OPENWEATHER_KEY = '';     // <-- set your key
+    const GEOAPIFY_KEY ="{{ GEOAPIFY_KEY }}";     
+    const OPENWEATHER_KEY ="{{ OPENWEATHER_KEY }}";   
 
     // Wire buttons
     document.getElementById('btnWeather')?.addEventListener('click', handleWeatherClick, { passive: true });
