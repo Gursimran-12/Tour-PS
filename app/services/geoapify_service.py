@@ -75,8 +75,6 @@ def geocode_location(
             "filter":
                 "countrycode:in",
 
-            "bias":
-                "countrycode:in",
 
             "format":
                 "json",
@@ -95,7 +93,7 @@ def geocode_location(
 
             timeout=DEFAULT_TIMEOUT
         )
-
+        print(response.url)
         print("\n========== GEOCODE STATUS ==========")
         print(response.status_code)
 
@@ -300,9 +298,6 @@ def autocomplete_places(
             # =============================================
 
             "filter":
-                "countrycode:in",
-
-            "bias":
                 "countrycode:in",
 
             "apiKey":
