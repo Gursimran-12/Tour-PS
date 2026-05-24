@@ -673,6 +673,7 @@
               <span id="summary-state">{{ state or '' }}</span> •
               <span id="summary-days">{{ days or '' }}</span> day(s) •
               <span id="summary-time">{{ start_time or '' }}–{{ stop_time or '' }}</span>
+
             </div>
           </div>
 
@@ -680,6 +681,10 @@
         <div class="smallmuted mt-2">Categories:
           <span id="summary-cats">{{ (categories|join(', ')) if categories else '' }}</span>
         </div>
+
+        <!-- Hidden Coordinates -->
+        <span id="summary-lat" class="d-none">{{ lat }}</span>
+        <span id="summary-lon" class="d-none">{{ lon }}</span>
 
         <!-- ---------------- ADDED: WEATHER + NEARBY CONTROLS ---------------- -->
         <div class="mt-4">
@@ -712,11 +717,11 @@
                 </div>
                 <div class="toolbelt mt-2">
                   <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="checkbox" id="optHotels" value="hotels">
+                    <input class="form-check-input" type="checkbox" id="optHotels" value="hotels" checked>
                     <label class="form-check-label" for="optHotels">Hotels</label>
                   </div>
                   <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="checkbox" id="optRestaurants" value="restaurants">
+                    <input class="form-check-input" type="checkbox" id="optRestaurants" value="restaurants" checked>
                     <label class="form-check-label" for="optRestaurants">Restaurants</label>
                   </div>
                   <select id="radiusSelect" class="form-select form-select-sm" style="width:auto">
@@ -962,6 +967,7 @@
         categories: (document.getElementById('summary-cats')?.textContent || q.get('categories') || '')
           .split(',').map(s => s.trim()).filter(Boolean)
       };
+      console.log("CTX DATA:", ctx);
       return ctx;
     }
 
@@ -1252,11 +1258,16 @@
 
         const results = [];
         if (hotels) {
-          const resHotels = await fetchGeoapify(lat, lon, radius, 'accommodation.hotel,accommodation.guest_house'); // hotels
+          const resHotels = await fetchGeoapify(
+            lat,
+            lon,
+            radius,
+            'accommodation.hotel'
+          );// hotels
           results.push(...resHotels.map(r => ({ ...r, _type: 'Hotel' })));
         }
         if (restaurants) {
-          const resRest = await fetchGeoapify(lat, lon, radius, 'catering.restaurant,catering.cafe'); // restaurants
+          const resRest = await fetchGeoapify(lat, lon, radius, 'catering.restaurant,catering.fast_food,catering.cafe'); // restaurants
           results.push(...resRest.map(r => ({ ...r, _type: 'Restaurant' })));
         }
 
@@ -1398,15 +1409,32 @@
 
     }
 
-    // Haversine distance (meters)
     function haversine(lat1, lon1, lat2, lon2) {
+
       const R = 6371000;
+
       const toRad = (d) => d * Math.PI / 180;
+
       const dLat = toRad(lat2 - lat1);
+
       const dLon = toRad(lon2 - lon1);
-      const a = Math.sin(dLat / 2) ** 2 + Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * sin2(dLon / 2);
-      return 2 * R * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-      function sin2(x) { return Math.sin(x) ** 2 }
+
+      const a =
+        Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+
+        Math.cos(toRad(lat1)) *
+        Math.cos(toRad(lat2)) *
+
+        Math.sin(dLon / 2) *
+        Math.sin(dLon / 2);
+
+      const c =
+        2 * Math.atan2(
+          Math.sqrt(a),
+          Math.sqrt(1 - a)
+        );
+
+      return R * c;
     }
 
     // Display toggles (descriptions/distances/transport badges)
