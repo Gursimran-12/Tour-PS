@@ -1,75 +1,60 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
+
   <meta charset="utf-8" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Nearby Hotels & Restaurants — Sentiment Reviews</title>
+
+  <title>Nearby Hotels & Restaurants — AI Reviews</title>
 
   <!-- Google Font -->
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet">
 
   <!-- Bootstrap -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+    rel="stylesheet">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
 
   <style>
     :root {
-      --bg: #fffaf8;
-      --surface: #ffffff;
-      --pastel-sky: #c2e2f4;
-      --pastel-mint: #cdeee6;
-      --pastel-peach: #f7d4bf;
-      --pastel-lav: #e0c6f2;
-      --pastel-sand: #ffe8c9;
-
-      --accent: #6b3be8;
-      --accent-light: #8d6bff;
-
-      --text: #253238;
+      --primary: #7c3aed;
+      --secondary: #4f46e5;
+      --light: #ffffff;
+      --dark: #111827;
+      --text: #1f2937;
       --muted: #6b7280;
-
-      --success: #16a34a;
-      --warning: #ca8a04;
-      --danger: #dc2626;
-
-      --radius: 18px;
-
-      --shadow:
-        0 10px 40px rgba(15, 23, 42, 0.08);
-
-      --glass:
-        rgba(255, 255, 255, 0.75);
-
-      --border:
-        rgba(255, 255, 255, 0.35);
+      --glass: rgba(255, 255, 255, 0.18);
+      --border: rgba(255, 255, 255, 0.2);
+      --shadow: 0 20px 60px rgba(0, 0, 0, 0.12);
+      --radius: 28px;
     }
 
-    html,
-    body {
-      height: 100%;
-    }
-
-    body {
+    * {
       margin: 0;
-      font-family: "Poppins", sans-serif;
-
-      background:
-        linear-gradient(180deg,
-          #c2e2f4 0%,
-          #fffaf8 65%);
-
-      color: var(--text);
-
-      overflow-x: hidden;
-
-      -webkit-font-smoothing: antialiased;
+      padding: 0;
+      box-sizing: border-box;
+      scroll-behavior: smooth;
     }
 
-    /* =========================================
-   SCROLLBAR
-========================================= */
+    body {
+      font-family: "Poppins", sans-serif;
+      overflow-x: hidden;
+      background:
+        radial-gradient(circle at top left, #dbeafe 0%, transparent 30%),
+        radial-gradient(circle at bottom right, #f5d0fe 0%, transparent 30%),
+        #f8fafc;
+      color: var(--text);
+    }
+
+    /* SCROLLBAR */
 
     ::-webkit-scrollbar {
       width: 10px;
@@ -77,887 +62,800 @@
 
     ::-webkit-scrollbar-thumb {
       background: linear-gradient(180deg,
-          var(--accent),
+          var(--primary),
           #9d7cff);
       border-radius: 999px;
     }
 
-    /* =========================================
-   NAVBAR
-========================================= */
+    /* NAVBAR */
 
     .navbar {
-      background: linear-gradient(90deg, rgba(255, 255, 255, 0.78), rgba(255, 255, 255, 0.72));
-      padding: 1.05rem 1rem;
-      transition: padding .28s ease, box-shadow .28s ease, backdrop-filter .28s ease;
-      z-index: 60;
-      backdrop-filter: blur(6px);
-    }
-
-    .navbar .navbar-brand {
-      font-weight: 800;
-      font-size: 1.35rem;
-
-      background: linear-gradient(90deg,
-          #6b3be8,
-          #8b5cf6);
-
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-
-      letter-spacing: 0.3px;
-
-      transition: 0.3s ease;
-    }
-
-    .nav-link {
-      color: var(--text) !important;
-
-      font-weight: 500;
-      font-size: 0.95rem;
-
-      padding:
-        0.65rem 1rem !important;
-
-      border-radius: 12px;
-
-      transition:
-        all 0.3s ease;
-
-      position: relative;
-    }
-
-    .nav-link:hover {
-      color: var(--accent) !important;
-
-      background:
-        rgba(107, 59, 232, 0.08);
-
-      transform:
-        translateY(-2px);
-    }
-
-    .nav-link.active {
-
-      background:
-        rgba(107, 59, 232, 0.10);
-
-      color:
-        var(--accent) !important;
-
-      border-radius: 12px;
-
-      font-weight: 600;
-    }
-
-    .nav-link i {
-      font-size: 0.9rem;
-      margin-right: 6px;
-      vertical-align: middle;
-    }
-
-    .nav-link {
-      white-space: nowrap;
+      background: rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(18px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+      padding: 16px 0;
+      transition: 0.4s ease;
+      z-index: 999;
     }
 
     .navbar.shrink {
-      padding: .46rem 1rem;
-      box-shadow: 0 12px 28px rgba(20, 20, 30, 0.07);
-      backdrop-filter: blur(8px);
+      padding: 10px 0;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
     }
 
-    .nav-link:focus {
-      outline: none;
-      box-shadow: 0 0 0 var(--focus);
-      border-radius: 6px;
+    .navbar-brand {
+      font-size: 1.7rem;
+      font-weight: 800;
+      background: linear-gradient(90deg,
+          var(--primary),
+          var(--secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
     }
 
-    /* =========================================
-   PAGE WRAP
-========================================= */
-
-    .page-wrap {
-
-      padding-top: 120px;
-
-      padding-bottom: 60px;
+    .nav-link {
+      position: relative;
+      font-weight: 500;
+      color: var(--text) !important;
+      margin: 0 4px;
+      padding: 10px 16px !important;
+      border-radius: 14px;
+      transition: 0.3s ease;
     }
 
-    /* =========================================
-   HERO IMAGES
-========================================= */
-    .hero-row {
+    .nav-link:hover {
+      color: var(--primary) !important;
+      background: rgba(124, 58, 237, 0.08);
+      transform: translateY(-2px);
+    }
 
+    .nav-link.active {
+      background: rgba(124, 58, 237, 0.1);
+      color: var(--primary) !important;
+      font-weight: 600;
+    }
+
+    /* HERO */
+
+    .hero {
+      position: relative;
+      height: 58vh;
+      margin-top: 90px;
+      overflow: hidden;
+      border-radius: 0 0 40px 40px;
       display: flex;
-
-      justify-content: center;
-
       align-items: center;
+      justify-content: center;
+      text-align: center;
+      background:
+        linear-gradient(rgba(17, 24, 39, 0.58),
+          rgba(17, 24, 39, 0.48)),
+        url('https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?q=80&w=1600&auto=format&fit=crop');
+      background-size: cover;
+      background-position: center;
+      box-shadow: var(--shadow);
+    }
 
+    .hero::before {
+      content: '';
+      position: absolute;
+      width: 500px;
+      height: 500px;
+      background: linear-gradient(135deg,
+          rgba(124, 58, 237, 0.35),
+          rgba(79, 70, 229, 0.25));
+      border-radius: 50%;
+      filter: blur(120px);
+      top: -120px;
+      right: -100px;
+      animation: floatBlob 10s infinite alternate ease-in-out;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      animation: fadeUp 1s ease;
+    }
+
+    .hero h1 {
+      color: white;
+      font-size: clamp(2.6rem, 6vw, 5rem);
+      font-weight: 800;
+      line-height: 1.15;
+    }
+
+    .hero p {
+      color: rgba(255, 255, 255, 0.88);
+      margin-top: 18px;
+      font-size: 1.1rem;
+      max-width: 760px;
+    }
+
+    /* HERO CARDS */
+
+    .hero-row {
+      display: flex;
+      justify-content: center;
+      align-items: center;
       flex-wrap: wrap;
-
       gap: 22px;
-
-      padding: 10px 5px 25px;
-
-      margin: auto;
+      margin-top: -90px;
+      position: relative;
+      z-index: 5;
     }
 
     .hero-card {
-
-      flex: 0 0 auto;
-
-      width: 220px;
-
+      width: 210px;
       height: 220px;
-
       border-radius: 24px;
-
       overflow: hidden;
-
-      position: relative;
-
-      background: #fff;
-
+      background: white;
       box-shadow: var(--shadow);
-
-      transition: all .45s ease;
+      transition: 0.4s ease;
     }
 
     .hero-card:hover {
-
-      transform:
-        translateY(-10px) scale(1.02);
-
-      box-shadow:
-        0 20px 50px rgba(107, 59, 232, 0.18);
+      transform: translateY(-10px) scale(1.03);
+      box-shadow: 0 20px 50px rgba(124, 58, 237, 0.2);
     }
 
     .hero-card img {
-
       width: 100%;
-
       height: 100%;
-
       object-fit: cover;
-
       transition: transform .7s ease;
     }
 
     .hero-card:hover img {
-
-      transform: scale(1.1);
+      transform: scale(1.12);
     }
 
-    /* =========================================
-   MAIN CARD
-========================================= */
+    /* MAIN CARD */
 
-    .center-card {
-
-      background: var(--glass);
-
-      backdrop-filter: blur(18px);
-
-      border:
-        1px solid rgba(255, 255, 255, 0.5);
-
-      border-radius: 28px;
-
-      padding: 35px;
-
+    .main-card {
+      max-width: 1200px;
+      margin: 50px auto;
+      background: rgba(255, 255, 255, 0.72);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      backdrop-filter: blur(20px);
+      border-radius: 32px;
+      padding: 40px;
       box-shadow: var(--shadow);
-
-      animation: fadeUp .8s ease;
-
-      position: relative;
-
-      overflow: hidden;
+      animation: fadeUp 1s ease;
     }
 
-    .center-card::before {
+    .main-card h2 {
+      font-size: 2.2rem;
+      font-weight: 800;
+      margin-bottom: 10px;
+    }
 
-      content: "";
+    .main-card .lead {
+      color: var(--muted);
+      margin-bottom: 30px;
+    }
 
-      position: absolute;
+    /* STATUS */
 
-      width: 250px;
-
-      height: 250px;
-
+    .status {
       background:
-        radial-gradient(rgba(107, 59, 232, 0.15),
-          transparent);
-
-      top: -120px;
-
-      right: -100px;
-
-      border-radius: 50%;
+        linear-gradient(135deg,
+          rgba(255, 255, 255, 0.95),
+          rgba(255, 255, 255, 0.7));
+      padding: 16px 20px;
+      border-radius: 18px;
+      font-weight: 600;
+      box-shadow:
+        0 8px 24px rgba(0, 0, 0, 0.04);
+      margin-bottom: 25px;
     }
+
+    /* FORM */
+
+    .form-select {
+      height: 60px;
+      border-radius: 18px !important;
+      border: none;
+      padding: 14px 18px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.06);
+    }
+
+    .form-select:focus {
+      box-shadow: 0 0 0 4px rgba(124, 58, 237, 0.15);
+    }
+
+    /* BUTTONS */
+
+    .btn-modern {
+      background: linear-gradient(90deg,
+          var(--primary),
+          var(--secondary));
+      border: none;
+      color: white;
+      height: 60px;
+      padding: 0 28px;
+      border-radius: 18px;
+      font-weight: 700;
+      transition: 0.3s ease;
+      box-shadow: 0 15px 35px rgba(124, 58, 237, 0.18);
+    }
+
+    .btn-modern:hover {
+      transform: translateY(-4px);
+      color: white;
+    }
+
+    /* RESULT AREA */
+
+    #resultArea {
+      margin-top: 40px;
+      padding: 30px;
+      border-radius: 28px;
+      background: rgba(255, 255, 255, 0.65);
+      backdrop-filter: blur(12px);
+      border:
+        1px solid rgba(255, 255, 255, 0.45);
+      box-shadow:
+        0 10px 35px rgba(0, 0, 0, 0.04);
+    }
+
+    .nearby-title {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: 16px;
+    }
+
+    .nearby-title i {
+      color: var(--primary);
+    }
+
+    /* META */
+
+    #placeMeta {
+      background: rgba(255, 255, 255, 0.88);
+      padding: 18px;
+      border-radius: 18px;
+      margin-top: 15px;
+      line-height: 1.8;
+      font-size: 15px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.04);
+    }
+
+    /* REVIEW */
+
+    .review {
+      background: rgba(255, 255, 255, 0.92);
+      border-radius: 24px;
+      padding: 24px;
+      margin-bottom: 20px;
+      border:
+        1px solid rgba(255, 255, 255, 0.6);
+      box-shadow:
+        0 10px 30px rgba(0, 0, 0, 0.05);
+      transition: 0.35s ease;
+      position: relative;
+      overflow: hidden;
+      animation: fadeUp .45s ease;
+    }
+
+    .review:hover {
+      transform: translateY(-6px);
+      box-shadow:
+        0 20px 40px rgba(124, 58, 237, 0.12);
+    }
+
+    .review::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 6px;
+      height: 100%;
+      background:
+        linear-gradient(180deg,
+          var(--primary),
+          #b79bff);
+    }
+
+    /* AUTHOR */
+
+    .review-author {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 14px;
+    }
+
+    .author-avatar {
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      background:
+        linear-gradient(135deg,
+          var(--primary),
+          #a98eff);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 700;
+      font-size: 18px;
+    }
+
+    /* SENTIMENT */
+
+    .sentiment {
+      margin-top: 16px;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 16px;
+      border-radius: 999px;
+      font-weight: 600;
+      font-size: 14px;
+    }
+
+    .sent-positive {
+      background:
+        rgba(22, 163, 74, 0.12);
+      color: #16a34a;
+    }
+
+    .sent-neutral {
+      background:
+        rgba(202, 138, 4, 0.12);
+      color: #ca8a04;
+    }
+
+    .sent-negative {
+      background:
+        rgba(220, 38, 38, 0.12);
+      color: #dc2626;
+    }
+
+    /* ERROR */
+
+    .error {
+      background:
+        rgba(255, 230, 230, 0.9);
+      padding: 14px 18px;
+      border-radius: 14px;
+      color: #b91c1c;
+      font-weight: 500;
+      margin-bottom: 20px;
+      box-shadow:
+        0 8px 20px rgba(220, 38, 38, 0.08);
+    }
+
+    /* FOOTER */
+
+    footer {
+      margin-top: 100px;
+      background: #111827;
+      color: white;
+      padding: 80px 0 30px;
+    }
+
+    footer h5 {
+      font-weight: 700;
+      margin-bottom: 20px;
+    }
+
+    footer a {
+      color: #d1d5db;
+      text-decoration: none;
+      transition: 0.3s ease;
+    }
+
+    footer a:hover {
+      color: white;
+    }
+
+    footer p {
+      color: #d1d5db;
+    }
+
+    /* ANIMATION */
 
     @keyframes fadeUp {
 
       from {
         opacity: 0;
-        transform: translateY(30px);
+        transform: translateY(40px);
       }
 
       to {
         opacity: 1;
-        transform: translateY(0);
+        transform: translateY(0px);
       }
+
     }
 
-    .center-card h1 {
-
-      font-size: 2rem;
-
-      font-weight: 800;
-
-      margin-bottom: 10px;
-
-      display: flex;
-
-      align-items: center;
-
-      gap: 12px;
-    }
-
-    .center-card .lead {
-
-      color: var(--muted);
-
-      font-size: 1rem;
-    }
-
-    /* =========================================
-   STATUS BOX
-========================================= */
-
-    .status {
-
-      background:
-        linear-gradient(135deg,
-          rgba(255, 255, 255, 0.95),
-          rgba(255, 255, 255, 0.7));
-
-      padding: 14px 18px;
-
-      border-radius: 14px;
-
-      font-weight: 600;
-
-      box-shadow:
-        0 6px 20px rgba(0, 0, 0, 0.04);
-
-      border:
-        1px solid rgba(255, 255, 255, 0.5);
-
-      animation: pulseGlow 2s infinite;
-    }
-
-    @keyframes pulseGlow {
+    @keyframes floatBlob {
 
       0% {
-        box-shadow: 0 0 0 rgba(107, 59, 232, 0);
-      }
-
-      50% {
-        box-shadow: 0 0 20px rgba(107, 59, 232, 0.12);
+        transform: translateY(0px);
       }
 
       100% {
-        box-shadow: 0 0 0 rgba(107, 59, 232, 0);
+        transform: translateY(40px);
       }
+
     }
 
-    /* =========================================
-   INPUTS
-========================================= */
-
-    .form-select {
-
-      border-radius: 16px !important;
-
-      padding: 14px 18px;
-
-      border: none;
-
-      background: #fff;
-
-      box-shadow:
-        0 8px 25px rgba(0, 0, 0, 0.04);
-
-      transition: all .3s ease;
-    }
-
-    .nearby-title {
-
-      display: flex;
-
-      align-items: center;
-
-      gap: 10px;
-
-      font-size: 1.1rem;
-
-      font-weight: 700;
-
-      margin-bottom: 14px;
-
-      color: var(--text);
-    }
-
-    .nearby-title i {
-
-      color: var(--accent);
-    }
-
-    .form-select:focus {
-
-      box-shadow:
-        0 0 0 4px rgba(107, 59, 232, 0.15);
-
-      border: none;
-    }
-
-    /* =========================================
-   BUTTONS
-========================================= */
-
-    .btn {
-
-      border-radius: 16px !important;
-
-      padding: 12px 22px;
-
-      font-weight: 600;
-
-      transition: all .35s ease;
-    }
-
-    .btn-primary-custom {
-
-      background:
-        linear-gradient(135deg,
-          var(--accent),
-          var(--accent-light));
-
-      border: none;
-
-      color: #fff;
-
-      box-shadow:
-        0 10px 25px rgba(107, 59, 232, 0.25);
-    }
-
-    .btn-primary-custom:hover {
-
-      transform:
-        translateY(-3px) scale(1.02);
-
-      box-shadow:
-        0 18px 35px rgba(107, 59, 232, 0.3);
-    }
-
-    .location-refresh-btn {
-
-      width: 52px;
-
-      height: 52px;
-
-      border: none;
-
-      border-radius: 18px;
-
-      background:
-        linear-gradient(135deg,
-          #ffffff,
-          #f7f4ff);
-
-      color: var(--accent);
-
-      font-size: 18px;
-
-      display: flex;
-
-      align-items: center;
-
-      justify-content: center;
-
-      box-shadow:
-        0 10px 25px rgba(107, 59, 232, 0.12);
-
-      transition: all .35s ease;
-    }
-
-    .location-refresh-btn:hover {
-
-      transform:
-        translateY(-4px) rotate(8deg);
-
-      box-shadow:
-        0 18px 35px rgba(107, 59, 232, 0.18);
-    }
-
-    .btn-secondary-custom {
-
-      background: #fff;
-
-      border: none;
-
-      color: #333;
-
-      box-shadow:
-        0 8px 20px rgba(0, 0, 0, 0.05);
-    }
-
-    .btn-secondary-custom:hover {
-
-      transform: translateY(-3px);
-    }
-
-    /* =========================================
-   RESULTS AREA
-========================================= */
-
-    #resultArea {
-
-      margin-top: 35px;
-
-      padding: 24px;
-
-      border-radius: 24px;
-
-      background:
-        rgba(255, 255, 255, 0.55);
-
-      backdrop-filter: blur(12px);
-
-      border:
-        1px solid rgba(255, 255, 255, 0.45);
-
-      animation: fadeUp .5s ease;
-
-      box-shadow:
-        0 10px 35px rgba(0, 0, 0, 0.04);
-    }
-
-    /* =========================================
-   PLACE META
-========================================= */
-
-    #placeMeta {
-
-      background:
-        rgba(255, 255, 255, 0.75);
-
-      padding: 18px;
-
-      border-radius: 18px;
-
-      box-shadow:
-        0 8px 25px rgba(0, 0, 0, 0.04);
-
-      border:
-        1px solid rgba(255, 255, 255, 0.5);
-
-      line-height: 1.8;
-
-      font-size: 15px;
-    }
-
-    /* =========================================
-   REVIEWS
-========================================= */
-
-    .review {
-
-      background:
-        rgba(255, 255, 255, 0.82);
-
-      backdrop-filter: blur(10px);
-
-      border-radius: 22px;
-
-      padding: 22px;
-
-      margin-bottom: 20px;
-
-      border:
-        1px solid rgba(255, 255, 255, 0.6);
-
-      box-shadow:
-        0 10px 30px rgba(0, 0, 0, 0.05);
-
-      transition: all .35s ease;
-
-      position: relative;
-
-      overflow: hidden;
-
-      animation: fadeUp .45s ease;
-    }
-
-    .review:hover {
-
-      transform:
-        translateY(-6px);
-
-      box-shadow:
-        0 20px 40px rgba(107, 59, 232, 0.12);
-    }
-
-    .review::before {
-
-      content: "";
-
-      position: absolute;
-
-      top: 0;
-
-      left: 0;
-
-      width: 6px;
-
-      height: 100%;
-
-      background:
-        linear-gradient(180deg,
-          var(--accent),
-          #b79bff);
-    }
-
-    /* =========================================
-   REVIEW AUTHOR
-========================================= */
-
-    .review-author {
-
-      display: flex;
-
-      align-items: center;
-
-      gap: 12px;
-
-      margin-bottom: 12px;
-    }
-
-    .author-avatar {
-
-      width: 50px;
-
-      height: 50px;
-
-      border-radius: 50%;
-
-      background:
-        linear-gradient(135deg,
-          var(--accent),
-          #a98eff);
-
-      display: flex;
-
-      align-items: center;
-
-      justify-content: center;
-
-      color: white;
-
-      font-weight: 700;
-
-      font-size: 18px;
-    }
-
-    /* =========================================
-   SENTIMENT
-========================================= */
-
-    .sentiment {
-
-      margin-top: 15px;
-
-      display: inline-flex;
-
-      align-items: center;
-
-      gap: 10px;
-
-      padding: 10px 16px;
-
-      border-radius: 999px;
-
-      font-weight: 600;
-
-      font-size: 14px;
-    }
-
-    .sent-positive {
-
-      background:
-        rgba(22, 163, 74, 0.12);
-
-      color: var(--success);
-    }
-
-    .sent-neutral {
-
-      background:
-        rgba(202, 138, 4, 0.12);
-
-      color: var(--warning);
-    }
-
-    .sent-negative {
-
-      background:
-        rgba(220, 38, 38, 0.12);
-
-      color: var(--danger);
-    }
-
-    /* =========================================
-   FOOTER
-========================================= */
-
-    .site-footer {
-
-      margin-top: 40px;
-
-      padding: 28px;
-
-      border-radius: 24px;
-
-      background:
-        rgba(255, 255, 255, 0.7);
-
-      backdrop-filter: blur(12px);
-
-      text-align: center;
-
-      box-shadow:
-        0 10px 30px rgba(0, 0, 0, 0.04);
-    }
-
-    /* =========================================
-   ERROR BOX
-========================================= */
-
-    .error {
-
-      background:
-        rgba(255, 230, 230, 0.9);
-
-      border: none;
-
-      padding: 14px 18px;
-
-      border-radius: 14px;
-
-      color: #b91c1c;
-
-      font-weight: 500;
-
-      box-shadow:
-        0 8px 20px rgba(220, 38, 38, 0.08);
-    }
-
-    /* =========================================
-   MOBILE
-========================================= */
+    /* MOBILE */
 
     @media(max-width:768px) {
 
-      .center-card {
+      .hero {
+        height: 48vh;
+      }
 
-        padding: 22px;
+      .hero-row {
+        margin-top: -60px;
       }
 
       .hero-card {
-
         width: 160px;
-
-        height: 160px;
+        height: 170px;
       }
 
-      .center-card h1 {
-
-        font-size: 1.55rem;
+      .main-card {
+        margin: 30px 16px;
+        padding: 28px;
       }
 
-      .btn {
-
+      .btn-modern {
         width: 100%;
       }
+
     }
   </style>
+
 </head>
 
 <body>
 
-  <!-- Skip link for accessibility -->
-  <a href="#main-content" class="visually-hidden-focusable"
-    style="position:absolute;left:-999px;top:auto;width:1px;height:1px;overflow:hidden"
-    onfocus="this.style.left='1rem';this.style.top='1rem';this.style.width='auto';this.style.height='auto';this.style.background='#fff';this.style.padding='0.5rem 0.75rem';this.style.borderRadius='6px';this.style.boxShadow='0 8px 24px rgba(0,0,0,0.12)';">Skip
-    to content</a>
+  <!-- NAVBAR -->
 
-  <!-- NAVBAR (now matches your AI Tour Planner navbar) -->
-  <nav class="navbar navbar-expand-lg fixed-top">
+  <nav class="navbar navbar-expand-lg fixed-top navbar-light">
+
     <div class="container">
-      <a class="navbar-brand" href="/">AI Tour Planner</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav" aria-expanded="false"
-        aria-label="Toggle navigation">
+
+      <a class="navbar-brand" href="/">TRIP MY WAY</a>
+
+      <button class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#nav">
+
         <span class="navbar-toggler-icon"></span>
+
       </button>
-      <div class="collapse navbar-collapse" id="nav">
-        <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-1">
+
+      <div class="collapse navbar-collapse"
+        id="nav">
+
+        <ul class="navbar-nav ms-auto align-items-lg-center">
 
           <li class="nav-item">
-            <a class="nav-link" href="/home">
+            <a class="nav-link"
+              href="/home">
               <i class="fas fa-house me-1"></i>
               Home
             </a>
           </li>
 
           <li class="nav-item">
-            <a class="nav-link" href="/sightseeing_suggestion">
+            <a class="nav-link"
+              href="/sightseeing_suggestion">
               <i class="fas fa-location-dot me-1"></i>
               Locations
             </a>
           </li>
 
           <li class="nav-item">
-            <a class="nav-link" href="/hotel">
+            <a class="nav-link"
+              href="/hotel">
               <i class="fas fa-hotel me-1"></i>
               Hotels
             </a>
           </li>
 
           <li class="nav-item">
-            <a class="nav-link" href="/findmyway">
+            <a class="nav-link"
+              href="/findmyway">
               <i class="fas fa-map-location-dot me-1"></i>
               Find My Way
             </a>
           </li>
 
           <li class="nav-item">
-            <a class="nav-link active" href="/hotels_reviews">
+            <a class="nav-link active"
+              href="/hotels_reviews">
               <i class="fas fa-star me-1"></i>
               Reviews
             </a>
           </li>
 
           <li class="nav-item">
-            <a class="nav-link" href="/routefinder">
+            <a class="nav-link"
+              href="/routefinder">
               <i class="fas fa-route me-1"></i>
               Route Finder
             </a>
           </li>
 
         </ul>
+
       </div>
+
     </div>
+
   </nav>
 
-  <!-- Page content wrapper -->
-  <div class="page-wrap">
+  <!-- HERO -->
 
-    <!-- Hero tiles (keeps same content but styled to match theme) -->
-    <div class="hero-row container">
-      <div class="hero-card">
-        <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?q=80&w=1200&auto=format&fit=crop"
-          alt="Luxury Hotel" loading="lazy">
-      </div>
-      <div class="hero-card"><img
-          src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?q=80&w=1200&auto=format&fit=crop"
-          alt="tile 2" loading="lazy"></div>
-      <div class="hero-card"><img
-          src="https://images.unsplash.com/photo-1504754524776-8f4f37790ca0?q=80&w=1200&auto=format&fit=crop"
-          alt="tile 3" loading="lazy"></div>
-      <div class="hero-card"><img
-          src="https://images.unsplash.com/photo-1501785888041-af3ef285b470?q=80&w=1200&auto=format&fit=crop"
-          alt="tile 4" loading="lazy"></div>
-      <div class="hero-card"><img
-          src="https://images.unsplash.com/photo-1493558103817-58b2924bce98?q=80&w=1200&auto=format&fit=crop"
-          alt="Luxury travel destination" loading="lazy"></div>
+  <section class="hero">
+
+    <div class="hero-content">
+
+      <h1>
+
+        AI Hotel & Restaurant Reviews
+
+      </h1>
+
+      <p>
+
+        Discover nearby places, explore authentic user reviews and analyze sentiments using AI-powered insights.
+
+      </p>
+
     </div>
 
-    <!-- Main centered card -->
-    <main id="main-content" class="container">
-      <div class="center-card">
+  </section>
 
-        <div class="d-flex align-items-center justify-content-between flex-wrap mb-2">
-          <div>
-            <h1>
-              <i class="fas fa-map-marker-alt"></i>
-              Nearby Hotels & Restaurants
-            </h1>
-            <p class="lead">
-              Find nearby places, browse categories, and explore real user experiences with AI-driven sentiment
-              insights.
-            </p>
-          </div>
-        </div>
+  <!-- HERO CARDS -->
 
-        <!-- error box -->
-        <div id="errorBox" class="error" style="margin-bottom:10px;"></div>
+  <div class="container">
 
-        <!-- controls -->
-        <div class="controls-row mb-3">
-          <div class="status" id="status">Detecting location…</div>
-          <div class="ms-auto d-flex gap-2">
-            <div class="ms-auto d-flex gap-2">
-            </div>
-          </div>
-        </div>
+    <div class="hero-row">
 
-        <div class="row gx-3 align-items-center">
-          <div class="col-12 col-md-6 mb-2">
-            <select id="choice" class="form-select">
-              <option value="">-- Choose Category --</option>
-              <option value="restaurant">Restaurant</option>
-              <option value="hotel">Hotel</option>
-            </select>
-          </div>
-          <div class="col-12 col-md-6 text-md-end mb-2">
-            <button class="btn btn-primary-custom" id="searchBtn" disabled>Search Nearby</button>
-          </div>
-        </div>
+      <div class="hero-card">
 
-        <!-- results -->
-        <div id="resultArea">
-          <label class="form-label nearby-title">
-            <i class="fas fa-compass"></i>
-            Nearby Results
-          </label>
-          <select id="placesDropdown" class="form-select"></select>
-          <pre id="placeMeta" style="font-size:14px;color:#333;margin-top:8px;white-space:pre-wrap;"></pre>
-
-          <div class="d-flex gap-2 mt-2 mb-3">
-            <button class="btn btn-primary-custom" id="getReviewsBtn" style="display:none">Get Reviews</button>
-          </div>
-
-          <div id="reviewsArea" style="display:none">
-            <h4 class="mb-3">Reviews</h4>
-            <div id="reviewsList"></div>
-            <div id="reviewsFooter" style="margin-top:12px;color:#333;font-size:14px"></div>
-          </div>
-        </div>
+        <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?q=80&w=1200&auto=format&fit=crop"
+          alt="Luxury Hotel">
 
       </div>
 
-      <!-- Pastel footer (matching AI Tour Planner) -->
-      <div class="site-footer mt-3">
-        © 2025 GNDEC | Designed by G13
+      <div class="hero-card">
+
+        <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?q=80&w=1200&auto=format&fit=crop"
+          alt="Restaurant">
+
       </div>
-    </main>
+
+      <div class="hero-card">
+
+        <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?q=80&w=1200&auto=format&fit=crop"
+          alt="Food">
+
+      </div>
+
+      <div class="hero-card">
+
+        <img src="https://images.unsplash.com/photo-1496417263034-38ec4f0b665a?q=80&w=1200&auto=format&fit=crop"
+          alt="Cafe">
+
+      </div>
+
+      <div class="hero-card">
+
+        <img src="https://images.unsplash.com/photo-1552566626-52f8b828add9?q=80&w=1200&auto=format&fit=crop"
+          alt="Luxury Dining">
+
+      </div>
+
+    </div>
+
   </div>
 
-  <!-- Bootstrap JS -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" defer></script>
+  <!-- MAIN CONTENT -->
 
-  <!-- Your original logic (unchanged behavior / endpoints / event handlers) -->
+  <main class="container">
+
+    <div class="main-card">
+
+      <h2>
+
+        Nearby Hotels & Restaurants
+
+      </h2>
+
+      <p class="lead">
+
+        Find nearby places, browse categories, and explore real user experiences with AI-driven sentiment analysis.
+
+      </p>
+
+      <!-- ERROR -->
+
+      <div id="errorBox"
+        class="error"
+        style="display:none;"></div>
+
+      <!-- STATUS -->
+
+      <div class="status"
+        id="status">
+
+        Detecting location…
+
+      </div>
+
+      <!-- FORM -->
+
+      <div class="row gx-3 align-items-center">
+
+        <div class="col-12 col-md-6 mb-3">
+
+          <select id="choice"
+            class="form-select">
+
+            <option value="">
+
+              -- Choose Category --
+
+            </option>
+
+            <option value="restaurant">
+
+              Restaurant
+
+            </option>
+
+            <option value="hotel">
+
+              Hotel
+
+            </option>
+
+          </select>
+
+        </div>
+
+        <div class="col-12 col-md-6 mb-3 text-md-end">
+
+          <button class="btn btn-modern"
+            id="searchBtn"
+            disabled>
+
+            Search Nearby
+
+          </button>
+
+        </div>
+
+      </div>
+
+      <!-- RESULT AREA -->
+
+      <div id="resultArea">
+
+        <label class="nearby-title">
+
+          <i class="fas fa-compass"></i>
+
+          Nearby Results
+
+        </label>
+
+        <select id="placesDropdown"
+          class="form-select"></select>
+
+        <pre id="placeMeta"></pre>
+
+        <div class="d-flex gap-2 mt-3 mb-3">
+
+          <button class="btn btn-modern"
+            id="getReviewsBtn"
+            style="display:none">
+
+            Get Reviews
+
+          </button>
+
+        </div>
+
+        <!-- REVIEWS -->
+
+        <div id="reviewsArea"
+          style="display:none">
+
+          <h4 class="mb-4 fw-bold">
+
+            Reviews
+
+          </h4>
+
+          <div id="reviewsList"></div>
+
+          <div id="reviewsFooter"
+            style="margin-top:12px;"></div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- FOOTER -->
+
+  <footer>
+
+    <div class="container text-center">
+
+      <div class="row">
+
+        <div class="col-md-4 mb-4">
+
+          <h5>About</h5>
+
+          <p>
+            AI-powered trip planning platform crafted for modern travelers.
+          </p>
+
+        </div>
+
+        <div class="col-md-4 mb-4">
+
+          <h5>Contact</h5>
+
+          <p>
+
+            <i class="fas fa-envelope me-2"></i>
+
+            info@example.com
+
+          </p>
+
+        </div>
+
+        <div class="col-md-4 mb-4">
+
+          <h5>Quick Links</h5>
+
+          <a href="/">Home</a>
+          <br>
+          <a href="#">Privacy</a>
+
+        </div>
+
+      </div>
+
+      <hr>
+
+      <p>
+        &copy; 2025 GNDEC | Designed by G13
+      </p>
+
+    </div>
+
+  </footer>
+
+  <!-- Bootstrap JS -->
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+    defer></script>
+
+  <!-- KEEPING YOUR ORIGINAL SCRIPT EXACTLY SAME -->
+
   <script>
     const BACKEND_BASE = "http://127.0.0.1:5000";
     let userLat, userLon, currentPlaces = [];
@@ -1291,10 +1189,6 @@
 
         .then(data => {
 
-          /* =========================================
-             NEW ADDITION FOR NO REVIEWS / API FAILURE
-             ========================================= */
-
           if (data.error || !data.reviews || data.reviews.length === 0) {
 
             const selectedType = choiceEl.value;
@@ -1333,10 +1227,6 @@
 
             return;
           }
-
-          /* =========================================
-             ORIGINAL CODE CONTINUES
-             ========================================= */
 
           reviewsArea.style.display = 'block';
 
@@ -1504,10 +1394,6 @@
 
         .catch(e => {
 
-          /* =========================================
-             EXTRA FRIENDLY ERROR HANDLING
-             ========================================= */
-
           const selectedType = choiceEl.value;
 
           let message = "";
@@ -1549,8 +1435,6 @@
 
     detectLocation();
 
-    /* Navbar shrink effect */
-
     (function () {
 
       const nav = document.querySelector('.navbar');
@@ -1573,6 +1457,7 @@
 
     })();
   </script>
+
 </body>
 
 </html>
