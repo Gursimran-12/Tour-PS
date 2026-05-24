@@ -423,8 +423,7 @@
 
       try {
 
-        const API_BASE =
-          "https://tour-ps.onrender.com/";
+        const API_BASE = window.location.origin;
 
         const res = await fetch(
           `${API_BASE}/api/route?start=${encodeURIComponent(src)}&destination=${encodeURIComponent(dst)}`

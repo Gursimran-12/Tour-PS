@@ -52,12 +52,25 @@ def api_route():
 
     try:
 
-        # =================================================
-        # Force India Bias
-        # =================================================
+# =================================================
+# Safe India Bias
+# =================================================
 
-        start_query = f"{start}, India"
-        destination_query = f"{destination}, India"
+        if "india" not in start.lower():
+
+            start_query = f"{start}, India"
+
+        else:
+
+            start_query = start
+
+        if "india" not in destination.lower():
+
+            destination_query = f"{destination}, India"
+
+        else:
+
+            destination_query = destination
 
         # =================================================
         # Geocode Start

@@ -21,7 +21,6 @@ from app.utils.validators import (
     is_empty
 )
 
-
 # =====================================================
 # Geocode Location
 # =====================================================
@@ -47,14 +46,6 @@ def geocode_location(
                     "Location text is required"
             }
 
-        # =============================================
-        # Force India Bias
-        # =============================================
-
-        if "india" not in text.lower():
-
-            text = f"{text}, India"
-
         url = (
             "https://api.geoapify.com/"
             "v1/geocode/search"
@@ -65,19 +56,26 @@ def geocode_location(
             "text":
                 text,
 
+            # =============================================
+            # Better Accuracy
+            # =============================================
+
             "limit":
-                limit,
+                5,
 
             # =============================================
-            # Deployment Safe Bias
+            # India Restriction
             # =============================================
 
             "filter":
                 "countrycode:in",
 
+            # =============================================
+            # Better Ranking
+            # =============================================
 
-            "format":
-                "json",
+            "bias":
+                "countrycode:in",
 
             "apiKey":
                 current_app.config[
@@ -93,7 +91,9 @@ def geocode_location(
 
             timeout=DEFAULT_TIMEOUT
         )
+
         print(response.url)
+
         print("\n========== GEOCODE STATUS ==========")
         print(response.status_code)
 
@@ -105,7 +105,7 @@ def geocode_location(
         print(data)
 
         # =============================================
-        # Empty Results Check
+        # Extract Features
         # =============================================
 
         features = data.get(
@@ -113,7 +113,42 @@ def geocode_location(
             []
         )
 
-        if not features:
+        # =============================================
+        # Better Exact Match Selection
+        # =============================================
+
+        best_feature = None
+
+        for feature in features:
+
+            props = feature.get(
+                "properties",
+                {}
+            )
+
+            formatted = props.get(
+                "formatted",
+                ""
+            ).lower()
+
+            if text.lower() in formatted:
+
+                best_feature = feature
+                break
+
+        # =============================================
+        # Fallback
+        # =============================================
+
+        if not best_feature and features:
+
+            best_feature = features[0]
+
+        # =============================================
+        # No Match
+        # =============================================
+
+        if not best_feature:
 
             return {
 
@@ -122,6 +157,12 @@ def geocode_location(
                 "error":
                     "No matching location found"
             }
+
+        # =============================================
+        # Keep Only Best Result
+        # =============================================
+
+        data["features"] = [best_feature]
 
         return {
 
@@ -266,10 +307,6 @@ def autocomplete_places(
 
     try:
 
-        # =============================================
-        # Validation
-        # =============================================
-
         if is_empty(text):
 
             return {
@@ -293,11 +330,10 @@ def autocomplete_places(
             "limit":
                 limit,
 
-            # =============================================
-            # India Bias
-            # =============================================
-
             "filter":
+                "countrycode:in",
+
+            "bias":
                 "countrycode:in",
 
             "apiKey":
@@ -389,10 +425,6 @@ def fetch_nearby_places(
 ):
 
     try:
-
-        # =============================================
-        # Validation
-        # =============================================
 
         if not validate_coordinates(
             lat,
@@ -499,10 +531,6 @@ def get_route_between_points(
 
     try:
 
-        # =============================================
-        # Validation
-        # =============================================
-
         if not validate_coordinates(
             start_lat,
             start_lon
@@ -528,10 +556,6 @@ def get_route_between_points(
                 "error":
                     "Invalid destination coordinates"
             }
-
-        # =============================================
-        # Safe Mode Mapping
-        # =============================================
 
         mode_mapping = {
 
@@ -578,8 +602,11 @@ def get_route_between_points(
                 "instruction_details",
 
             # =============================================
-            # Better Route Optimization
+            # Better Geometry Handling
             # =============================================
+
+            "format":
+                "geojson",
 
             "traffic":
                 "approximated",
@@ -611,10 +638,6 @@ def get_route_between_points(
 
         print("\n========== ROUTING RESPONSE ==========")
         print(data)
-
-        # =============================================
-        # Empty Route Validation
-        # =============================================
 
         features = data.get(
             "features",
