@@ -14,111 +14,157 @@
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
 
-
   <style>
     :root {
       --primary: #7c3aed;
+      --primary-light: #a78bfa;
       --secondary: #4f46e5;
-
-      --accent: #2155ff;
-      --accent-2: #6b3be8;
 
       --light: #ffffff;
       --dark: #111827;
+
       --text: #1f2937;
       --muted: #6b7280;
-      --glass: rgba(255, 255, 255, 0.18);
-      --border: rgba(255, 255, 255, 0.2);
-      --shadow: 0 20px 60px rgba(0, 0, 0, 0.12);
+
+      --glass: rgba(255, 255, 255, 0.38);
+      --glass-strong: rgba(255, 255, 255, 0.55);
+
+      --border: rgba(255, 255, 255, 0.45);
+
+      --shadow:
+        0 20px 60px rgba(0, 0, 0, 0.10);
+
       --radius: 28px;
     }
 
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
+    /* =========================
+   GLOBAL
+========================= */
+
+    html,
+    body {
+      min-height: 100%;
       scroll-behavior: smooth;
     }
 
     body {
-      font-family: "Poppins", sans-serif;
+      margin: 0;
       overflow-x: hidden;
-      background:
-        radial-gradient(circle at top left, #dbeafe 0%, transparent 30%),
-        radial-gradient(circle at bottom right, #f5d0fe 0%, transparent 30%),
-        #f8fafc;
+
+      font-family: "Poppins", sans-serif;
+
       color: var(--text);
+
+      background:
+        linear-gradient(180deg,
+          #c6e6f7 0%,
+          #edf7ff 40%,
+          #fffaf8 100%);
+
+      -webkit-font-smoothing: antialiased;
     }
 
-    /* SCROLLBAR */
+    /* =========================
+   SCROLLBAR
+========================= */
 
     ::-webkit-scrollbar {
       width: 10px;
     }
 
     ::-webkit-scrollbar-thumb {
-      background: linear-gradient(180deg,
-          var(--primary),
-          #9d7cff);
+      background:
+        linear-gradient(180deg,
+          #7c3aed,
+          #b799ff);
+
       border-radius: 999px;
     }
 
-    /* NAVBAR */
+    /* =========================
+   NAVBAR
+========================= */
 
     .navbar {
-      background: rgba(255, 255, 255, 0.7);
+      background:
+        rgba(255, 255, 255, 0.58);
+
       backdrop-filter: blur(18px);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+
+      border-bottom:
+        1px solid rgba(255, 255, 255, 0.35);
+
       padding: 16px 0;
-      transition: 0.4s ease;
+
+      transition: .4s ease;
+
       z-index: 999;
     }
 
     .navbar.shrink {
       padding: 10px 0;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+
+      box-shadow:
+        0 10px 30px rgba(0, 0, 0, 0.08);
     }
 
     .navbar-brand {
       font-size: 1.7rem;
       font-weight: 800;
-      background: linear-gradient(90deg,
+
+      background:
+        linear-gradient(90deg,
           var(--primary),
           var(--secondary));
+
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
 
     .nav-link {
       position: relative;
-      font-weight: 500;
+
       color: var(--text) !important;
-      margin: 0 4px;
+
+      font-weight: 500;
+
       padding: 10px 16px !important;
+
       border-radius: 14px;
-      transition: 0.3s ease;
+
+      transition: .3s ease;
     }
 
     .nav-link:hover {
+      background:
+        rgba(124, 58, 237, 0.08);
+
       color: var(--primary) !important;
-      background: rgba(124, 58, 237, 0.08);
+
       transform: translateY(-2px);
     }
 
     .nav-link.active {
-      background: rgba(124, 58, 237, 0.1);
+      background:
+        rgba(124, 58, 237, 0.12);
+
       color: var(--primary) !important;
+
       font-weight: 600;
     }
 
-    /* HERO */
+    /* =========================
+   HERO
+========================= */
 
     .hero {
       padding-top: 120px;
-      padding-bottom: 30px;
+      padding-bottom: 35px;
     }
 
-    /* GLASS CARDS */
+    /* =========================
+   GLASS EFFECT
+========================= */
 
     .card-glass,
     .weather-card,
@@ -126,17 +172,18 @@
     .nearby-card,
     .modal-content,
     .offcanvas,
-    .spinner,
-    .alert {
+    .alert,
+    .spinner {
 
-      background: var(--glass) !important;
+      background:
+        var(--glass) !important;
 
       backdrop-filter: blur(18px);
 
       border:
-        1px solid rgba(255, 255, 255, 0.5) !important;
+        1px solid rgba(255, 255, 255, 0.45) !important;
 
-      border-radius: 28px !important;
+      border-radius: 30px !important;
 
       box-shadow: var(--shadow);
 
@@ -145,292 +192,250 @@
       position: relative;
     }
 
-    .card-glass {
-      height: auto;
-    }
-
-    .card-glass::before {
-      content: "";
-
-      position: absolute;
-
-      width: 240px;
-      height: 240px;
-
-      background:
-        radial-gradient(rgba(107, 59, 232, 0.15),
-          transparent);
-
-      top: -100px;
-      right: -80px;
-
-      border-radius: 50%;
-    }
-
-    /* BUTTONS */
-
-    .btn {
-      border-radius: 16px !important;
-      padding: 12px 22px;
-      font-weight: 600;
-      transition: all .35s ease;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-    }
-
-    .btn-sm {
-      padding: 10px 18px !important;
-      font-size: 0.92rem;
-      min-height: 46px;
-    }
-
-    .btn-primary {
-      background: linear-gradient(135deg,
-          #2155ff,
-          #7c3aed);
-
-      color: white !important;
-
-      border: none;
-
-      box-shadow:
-        0 10px 25px rgba(107, 59, 232, 0.25);
-    }
-
-    .btn-primary:hover {
-      color: white !important;
-    }
-
-    .btn-outline-primary {
-      border: none;
-
-      background: white;
-
-      color: var(--accent);
-    }
-
-    .btn-outline-primary:hover {
-      background:
-        rgba(107, 59, 232, 0.08);
-
-      color: var(--accent);
-    }
-
-    .btn-outline-secondary {
-      background: rgba(255, 255, 255, 0.8);
-      border: 1px solid rgba(124, 58, 237, 0.25);
-      color: #5b4b8a;
-      backdrop-filter: blur(12px);
-    }
-
-    .btn-outline-secondary:hover {
-      background: #7c3aed;
-      color: white;
-    }
-
-    .toolbelt {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      gap: 16px;
-      margin-top: 18px;
-    }
-
-    .toolbelt .form-check {
-      margin-bottom: 0;
-    }
-
-    .toolbelt .form-select {
-      min-width: 170px;
-      height: 48px;
-    }
-
-    .toolbelt .btn {
-      height: 48px;
-    }
-
-    .weather-card,
-    .nearby-card,
-    .card-glass {
-      padding: 24px;
-    }
-
-    .weather-card .tiny,
-    .card-glass .tiny {
-      font-size: 0.92rem;
-    }
-
-    /* C
-    HIPS */
-
-    .chip,
-    .pill {
-      display: inline-flex;
-
-      align-items: center;
-
-      gap: 8px;
-
-      padding:
-        10px 16px;
-
-      border-radius: 999px;
-
-      background:
-        rgba(255, 255, 255, 0.75);
-
-      font-weight: 600;
-
-      box-shadow:
-        0 6px 20px rgba(0, 0, 0, 0.05);
-    }
-
-    /* POI CARDS */
-
-    .poi {
-      padding: 22px;
-
-      transition: all .35s ease;
-
-      margin-bottom: 20px;
-    }
-
-    .poi:hover {
-      transform:
-        translateY(-6px);
-
-      box-shadow:
-        0 20px 40px rgba(107, 59, 232, 0.12);
-    }
-
+    .card-glass::before,
+    .weather-card::before,
     .poi::before {
       content: "";
 
       position: absolute;
 
-      top: 0;
-      left: 0;
+      width: 260px;
+      height: 260px;
 
-      width: 6px;
-      height: 100%;
+      top: -120px;
+      right: -80px;
+
+      border-radius: 50%;
 
       background:
-        linear-gradient(180deg,
-          var(--accent),
-          #b79bff);
+        radial-gradient(rgba(124, 58, 237, 0.14),
+          transparent);
     }
 
-    /* FORM ELEMENTS */
+    /* =========================
+   BUTTONS
+========================= */
 
-    .form-select,
-    .form-control {
+    .btn {
+      border: none !important;
 
-      border-radius: 16px !important;
+      border-radius: 18px !important;
 
-      padding: 14px 18px;
-
-      border: none;
-
-      background: #fff;
-
-      box-shadow:
-        0 8px 25px rgba(0, 0, 0, 0.04);
-    }
-
-    .form-select:focus,
-    .form-control:focus {
-      box-shadow:
-        0 0 0 4px rgba(107, 59, 232, 0.15);
-
-      border: none;
-    }
-
-    /* DAY TABS */
-
-    .nav-pills .nav-link {
-
-      border-radius: 999px;
-
-      padding: 14px 28px !important;
-
-      font-size: 1rem;
+      padding: 13px 22px;
 
       font-weight: 600;
 
-      color: #374151 !important;
+      transition: all .35s ease;
+    }
 
-      background: rgba(255, 255, 255, 0.7);
+    .btn-primary {
+      background:
+        linear-gradient(135deg,
+          #7c3aed,
+          #a78bfa) !important;
 
-      border: 1px solid rgba(124, 58, 237, 0.08);
+      color: #ffffff !important;
 
-      transition: all 0.3s ease;
+      box-shadow:
+        0 10px 25px rgba(124, 58, 237, 0.28);
+    }
+
+    .btn-primary:hover {
+      transform:
+        translateY(-3px);
+
+      box-shadow:
+        0 18px 38px rgba(124, 58, 237, 0.32);
+    }
+
+    .btn-outline-primary {
+      background: #ffffff !important;
+
+      color: #111827 !important;
+
+      border: none !important;
+
+      font-weight: 600;
+    }
+
+    .btn-outline-primary:hover {
+      background:
+        rgba(124, 58, 237, 0.08) !important;
+
+      color: #7c3aed !important;
+    }
+
+    .btn-sm {
+      min-height: 46px;
+
+      padding: 10px 18px;
+    }
+
+    .btn i {
+      color: inherit;
+    }
+
+    /* =========================
+   FORM ELEMENTS
+========================= */
+
+    .form-control,
+    .form-select {
+      border: none !important;
+
+      border-radius: 18px !important;
+
+      padding: 14px 18px;
+
+      background: #ffffff;
+
+      box-shadow:
+        0 8px 24px rgba(0, 0, 0, 0.05);
+    }
+
+    .form-control:focus,
+    .form-select:focus {
+      border: none !important;
+
+      box-shadow:
+        0 0 0 4px rgba(124, 58, 237, 0.15) !important;
+    }
+
+    /* =========================
+   CHECKBOXES
+========================= */
+
+    .form-check-input {
+      width: 18px;
+      height: 18px;
+
+      border-radius: 6px !important;
+
+      cursor: pointer;
+    }
+
+    .form-check-input:checked {
+      background-color: #7c3aed;
+      border-color: #7c3aed;
+    }
+
+    /* =========================
+   DAY TABS
+========================= */
+
+    .nav-pills {
+      gap: 12px;
+    }
+
+    .nav-pills .nav-link {
+      border-radius: 999px !important;
+
+      background:
+        rgba(255, 255, 255, 0.55);
+
+      padding: 12px 24px !important;
+
+      font-weight: 600;
+
+      color: #1f2937 !important;
+
+      transition: .35s ease;
     }
 
     .nav-pills .nav-link:hover {
-
-      background: rgba(124, 58, 237, 0.08);
-
-      color: #7c3aed !important;
-
       transform: translateY(-2px);
     }
 
-    #dayTabs {
-      gap: 14px;
-      flex-wrap: wrap;
-    }
-
-    #dayTabs .nav-item {
-      margin-right: 0;
-    }
-
-
     .nav-pills .nav-link.active {
-
-      background: linear-gradient(135deg,
+      background:
+        linear-gradient(135deg,
           #7c3aed,
-          #5b21b6);
+          #b18cff) !important;
 
       color: #ffffff !important;
 
       font-weight: 700;
 
-      border: none;
-
       box-shadow:
-        0 8px 22px rgba(124, 58, 237, 0.28);
-
-      transform: translateY(-1px);
+        0 12px 30px rgba(124, 58, 237, 0.28);
     }
 
-    /* WEATHER */
+    /* =========================
+   CARDS
+========================= */
 
     .weather-card {
       padding: 24px;
     }
 
-    /* NEARBY */
-
     .nearby-card {
       padding: 18px;
+
+      margin-bottom: 14px;
+
+      transition: .35s ease;
     }
 
-    /* LOADER */
+    .nearby-card:hover {
+      transform: translateY(-4px);
+    }
 
-    .spinner {
+    .poi {
       padding: 24px;
+
+      margin-bottom: 22px;
+
+      transition: .35s ease;
     }
 
-    /* SMALL TEXT */
+    .poi:hover {
+      transform: translateY(-6px);
+
+      box-shadow:
+        0 20px 40px rgba(124, 58, 237, 0.15);
+    }
+
+    /* =========================
+   TEXT
+========================= */
 
     .smallmuted,
     .tiny {
       color: var(--muted);
     }
 
-    /* BACK TO TOP */
+    .tiny {
+      font-size: .92rem;
+    }
+
+    /* =========================
+   PILLS
+========================= */
+
+    .pill,
+    .chip {
+      display: inline-flex;
+
+      align-items: center;
+
+      gap: 8px;
+
+      padding: 8px 15px;
+
+      border-radius: 999px;
+
+      background:
+        rgba(255, 255, 255, 0.82);
+
+      font-weight: 600;
+
+      box-shadow:
+        0 6px 18px rgba(0, 0, 0, 0.05);
+    }
+
+    /* =========================
+   BACK TO TOP
+========================= */
 
     #backToTop {
       position: fixed;
@@ -445,98 +450,21 @@
       border-radius: 50% !important;
     }
 
-    /* MOBILE */
-
-    @media(max-width:768px) {
-
-      .hero {
-        padding-top: 110px;
-      }
-
-      .card-glass {
-        padding: 22px !important;
-      }
-
-      .btn {
-        width: 100%;
-      }
-
-      .navbar-brand {
-        font-size: 1.15rem;
-      }
-    }
-
-    /* FOOTER */
+    /* =========================
+   FOOTER
+========================= */
 
     footer {
-      margin-top: 100px;
-      background: #111827;
-      color: white;
-      padding: 80px 0 30px;
-    }
+      margin-top: 80px;
 
-    footer h5 {
-      font-weight: 700;
-      margin-bottom: 20px;
-    }
+      padding: 60px 0 30px;
 
-    footer a {
-      color: #d1d5db;
-      text-decoration: none;
-      transition: 0.3s ease;
-    }
+      background:
+        linear-gradient(135deg,
+          #111827,
+          #1f2937);
 
-    footer a:hover {
-      color: white;
-    }
-
-    footer p {
-      color: #d1d5db;
-    }
-
-    /* TOAST */
-
-    .toast-container {
-      position: fixed;
-      top: 1rem;
-      right: 1rem;
-      z-index: 1080;
-    }
-
-    /* ANIMATION */
-
-    @keyframes fadeUp {
-      from {
-        opacity: 0;
-        transform: translateY(40px);
-      }
-
-      to {
-        opacity: 1;
-        transform: translateY(0px);
-      }
-    }
-
-    /* RESPONSIVE */
-
-    @media(max-width:768px) {
-
-      .hero-card {
-        padding: 40px 25px;
-      }
-
-      .hero h1 {
-        font-size: 2.7rem;
-      }
-
-      .carousel-item img {
-        height: 400px;
-      }
-
-      .section-title {
-        font-size: 2rem;
-      }
-
+      color: #ffffff;
     }
 
     .footer-links {
@@ -551,10 +479,15 @@
 
     .footer-links a {
       color: #d1d5db;
+
       text-decoration: none;
+
       margin-bottom: 12px;
-      transition: 0.3s ease;
+
+      transition: .3s ease;
+
       font-weight: 500;
+
       display: flex;
       align-items: center;
       gap: 10px;
@@ -562,23 +495,295 @@
 
     .footer-links a i {
       font-size: 12px;
-      color: var(--secondary);
+      color: #a78bfa;
     }
 
     .footer-links a:hover {
-      color: white;
+      color: #ffffff;
+
       transform: translateX(6px);
     }
+
+    /* =========================
+   LOGO
+========================= */
 
     .logo-img {
       width: 48px;
       height: 48px;
+
       object-fit: cover;
+
       border-radius: 12px;
-      background: white;
+
+      background: #ffffff;
+
       padding: 4px;
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+
+      box-shadow:
+        0 5px 15px rgba(0, 0, 0, 0.08);
     }
+
+    /* =========================
+   MOBILE
+========================= */
+
+    @media(max-width:992px) {
+
+      .hero {
+        padding-top: 110px;
+      }
+
+      .card-glass {
+        padding: 24px !important;
+      }
+
+      .btn {
+        width: 100%;
+      }
+
+      /* =========================
+   SEARCH NEARBY UI FIX
+========================= */
+
+      /* =========================
+   SEARCH NEARBY UI FIX
+========================= */
+
+      .toolbelt {
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+        margin-top: 18px;
+      }
+
+      /* checkbox row */
+      .search-options {
+        display: flex;
+        align-items: center;
+        gap: 32px;
+        flex-wrap: wrap;
+        margin-bottom: 6px;
+      }
+
+      /* checkbox label */
+      .custom-check {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+
+        font-size: 1rem;
+        font-weight: 500;
+
+        color: #374151;
+
+        cursor: pointer;
+      }
+
+      /* checkbox */
+      .custom-check input {
+        width: 20px;
+        height: 20px;
+
+        accent-color: #7c3aed;
+
+        cursor: pointer;
+      }
+
+      /* controls row */
+      .search-controls {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        flex-wrap: wrap;
+      }
+
+      /* dropdown */
+      .radius-select {
+        min-width: 260px;
+        height: 58px;
+
+        border-radius: 20px !important;
+
+        font-size: 1rem;
+      }
+
+      /* nearby button */
+      .nearby-btn {
+        min-width: 220px;
+        height: 58px;
+
+        border-radius: 20px !important;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        font-size: 1rem;
+        font-weight: 600;
+
+        margin-top: 4px;
+      }
+
+      /* info text */
+      #nearbyPanel {
+        margin-top: 18px !important;
+      }
+
+      /* search card */
+      .card-glass.p-3 {
+        padding: 28px !important;
+      }
+
+      .search-options {
+        display: flex;
+        align-items: center;
+        gap: 24px;
+        flex-wrap: wrap;
+      }
+
+      .custom-check {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+
+        font-size: 1.05rem;
+        font-weight: 500;
+
+        cursor: pointer;
+
+        color: #1f2937;
+      }
+
+      .custom-check input {
+        width: 20px;
+        height: 20px;
+
+        accent-color: #7c3aed;
+
+        cursor: pointer;
+      }
+
+      .search-controls {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        flex-wrap: wrap;
+      }
+
+      .radius-select {
+        min-width: 220px;
+        max-width: 240px;
+      }
+
+      .nearby-btn {
+        min-width: 190px;
+        height: 54px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-top: 16px;
+      }
+
+      /* =========================
+   MOBILE FIX
+========================= */
+
+      @media(max-width:768px) {
+
+        .search-options {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 16px;
+        }
+
+        .search-controls {
+          flex-direction: column;
+          align-items: stretch;
+          gap: 16px;
+        }
+
+        .radius-select {
+          width: 100%;
+          max-width: 100%;
+        }
+
+        .nearby-btn {
+          width: 100%;
+          min-width: 100%;
+        }
+
+        .radius-select {
+          max-width: 100%;
+        }
+
+        .nearby-btn {
+          width: 100%;
+        }
+
+      }
+
+      .form-select {
+        width: 100% !important;
+      }
+
+      .weather-card,
+      .nearby-card {
+        padding: 20px;
+      }
+    }
+
+    @media(max-width:768px) {
+
+      .navbar-brand {
+        font-size: 1.15rem;
+      }
+
+      .hero {
+        padding-top: 100px;
+      }
+
+      .nav-pills {
+        overflow-x: auto;
+        flex-wrap: nowrap;
+        padding-bottom: 10px;
+      }
+
+      .nav-pills .nav-link {
+        white-space: nowrap;
+      }
+
+      h1 {
+        font-size: 2rem !important;
+      }
+    }
+
+    .nearby-search-card {
+      padding: 32px !important;
+    }
+
+    /* Add this to your main CSS styles */
+    .search-controls {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      /* Adjust this value to get your perfect spacing */
+      flex-wrap: wrap;
+    }
+
+    @media(max-width:992px) {
+  
+    /* controls row */
+    .search-controls {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+   
+}
+
   </style>
 
 </head>
@@ -587,8 +792,6 @@
 
   <!-- GLOBAL LOAD BAR -->
   <div id="loadbar"></div>
-
-  <!-- NAVBAR -->
 
   <nav class="navbar navbar-expand-lg fixed-top navbar-light">
 
@@ -602,6 +805,7 @@
 
       </a>
 
+
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav">
 
         <span class="navbar-toggler-icon"></span>
@@ -613,7 +817,7 @@
         <ul class="navbar-nav ms-auto align-items-lg-center">
 
           <li class="nav-item">
-            <a class="nav-link active" href="{{ url_for('trip.home_page') }}">
+            <a class="nav-link" href="/home">
               <i class="fas fa-house me-1"></i>
               Home
             </a>
@@ -627,7 +831,7 @@
           </li>
 
           <li class="nav-item">
-            <a class="nav-link" href="/hotel">
+            <a class="nav-link active" href="/hotel">
               <i class="fas fa-hotel me-1"></i>
               Hotels
             </a>
@@ -653,6 +857,7 @@
               Route Finder
             </a>
           </li>
+
         </ul>
 
       </div>
@@ -673,7 +878,6 @@
               <span id="summary-state">{{ state or '' }}</span> •
               <span id="summary-days">{{ days or '' }}</span> day(s) •
               <span id="summary-time">{{ start_time or '' }}–{{ stop_time or '' }}</span>
-
             </div>
           </div>
 
@@ -681,10 +885,6 @@
         <div class="smallmuted mt-2">Categories:
           <span id="summary-cats">{{ (categories|join(', ')) if categories else '' }}</span>
         </div>
-
-        <!-- Hidden Coordinates -->
-        <span id="summary-lat" class="d-none">{{ lat }}</span>
-        <span id="summary-lon" class="d-none">{{ lon }}</span>
 
         <!-- ---------------- ADDED: WEATHER + NEARBY CONTROLS ---------------- -->
         <div class="mt-4">
@@ -707,32 +907,57 @@
               </div>
             </div>
             <div class="col-12 col-lg-6">
-              <div class="card-glass p-3">
+              <div class="card-glass nearby-search-card">
                 <div class="d-flex align-items-center justify-content-between">
                   <div class="fw-semibold"><i class="bi bi-geo-alt me-1"></i>Search Nearby</div>
-                  <button class="btn btn-sm btn-outline-secondary" type="button" data-bs-toggle="offcanvas"
-                    data-bs-target="#filtersCanvas" aria-controls="filtersCanvas">
-                    <i class="bi bi-sliders"></i> Filters
-                  </button>
                 </div>
-                <div class="toolbelt mt-2">
-                  <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="checkbox" id="optHotels" value="hotels" checked>
-                    <label class="form-check-label" for="optHotels">Hotels</label>
+                <div class="toolbelt mt-3">
+
+                  <div class="search-options">
+
+                    <label class="custom-check">
+                      <input type="checkbox" id="optHotels" value="hotels">
+                      <span>Hotels</span>
+                    </label>
+
+                    <label class="custom-check">
+                      <input type="checkbox" id="optRestaurants" value="restaurants">
+                      <span>Restaurants</span>
+                    </label>
+
                   </div>
-                  <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="checkbox" id="optRestaurants" value="restaurants" checked>
-                    <label class="form-check-label" for="optRestaurants">Restaurants</label>
+
+                  <div class="search-controls d-flex align-items-center gap-3">
+
+                    <select id="radiusSelect" class="form-select radius-select">
+
+                      <option value="1500">
+                        Radius: 1.5 km
+                      </option>
+
+                      <option value="3000" selected>
+                        Radius: 3 km
+                      </option>
+
+                      <option value="5000">
+                        Radius: 5 km
+                      </option>
+
+                      <option value="10000">
+                        Radius: 10 km
+                      </option>
+
+                    </select>
+
+                    <button id="btnNearby" class="btn btn-primary nearby-btn">
+
+                      <i class="bi bi-search me-2"></i>
+                      Search Nearby
+
+                    </button>
+
                   </div>
-                  <select id="radiusSelect" class="form-select form-select-sm" style="width:auto">
-                    <option value="1500">Radius: 1.5 km</option>
-                    <option value="3000" selected>Radius: 3 km</option>
-                    <option value="5000">Radius: 5 km</option>
-                    <option value="10000">Radius: 10 km</option>
-                  </select>
-                  <button id="btnNearby" class="btn btn-sm btn-outline-primary">
-                    <i class="bi bi-search"></i> Search
-                  </button>
+
                 </div>
                 <div id="nearbyPanel" class="mt-3">
                   <div class="tiny dim">Choose one or both options, pick a radius, then press “Search”.</div>
@@ -841,6 +1066,7 @@
   <button id="backToTop" class="btn btn-primary rounded-circle btn-lg" aria-label="Back to top">
     <i class="bi bi-arrow-up"></i>
   </button>
+
   <!-- FOOTER -->
 
   <footer>
@@ -904,7 +1130,6 @@
 
           </div>
 
-
         </div>
 
       </div>
@@ -967,7 +1192,6 @@
         categories: (document.getElementById('summary-cats')?.textContent || q.get('categories') || '')
           .split(',').map(s => s.trim()).filter(Boolean)
       };
-      console.log("CTX DATA:", ctx);
       return ctx;
     }
 
@@ -1108,9 +1332,7 @@
           <button class="nav-link ${idx === 0 ? 'active' : ''}" id="tab-${key}" data-bs-toggle="pill"
                   data-bs-target="#pane-${key}" type="button" role="tab" aria-controls="pane-${key}"
                   aria-selected="${idx === 0 ? 'true' : 'false'}">
-            ${key
-            .replace('_', ' ')
-            .replace(/\b\w/g, c => c.toUpperCase())}
+            ${key.replace('_', ' ').replace(/\b\w/g, c => c.toUpperCase())}
           </button>`;
         tabs.appendChild(li);
 
@@ -1258,16 +1480,11 @@
 
         const results = [];
         if (hotels) {
-          const resHotels = await fetchGeoapify(
-            lat,
-            lon,
-            radius,
-            'accommodation.hotel'
-          );// hotels
+          const resHotels = await fetchGeoapify(lat, lon, radius, 'accommodation.hotel,accommodation.guest_house'); // hotels
           results.push(...resHotels.map(r => ({ ...r, _type: 'Hotel' })));
         }
         if (restaurants) {
-          const resRest = await fetchGeoapify(lat, lon, radius, 'catering.restaurant,catering.fast_food,catering.cafe'); // restaurants
+          const resRest = await fetchGeoapify(lat, lon, radius, 'catering.restaurant,catering.cafe'); // restaurants
           results.push(...resRest.map(r => ({ ...r, _type: 'Restaurant' })));
         }
 
@@ -1409,32 +1626,15 @@
 
     }
 
+    // Haversine distance (meters)
     function haversine(lat1, lon1, lat2, lon2) {
-
       const R = 6371000;
-
       const toRad = (d) => d * Math.PI / 180;
-
       const dLat = toRad(lat2 - lat1);
-
       const dLon = toRad(lon2 - lon1);
-
-      const a =
-        Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-
-        Math.cos(toRad(lat1)) *
-        Math.cos(toRad(lat2)) *
-
-        Math.sin(dLon / 2) *
-        Math.sin(dLon / 2);
-
-      const c =
-        2 * Math.atan2(
-          Math.sqrt(a),
-          Math.sqrt(1 - a)
-        );
-
-      return R * c;
+      const a = Math.sin(dLat / 2) ** 2 + Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * sin2(dLon / 2);
+      return 2 * R * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+      function sin2(x) { return Math.sin(x) ** 2 }
     }
 
     // Display toggles (descriptions/distances/transport badges)
