@@ -15,144 +15,236 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
   <style>
-    :root {
-      --bg: #fffaf8;
-      --surface: #ffffff;
-      --pastel-sky: #c2e2f4;
-      --pastel-peach: #f7d4bf;
-      --pastel-lav: #e0c6f2;
-      --pastel-mint: #cdeee6;
-      --accent: #2155ff;
-      --accent-2: #6b3be8;
-      --text: #253238;
-      --muted: #61646a;
-      --radius: 18px;
-      --shadow: 0 20px 50px rgba(30, 40, 60, .12);
+:root {
+  --primary: #7c3aed;
+  --secondary: #4f46e5;
+
+  --accent: #2155ff;
+  --accent-2: #6b3be8;
+
+  --light: #ffffff;
+  --dark: #111827;
+  --text: #1f2937;
+  --muted: #6b7280;
+  --glass: rgba(255, 255, 255, 0.18);
+  --border: rgba(255, 255, 255, 0.2);
+  --shadow: 0 20px 60px rgba(0, 0, 0, 0.12);
+  --radius: 28px;
+}
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      scroll-behavior: smooth;
     }
 
-    html,
     body {
-      height: 100%
-    }
-
-    body {
-      font-family: "Poppins", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      font-family: "Poppins", sans-serif;
+      overflow-x: hidden;
       background:
-        linear-gradient(135deg,
-          #cde7ff 0%,
-          #fff4ea 50%,
-          #ffffff 100%);
+        radial-gradient(circle at top left, #dbeafe 0%, transparent 30%),
+        radial-gradient(circle at bottom right, #f5d0fe 0%, transparent 30%),
+        #f8fafc;
       color: var(--text);
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
     }
 
-    /* Navbar (same vibe as home) */
+    /* NAVBAR */
+
     .navbar {
-      background: linear-gradient(90deg,
-          rgba(255, 255, 255, .78),
-          rgba(255, 255, 255, .72));
-
-      padding: 1.05rem 1rem;
-
-      transition:
-        padding .28s ease,
-        box-shadow .28s ease,
-        backdrop-filter .28s ease;
-
-      z-index: 60;
-
-      backdrop-filter: blur(6px);
+      background: rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(18px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+      padding: 16px 0;
+      transition: 0.4s ease;
     }
 
-    .navbar .navbar-brand {
+    .navbar.shrink {
+      padding: 10px 0;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    }
+
+    .navbar-brand {
+      font-size: 1.7rem;
       font-weight: 800;
-      font-size: 1.35rem;
-
-      background: linear-gradient(90deg,
-          #6b3be8,
-          #8b5cf6);
-
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-
-      letter-spacing: .3px;
-
-      transition: .3s ease;
     }
 
     .nav-link {
-      color: var(--text) !important;
-
-      font-weight: 500;
-      font-size: .95rem;
-
-      padding: .65rem 1rem !important;
-
-      border-radius: 12px;
-
-      transition: all .3s ease;
-
       position: relative;
-
-      white-space: nowrap;
+      font-weight: 500;
+      color: var(--text) !important;
+      margin: 0 4px;
+      padding: 10px 16px !important;
+      border-radius: 14px;
+      transition: 0.3s ease;
     }
 
     .nav-link:hover {
-      color: var(--accent) !important;
-
-      background: rgba(107, 59, 232, .08);
-
+      color: var(--primary) !important;
+      background: rgba(124, 58, 237, 0.08);
       transform: translateY(-2px);
     }
 
     .nav-link.active {
-      background: rgba(107, 59, 232, .10);
-
-      color: var(--accent) !important;
-
-      border-radius: 12px;
-
+      background: rgba(124, 58, 237, 0.1);
+      color: var(--primary) !important;
       font-weight: 600;
     }
 
-    .nav-link i {
-      font-size: .9rem;
-      margin-right: 6px;
-      vertical-align: middle;
+
+    .dropdown-menu {
+      border: none;
+      border-radius: 18px;
+      padding: 12px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.1);
     }
 
-    .navbar.shrink {
-      padding: .46rem 1rem;
-
-      box-shadow: 0 12px 28px rgba(20, 20, 30, .07);
-
-      backdrop-filter: blur(8px);
+    .dropdown-item {
+      border-radius: 12px;
+      padding: 12px 16px;
+      transition: 0.3s;
     }
 
-    /* Page header card */
+    .dropdown-item:hover {
+      background: rgba(124, 58, 237, 0.08);
+      color: var(--primary);
+    }
+
+    .logo-img {
+      width: 48px;
+      height: 48px;
+      object-fit: cover;
+      border-radius: 12px;
+      background: white;
+      padding: 4px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Hero */
     .hero-wrap {
-      padding-top: 130px;
-      padding-bottom: 70px;
+      padding-top: 140px;
+      padding-bottom: 80px;
+      position: relative;
     }
 
+    .hero-wrap::before {
+      content: "";
+      position: absolute;
+      width: 380px;
+      height: 380px;
+      background: rgba(107, 59, 232, .12);
+      border-radius: 50%;
+      top: -120px;
+      right: -120px;
+      filter: blur(20px);
+      z-index: -1;
+    }
+
+    .hero-wrap::after {
+      content: "";
+      position: absolute;
+      width: 320px;
+      height: 320px;
+      background: rgba(33, 85, 255, .10);
+      border-radius: 50%;
+      bottom: -120px;
+      left: -120px;
+      filter: blur(20px);
+      z-index: -1;
+    }
+
+    /* Panel */
     .panel {
-      border-radius: 24px;
-      background: rgba(255, 255, 255, .9);
+      border-radius: 28px;
+      background: rgba(255, 255, 255, .82);
+      backdrop-filter: blur(14px);
       box-shadow: var(--shadow);
-      padding: 2rem 2rem;
+      padding: 3rem;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, .45);
     }
 
-    .option-card {
-      border-radius: 24px;
-      background: rgba(255, 255, 255, .95);
-      box-shadow: 0 15px 40px rgba(0, 0, 0, .08);
-      padding: 2.2rem;
-      border: 1px solid rgba(255, 255, 255, .4);
+    .panel::before {
+      content: "";
+      position: absolute;
+      width: 260px;
+      height: 260px;
+      background: linear-gradient(135deg, rgba(107, 59, 232, .16), rgba(33, 85, 255, .10));
+      border-radius: 50%;
+      top: -80px;
+      right: -80px;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+    }
+
+    .hero-title {
+      font-size: 3.2rem;
+      font-weight: 800;
+      line-height: 1.2;
+      margin-bottom: 1rem;
+    }
+
+    .hero-title span {
+      background: linear-gradient(90deg, #2155ff, #6b3be8);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero-subtitle {
+      font-size: 1.05rem;
+      color: var(--muted);
+      max-width: 720px;
+      line-height: 1.8;
+    }
+
+    .hero-stats {
+      margin-top: 1.8rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .hero-stat {
+      background: rgba(255, 255, 255, .72);
+      border: 1px solid rgba(255, 255, 255, .55);
       backdrop-filter: blur(10px);
-      transition: all .3s ease;
+      border-radius: 18px;
+      padding: 1rem 1.3rem;
+      min-width: 160px;
+    }
+
+    .hero-stat h5 {
+      margin: 0;
+      font-weight: 700;
+      font-size: 1.3rem;
+      color: var(--accent);
+    }
+
+    .hero-stat p {
+      margin: 0;
+      font-size: .88rem;
+      color: var(--muted);
+    }
+
+    /* Cards */
+    .option-card {
+      border-radius: 28px;
+      background: rgba(255, 255, 255, .94);
+      box-shadow: 0 15px 40px rgba(0, 0, 0, .08);
+      padding: 2.3rem;
+      border: 1px solid rgba(255, 255, 255, .45);
+      backdrop-filter: blur(10px);
+      transition: all .35s ease;
       overflow: hidden;
       position: relative;
+      height: 100%;
     }
 
     .option-card::before {
@@ -166,71 +258,128 @@
     }
 
     .option-card:hover {
-      transform: translateY(-8px);
-      box-shadow: 0 25px 60px rgba(0, 0, 0, .12);
+      transform: translateY(-10px);
+      box-shadow: 0 28px 65px rgba(0, 0, 0, .14);
     }
 
+    .card-image {
+      width: 100%;
+      height: 220px;
+      border-radius: 20px;
+      object-fit: cover;
+      margin-bottom: 1.5rem;
+    }
+
+    .card-icon-wrap {
+      width: 70px;
+      height: 70px;
+      border-radius: 18px;
+      background: linear-gradient(135deg, rgba(33, 85, 255, .12), rgba(107, 59, 232, .12));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1.3rem;
+    }
+
+    .card-icon-wrap i {
+      font-size: 1.7rem;
+      color: var(--accent);
+    }
+
+    .card-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: .7rem;
+    }
+
+    .soft {
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    /* Chips */
+    .badge-chip {
+      border-radius: 999px;
+      padding: .55rem .9rem;
+      background: #f3f3ff;
+      color: #3a3ab3;
+      font-weight: 600;
+      font-size: .85rem;
+      border: 1px solid rgba(107, 59, 232, .08);
+    }
+
+    /* Buttons */
     .btn-pill {
       border-radius: 999px;
-      padding: .95rem 1.6rem;
+      padding: 1rem 1.6rem;
       font-weight: 700;
       transition: all .3s ease;
       box-shadow: 0 10px 20px rgba(0, 0, 0, .08);
       overflow: hidden;
       position: relative;
+      border: none;
+    }
+
+    .btn-pill i {
+      margin-right: 8px;
     }
 
     .btn-pill:hover {
-      transform: translateY(-2px);
+      transform: translateY(-3px);
     }
 
     .btn-accent {
       background: linear-gradient(135deg, var(--accent), #4f7dff);
-      color: #fff;
-      border: none;
+      color: #fff !important;
       box-shadow: 0 10px 25px rgba(33, 85, 255, .18);
-      transition: all .3s ease;
     }
 
     .btn-accent:hover {
       color: #fff;
-      transform: translateY(-2px);
       box-shadow: 0 14px 30px rgba(33, 85, 255, .28);
       background: linear-gradient(135deg, #1d4ce0, #6a8cff);
     }
 
     .btn-ghost {
       background: linear-gradient(90deg, var(--accent-2), #8a6cff);
-      color: #fff;
-      border: none;
+      color: #fff !important;
       box-shadow: 0 10px 25px rgba(107, 59, 232, .18);
-      transition: all .3s ease;
     }
 
     .btn-ghost:hover {
       color: #fff;
-      transform: translateY(-2px);
       box-shadow: 0 14px 30px rgba(107, 59, 232, .28);
       background: linear-gradient(90deg, #5e2fe0, #9b7cff);
     }
 
-    .soft {
-      color: var(--muted)
+    /* Form */
+    .form-card {
+      border-radius: 28px;
+      background: rgba(255, 255, 255, .95);
+      backdrop-filter: blur(10px);
+      box-shadow: var(--shadow);
+      padding: 2rem;
+      border: 1px solid rgba(255, 255, 255, .5);
     }
 
-    .form-card {
-      border-radius: 22px;
-      background: #fff;
-      box-shadow: var(--shadow);
-      padding: 1.5rem;
+    .form-title {
+      font-size: 1.8rem;
+      font-weight: 700;
+      margin-bottom: .4rem;
+    }
+
+    .form-subtitle {
+      color: var(--muted);
+      margin-bottom: 2rem;
     }
 
     .form-control {
-      border-radius: 14px;
-      padding: .85rem 1rem;
+      border-radius: 16px;
+      padding: 1rem 1rem;
       border: 1px solid #dde3ea;
       transition: .3s ease;
       box-shadow: none !important;
+      font-size: .95rem;
     }
 
     .form-control:focus {
@@ -240,49 +389,148 @@
 
     .form-check {
       background: #f8f9ff;
-      border-radius: 14px;
-      padding: .8rem 1rem;
+      border-radius: 16px;
+      padding: 1rem 1rem;
       border: 1px solid #edf0ff;
+      transition: .3s ease;
     }
 
     .form-check:hover {
       background: #eef2ff;
+      transform: translateY(-2px);
     }
 
-    .badge-chip {
-      border-radius: 999px;
-      padding: .45rem .8rem;
-      background: #f3f3ff;
-      color: #3a3ab3;
-      font-weight: 600;
+    .form-check-input {
+      margin-top: .2rem;
     }
 
+    .form-check-label {
+      font-weight: 500;
+    }
+
+    .section-label {
+      font-size: .95rem;
+      font-weight: 700;
+      margin-bottom: .7rem;
+      display: block;
+    }
+
+    /* Responsive */
     @media (max-width: 992px) {
       .option-card {
-        padding: 1.4rem
+        padding: 1.6rem;
+      }
+
+      .hero-title {
+        font-size: 2.4rem;
+      }
+
+      .panel {
+        padding: 2rem;
+      }
+
+      .card-image {
+        height: 180px;
       }
     }
 
-    /* Toast (optional welcome) */
+    @media (max-width: 768px) {
+      .hero-title {
+        font-size: 2rem;
+      }
+
+      .hero-wrap {
+        padding-top: 120px;
+      }
+
+      .hero-stats {
+        flex-direction: column;
+      }
+    }
+
+    /* Toast */
     .toast-container {
       position: fixed;
       top: 1rem;
       right: 1rem;
-      z-index: 1080
+      z-index: 1080;
+    }
+
+    /* FOOTER */
+
+    footer {
+      margin-top: 100px;
+      background: #111827;
+      color: white;
+      padding: 80px 0 30px;
+    }
+
+    footer h5 {
+      font-weight: 700;
+      margin-bottom: 20px;
+    }
+
+    footer a {
+      color: #d1d5db;
+      text-decoration: none;
+      transition: 0.3s ease;
+    }
+
+    footer a:hover {
+      color: white;
+    }
+
+    footer p {
+      color: #d1d5db;
+    }
+
+    .footer-links {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .footer-links h5 {
+      margin-bottom: 18px;
+    }
+
+    .footer-links a {
+      color: #d1d5db;
+      text-decoration: none;
+      margin-bottom: 12px;
+      transition: 0.3s ease;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .footer-links a i {
+      font-size: 12px;
+      color: var(--secondary);
+    }
+
+    .footer-links a:hover {
+      color: white;
+      transform: translateX(6px);
     }
   </style>
 </head>
 
 <body>
-  <nav class="navbar navbar-expand-lg fixed-top">
+  <nav class="navbar navbar-expand-lg fixed-top navbar-light">
+
     <div class="container">
 
-      <a class="navbar-brand" href="/">
-        AI Tour Planner
+      <a class="navbar-brand d-flex align-items-center gap-2" href="/">
+
+        <img src="/static/images/tour-ps-logo.png" alt="Logo" class="logo-img">
+
+        <span>TRIP MY WAY</span>
+
       </a>
 
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav" aria-expanded="false"
-        aria-label="Toggle navigation">
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav">
 
         <span class="navbar-toggler-icon"></span>
 
@@ -290,10 +538,10 @@
 
       <div class="collapse navbar-collapse" id="nav">
 
-        <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-1">
+        <ul class="navbar-nav ms-auto align-items-lg-center">
 
           <li class="nav-item">
-            <a class="nav-link" href="/home">
+            <a class="nav-link active" href="{{ url_for('trip.home_page') }}">
               <i class="fas fa-house me-1"></i>
               Home
             </a>
@@ -334,163 +582,398 @@
             </a>
           </li>
 
-        </ul>
-
       </div>
+
     </div>
-  </nav>
-  <!-- /NAVBAR -->
 
+  </nav>
+
+  <!-- HERO SECTION -->
   <main class="hero-wrap">
+
     <div class="container">
-      <div class="panel mb-4">
-        <h1 class="fw-bold display-5 mb-3">
-          Plan Your Journey Smartly ✈️
-        </h1>
-        <p class="soft mb-0">Choose one to continue.</p>
+
+      <div class="panel mb-5">
+
+        <div class="hero-content">
+
+          <div class="row align-items-center g-4">
+
+            <div class="col-lg-7">
+
+              <h1 class="hero-title">
+                Smart Travel Planning <span>Made Effortless</span>
+              </h1>
+
+              <p class="hero-subtitle">
+                Create optimized travel experiences with AI-powered trip planning,
+                nearby recommendations, route optimization, and complete city itineraries.
+              </p>
+
+              <div class="hero-stats">
+
+                <div class="hero-stat">
+                  <h5>500+</h5>
+                  <p>Destinations</p>
+                </div>
+
+                <div class="hero-stat">
+                  <h5>24/7</h5>
+                  <p>Smart Planning</p>
+                </div>
+
+                <div class="hero-stat">
+                  <h5>AI Powered</h5>
+                  <p>Trip Optimization</p>
+                </div>
+
+              </div>
+
+            </div>
+
+            <div class="col-lg-5 text-center">
+
+              <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=1200&auto=format&fit=crop"
+                alt="Travel" class="img-fluid rounded-5 shadow-lg">
+
+            </div>
+
+          </div>
+
+        </div>
+
       </div>
 
+      <!-- OPTION CARDS -->
       <div class="row g-4">
+
         <!-- Nearby Planner -->
         <div class="col-lg-6">
-          <div class="option-card h-100">
-            <div class="mb-3">
-              <i class="fas fa-location-arrow fa-2x text-primary"></i>
+
+          <div class="option-card">
+
+            <img src="https://images.unsplash.com/photo-1526772662000-3f88f10405ff?q=80&w=1200&auto=format&fit=crop"
+              class="card-image" alt="Nearby Planner">
+
+            <div class="card-icon-wrap">
+              <i class="fas fa-location-crosshairs"></i>
             </div>
 
-            <h4 class="fw-bold mb-2">
-              Generate Plan for Nearby Locations
+            <h4 class="card-title">
+              Nearby Travel Planner
             </h4>
-            <p class="soft">Use your current location and time window.</p>
 
-            <div class="d-flex flex-wrap gap-2 mb-3">
+            <p class="soft mb-4">
+              Generate instant travel plans based on your current location,
+              available time, and preferred destinations.
+            </p>
+
+            <div class="d-flex flex-wrap gap-2 mb-4">
               <span class="badge-chip">Nearby Places</span>
-              <span class="badge-chip">Smart Routes</span>
-              <span class="badge-chip">Quick Planning</span>
+              <span class="badge-chip">AI Routes</span>
+              <span class="badge-chip">Fast Planning</span>
             </div>
-            <button id="btn-nearby" class="btn btn-ghost btn-pill mt-2">
+
+            <button id="btn-nearby" class="btn btn-ghost btn-pill w-100">
+              <i class="fas fa-location-arrow"></i>
               Use Nearby Planner
             </button>
+
           </div>
+
         </div>
 
         <!-- City Planner -->
         <div class="col-lg-6">
-          <div class="option-card h-100">
-            <div class="mb-3">
-              <i class="fas fa-city fa-2x text-primary"></i>
+
+          <div class="option-card">
+
+            <img src="https://images.unsplash.com/photo-1512453979798-5ea266f8880c?q=80&w=1200&auto=format&fit=crop"
+              class="card-image" alt="City Planner">
+
+            <div class="card-icon-wrap">
+              <i class="fas fa-city"></i>
             </div>
 
-            <h4 class="fw-bold mb-2">
-              Generate Complete City Trip
+            <h4 class="card-title">
+              Complete City Trip Planner
             </h4>
-            <p class="soft">Tell us the city, days, time and categories.</p>
-            <button class="btn btn-accent btn-pill mt-2" data-bs-toggle="collapse" data-bs-target="#cityFormWrap"
+
+            <p class="soft mb-4">
+              Create detailed city itineraries with destinations,
+              timing, categories, and smart recommendations.
+            </p>
+
+            <div class="d-flex flex-wrap gap-2 mb-4">
+              <span class="badge-chip">Multi-Day Trips</span>
+              <span class="badge-chip">Category Filters</span>
+              <span class="badge-chip">Optimized Schedule</span>
+            </div>
+
+            <button class="btn btn-accent btn-pill w-100" data-bs-toggle="collapse" data-bs-target="#cityFormWrap"
               aria-expanded="false">
+
+              <i class="fas fa-map"></i>
               Plan a City Trip
+
             </button>
+
           </div>
+
         </div>
+
       </div>
 
-      <!-- Collapsible City Form -->
-      <div class="collapse mt-4" id="cityFormWrap">
+      <!-- FORM SECTION -->
+      <div class="collapse mt-5" id="cityFormWrap">
+
         <div class="form-card">
+
+          <div class="row align-items-center mb-4">
+
+            <div class="col-lg-8">
+
+              <h3 class="form-title">
+                City Trip Configuration
+              </h3>
+
+              <p class="form-subtitle">
+                Enter your destination details and preferences to generate a smart travel plan.
+              </p>
+
+            </div>
+
+            <div class="col-lg-4 text-lg-end">
+
+              <span class="badge-chip px-3 py-2">
+                <i class="fas fa-shield-halved me-2"></i>
+                Geoapify Validated
+              </span>
+
+            </div>
+
+          </div>
+
           <form id="cityForm" autocomplete="on">
-            <div class="row g-3">
+
+            <div class="row g-4">
+
               <div class="col-md-6">
-                <label class="form-label fw-semibold">City name</label>
-                <input type="text" class="form-control" id="city" name="city" placeholder="e.g., Jaipur" required>
+                <label class="section-label">
+                  City Name
+                </label>
+
+                <input type="text" class="form-control" id="city" name="city" placeholder="Enter city name" required>
               </div>
+
               <div class="col-md-6">
-                <label class="form-label fw-semibold">State name</label>
-                <input type="text" class="form-control" id="state" name="state" placeholder="e.g., Rajasthan" required>
+                <label class="section-label">
+                  State Name
+                </label>
+
+                <input type="text" class="form-control" id="state" name="state" placeholder="Enter state name" required>
               </div>
 
               <div class="col-md-4">
-                <label class="form-label fw-semibold">Number of days</label>
+                <label class="section-label">
+                  Number of Days
+                </label>
+
                 <input type="number" class="form-control" id="days" name="days" min="1" max="14" step="1" value="2"
                   required>
               </div>
+
               <div class="col-md-4">
-                <label class="form-label fw-semibold">Start time</label>
+                <label class="section-label">
+                  Start Time
+                </label>
+
                 <input type="time" class="form-control" id="start_time" name="start_time" value="09:00" required>
               </div>
+
               <div class="col-md-4">
-                <label class="form-label fw-semibold">Stop time</label>
+                <label class="section-label">
+                  Stop Time
+                </label>
+
                 <input type="time" class="form-control" id="stop_time" name="stop_time" value="19:00" required>
               </div>
 
+              <!-- Categories -->
               <div class="col-12">
-                <label class="form-label fw-semibold">Categories</label>
-                <div class="row g-2">
-                  <!-- Feel free to adjust / add IDs; they’ll be read dynamically -->
+
+                <label class="section-label mb-3">
+                  Select Categories
+                </label>
+
+                <div class="row g-3">
+
                   <div class="col-6 col-md-4">
                     <div class="form-check">
                       <input class="form-check-input" type="checkbox" value="culture" id="cat_culture" checked>
-                      <label class="form-check-label" for="cat_culture">Culture & History</label>
+                      <label class="form-check-label" for="cat_culture">
+                        Culture & History
+                      </label>
                     </div>
                   </div>
+
                   <div class="col-6 col-md-4">
                     <div class="form-check">
                       <input class="form-check-input" type="checkbox" value="nature" id="cat_nature" checked>
-                      <label class="form-check-label" for="cat_nature">Nature & Parks</label>
+                      <label class="form-check-label" for="cat_nature">
+                        Nature & Parks
+                      </label>
                     </div>
                   </div>
+
                   <div class="col-6 col-md-4">
                     <div class="form-check">
                       <input class="form-check-input" type="checkbox" value="food" id="cat_food" checked>
-                      <label class="form-check-label" for="cat_food">Food & Cafés</label>
+                      <label class="form-check-label" for="cat_food">
+                        Food & Cafés
+                      </label>
                     </div>
                   </div>
+
                   <div class="col-6 col-md-4">
                     <div class="form-check">
                       <input class="form-check-input" type="checkbox" value="shopping" id="cat_shop">
-                      <label class="form-check-label" for="cat_shop">Shopping</label>
+                      <label class="form-check-label" for="cat_shop">
+                        Shopping
+                      </label>
                     </div>
                   </div>
+
                   <div class="col-6 col-md-4">
                     <div class="form-check">
                       <input class="form-check-input" type="checkbox" value="adventure" id="cat_adv">
-                      <label class="form-check-label" for="cat_adv">Adventure</label>
+                      <label class="form-check-label" for="cat_adv">
+                        Adventure
+                      </label>
                     </div>
                   </div>
+
                   <div class="col-6 col-md-4">
                     <div class="form-check">
                       <input class="form-check-input" type="checkbox" value="kids" id="cat_kids">
-                      <label class="form-check-label" for="cat_kids">Kids & Family</label>
+                      <label class="form-check-label" for="cat_kids">
+                        Kids & Family
+                      </label>
                     </div>
                   </div>
+
                 </div>
+
               </div>
 
-              <div class="col-12 d-flex align-items-center gap-2">
-                <span class="badge-chip"><i class="fas fa-map-marker-alt me-1"></i> Geoapify validated</span>
-                <button id="btn-generate" class="btn btn-ghost btn-pill ms-auto" type="submit">
-                  Generate Plan
+              <!-- Submit -->
+              <div class="col-12 mt-2">
+
+                <button id="btn-generate" class="btn btn-ghost btn-pill px-5" type="submit">
+
+                  <i class="fas fa-paper-plane"></i>
+                  Generate Smart Plan
+
                 </button>
+
               </div>
+
             </div>
+
           </form>
+
         </div>
+
       </div>
 
     </div>
+
   </main>
 
-  <!-- Optional toast -->
-  <div class="toast-container">
-    <div id="welcomeToast" class="toast align-items-center text-bg-success border-0" role="alert" aria-live="assertive"
-      aria-atomic="true" data-bs-delay="3400">
-      <div class="d-flex">
-        <div class="toast-body">
-          ✅ Ready to plan your trip!
+  <!-- FOOTER -->
+
+  <footer>
+
+    <div class="container text-center">
+
+      <div class="row">
+
+        <div class="col-md-4 mb-4">
+
+          <h5>About</h5>
+
+          <p>
+            AI-powered trip planning platform crafted for modern travelers.
+          </p>
+
         </div>
-        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"
-          aria-label="Close"></button>
+
+        <div class="col-md-4 mb-4">
+
+          <h5>Contact</h5>
+
+          <p>
+
+            <i class="fas fa-envelope me-2"></i>
+
+            info@example.com
+
+          </p>
+
+        </div>
+
+        <div class="col-md-4 mb-4">
+
+          <div class="footer-links">
+
+            <h5>Quick Links</h5>
+
+            <a href="/home">
+              <i class="fas fa-chevron-right"></i>
+              Home
+            </a>
+
+            <a href="/sightseeing_suggestion">
+              <i class="fas fa-chevron-right"></i>
+              Locations
+            </a>
+
+            <a href="/hotel">
+              <i class="fas fa-chevron-right"></i>
+              Hotels
+            </a>
+
+            <a href="/findmyway">
+              <i class="fas fa-chevron-right"></i>
+              Find My Way
+            </a>
+
+            <a href="/hotel_reviews">
+              <i class="fas fa-chevron-right"></i>
+              Reviews
+            </a>
+
+            <a href="/routefinder">
+              <i class="fas fa-chevron-right"></i>
+              Route Finder
+            </a>
+
+          </div>
+
+        </div>
+
       </div>
+
+      <hr>
+
+      <p>
+        &copy; 2025 GNDEC | Designed by G13
+      </p>
+
     </div>
-  </div>
+
+  </footer>
+
 
   <!-- JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" defer></script>
@@ -575,4 +1058,3 @@
 </body>
 
 </html>
-

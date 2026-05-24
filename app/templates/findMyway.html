@@ -16,20 +16,16 @@
     rel="stylesheet">
 
   <!-- Bootstrap Icons -->
-  <link rel="stylesheet"
-    href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
   <!-- Bootstrap -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
-    rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
   <!-- Leaflet -->
-  <link rel="stylesheet"
-    href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
 
   <!-- Font Awesome -->
-  <link rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
 
   <style>
     :root {
@@ -392,6 +388,47 @@
       }
 
     }
+
+    .footer-links {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .footer-links h5 {
+      margin-bottom: 18px;
+    }
+
+    .footer-links a {
+      color: #d1d5db;
+      text-decoration: none;
+      margin-bottom: 12px;
+      transition: 0.3s ease;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .footer-links a i {
+      font-size: 12px;
+      color: var(--secondary);
+    }
+
+    .footer-links a:hover {
+      color: white;
+      transform: translateX(6px);
+    }
+
+    .logo-img {
+      width: 48px;
+      height: 48px;
+      object-fit: cover;
+      border-radius: 12px;
+      background: white;
+      padding: 4px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
   </style>
 
 </head>
@@ -404,11 +441,15 @@
 
     <div class="container">
 
-      <a class="navbar-brand" href="/">TRIP MY WAY</a>
+      <a class="navbar-brand d-flex align-items-center gap-2" href="/">
 
-      <button class="navbar-toggler" type="button"
-        data-bs-toggle="collapse"
-        data-bs-target="#nav">
+        <img src="/static/images/tour-ps-logo.png" alt="Logo" class="logo-img">
+
+        <span>TRIP MY WAY</span>
+
+      </a>
+
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav">
 
         <span class="navbar-toggler-icon"></span>
 
@@ -510,9 +551,7 @@
 
     <!-- CATEGORIES -->
 
-    <div class="text-center"
-      id="categories"
-      style="display:none;">
+    <div class="text-center" id="categories" style="display:none;">
 
       <h5 class="mb-3 fw-bold">
 
@@ -562,15 +601,13 @@
 
     <!-- ROUTE INFO -->
 
-    <div id="routeInfo"
-      class="text-center"></div>
+    <div id="routeInfo" class="text-center"></div>
 
     <!-- BUTTON -->
 
     <div class="d-flex justify-content-center mt-4">
 
-      <button id="dynamicScheduleBtn"
-        class="dynamic-btn">
+      <button id="dynamicScheduleBtn" class="dynamic-btn">
 
         <i class="bi bi-calendar-event"></i>
 
@@ -614,13 +651,39 @@
 
         </div>
 
-        <div class="col-md-4 mb-4">
+        <div class="col-md-4 mb-4 footer-links">
 
           <h5>Quick Links</h5>
 
-          <a href="/">Home</a>
-          <br>
-          <a href="#">Privacy</a>
+          <a href="/">
+            <i class="fas fa-chevron-right"></i>
+            Home
+          </a>
+
+          <a href="/sightseeing_suggestion">
+            <i class="fas fa-chevron-right"></i>
+            Locations
+          </a>
+
+          <a href="/hotel">
+            <i class="fas fa-chevron-right"></i>
+            Hotels
+          </a>
+
+          <a href="/findmyway">
+            <i class="fas fa-chevron-right"></i>
+            Find My Way
+          </a>
+
+          <a href="/hotel_reviews">
+            <i class="fas fa-chevron-right"></i>
+            Reviews
+          </a>
+
+          <a href="/routefinder">
+            <i class="fas fa-chevron-right"></i>
+            Route Finder
+          </a>
 
         </div>
 
@@ -647,29 +710,41 @@
   <!-- KEEPING YOUR ORIGINAL SCRIPT EXACTLY SAME -->
 
   <script>
-    // Shrink navbar on scroll (same logic as main)
-    (function () {
-      const nav = document.querySelector('.navbar');
-      const shrinkPoint = 80;
-      const onScroll = () => { window.scrollY > shrinkPoint ? nav.classList.add('shrink') : nav.classList.remove('shrink') };
-      window.addEventListener('scroll', onScroll, { passive: true }); onScroll();
-    })();
-  </script>
-
-  <script>
-    let userLat, userLng, map, markers, routeLayer;
+    let userLat,
+      userLng,
+      map,
+      markers,
+      routeLayer,
+      destinationMarker,
+      destinationCircle;
 
     const sourceIcon = L.icon({
-      iconUrl: 'https://cdn-icons-png.flaticon.com/512/447/447031.png',
+      iconUrl:
+        'https://cdn-icons-png.flaticon.com/512/447/447031.png',
       iconSize: [40, 40],
       iconAnchor: [20, 40]
     });
 
     const destIcon = L.icon({
-      iconUrl: 'https://cdn-icons-png.flaticon.com/512/684/684908.png',
+      iconUrl:
+        'https://cdn-icons-png.flaticon.com/512/684/684908.png',
       iconSize: [40, 40],
       iconAnchor: [20, 40]
     });
+
+    // NEW PREMIUM DESTINATION ICON
+    const selectedDestIcon = L.icon({
+      iconUrl:
+        'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png',
+
+      shadowUrl:
+        'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
+
+      iconSize: [30, 50],
+      iconAnchor: [15, 50],
+      popupAnchor: [0, -45]
+    });
+
     function getModeIcon(mode) {
 
       mode = mode.toLowerCase();
@@ -693,12 +768,20 @@
     }
 
     async function detectLocation() {
+
       if (!navigator.geolocation) {
-        document.getElementById("status").innerText = "Geolocation not supported";
+
+        document.getElementById("status").innerText =
+          "Geolocation not supported";
+
         return;
       }
+
       navigator.geolocation.getCurrentPosition(async pos => {
-        userLat = pos.coords.latitude; userLng = pos.coords.longitude;
+
+        userLat = pos.coords.latitude;
+        userLng = pos.coords.longitude;
+
         try {
 
           const res = await fetch("/api/reverse", {
@@ -710,10 +793,8 @@
             },
 
             body: JSON.stringify({
-
               lat: userLat,
               lng: userLng
-
             })
           });
 
@@ -722,27 +803,41 @@
           if (data.success) {
 
             document.getElementById("status").innerHTML = `
-    <i class="bi bi-geo-alt-fill text-danger me-2"></i>
-    You are at: <strong>${data.address}</strong>
-  `;
+            <i class="bi bi-geo-alt-fill text-danger me-2"></i>
+            You are at: <strong>${data.address}</strong>
+          `;
 
           } else {
 
             document.getElementById("status").innerHTML = `
-    <i class="bi bi-geo-alt-fill text-danger me-2"></i>
-    Location detected
-  `;
+            <i class="bi bi-geo-alt-fill text-danger me-2"></i>
+            Location detected
+          `;
           }
+
         } catch (e) {
-          document.getElementById("status").innerHTML = `<i class="bi bi-geo-alt-fill text-danger me-2"></i> Location detected`;
+
+          document.getElementById("status").innerHTML = `
+          <i class="bi bi-geo-alt-fill text-danger me-2"></i>
+          Location detected
+        `;
         }
+
         document.getElementById("categories").style.display = "block";
 
         map = L.map('map').setView([userLat, userLng], 13);
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+
+        L.tileLayer(
+          'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
+        ).addTo(map);
+
         markers = L.layerGroup().addTo(map);
+
         routeLayer = L.layerGroup().addTo(map);
-        L.marker([userLat, userLng], { icon: sourceIcon })
+
+        L.marker([userLat, userLng], {
+          icon: sourceIcon
+        })
           .addTo(markers)
           .bindPopup("Source Location")
           .openPopup();
@@ -754,211 +849,46 @@
           fillOpacity: 0.2,
           weight: 3
         }).addTo(markers);
+
       }, err => {
-        document.getElementById("status").innerText = "Unable to detect location: " + (err.message || err.code);
+
+        document.getElementById("status").innerText =
+          "Unable to detect location";
+
         document.getElementById("categories").style.display = "block";
       });
     }
 
     async function fetchPlaces(category) {
+
       const res = await fetch("/api/places", {
-        method: "POST", headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ lat: userLat, lng: userLng, category })
-      });
-      if (!res.ok) {
-        console.error("Server error");
-        return;
-      }
-      let j;
 
-      try {
-        j = await res.json();
-      } catch (e) {
-        console.error("Invalid JSON response");
-        return;
-      }
+        method: "POST",
+
+        headers: {
+          "Content-Type": "application/json"
+        },
+
+        body: JSON.stringify({
+          lat: userLat,
+          lng: userLng,
+          category
+        })
+      });
+
+      let j = await res.json();
+
       let html = "<h5>Places found:</h5>";
+
       if (markers) markers.clearLayers();
+
       if (routeLayer) routeLayer.clearLayers();
 
-      /* SOURCE MARKER AGAIN */
-      if (userLat && userLng) {
-
-        L.marker([userLat, userLng], {
-          icon: sourceIcon
-        })
-          .addTo(markers)
-          .bindPopup("Source Location");
-
-        /* SOURCE CIRCLE */
-        L.circle([userLat, userLng], {
-          radius: 120,
-          color: "#28a745",
-          fillColor: "#28a745",
-          fillOpacity: 0.2,
-          weight: 3
-        }).addTo(markers);
-
-      }
-      j.places
-        .filter(p => {
-
-          if (!p.name) return false;
-
-          const name = p.name.trim().toLowerCase();
-
-          const blockedNames = [
-            "unnamed",
-            "unknown",
-            "null",
-            "n/a",
-            "na",
-            "-",
-            "no name",
-            "unnamed road"
-          ];
-
-          return !blockedNames.includes(name);
-
-        })
-        .forEach(p => {
-          html += `
-<div class="place"
-onclick="selectPlace(this, ${p.lat}, ${p.lng}, '${(p.name || 'Destination').replace(/'/g, "\\'")}')">
-
-  <div class="d-flex justify-content-between align-items-center">
-
-    <div>
-      <strong>${p.name}</strong><br>
-      <small>${p.address}</small>
-    </div>
-
-    <span class="badge rounded-pill text-bg-primary">
-      ${p.distance_km} km
-    </span>
-
-  </div>
-
-</div>
-`;
-          if (markers) L.marker([p.lat, p.lng]).addTo(markers).bindPopup(p.name);
-        });
-      document.getElementById("results").innerHTML = html;
-    }
-
-    function selectPlace(el, lat, lng, name) {
-
-      document.querySelectorAll('.place')
-        .forEach(place => place.classList.remove('active-place'));
-
-      el.classList.add('active-place');
-
-      drawRoute(lat, lng, name);
-    }
-
-    async function drawRoute(lat, lng, name) {
-      if (routeLayer) routeLayer.clearLayers();
-      const res = await fetch("/api/route_coords", {
-        method: "POST", headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ src_lat: userLat, src_lng: userLng, dst_lat: lat, dst_lng: lng })
-      });
-      let j;
-
-      try {
-        j = await res.json();
-      } catch (e) {
-        console.error("Invalid JSON response");
-        return;
-      }
-
-      if (j.modes) {
-        let infoHtml = "<h5>Available Transport Modes (click to view route):</h5><ul style='list-style:none;padding-left:0;'>";
-        j.modes.forEach((m, idx) => {
-          if (m.error) {
-            infoHtml += `
-<li class="route-error">
-  <i class="bi bi-x-circle-fill text-danger me-2"></i>
-  ${m.label}: ${m.error}
-</li>`;
-          } else {
-            infoHtml += `
-<div class="transport-card"
-onclick="selectTransportMode(this, ${idx}, '${(name || 'Destination').replace(/'/g, "\\'")}')">
-
-  <div class="d-flex justify-content-between align-items-center">
-
-    <div>
-      <h6 class="mb-1 fw-bold">${getModeIcon(m.label)} ${m.label}</h6>
-
-      <small class="text-muted">
-        ${m.distance_km} km • ${m.duration_min} min
-      </small>
-    </div>
-
-    <div class="text-end">
-      ${m.estimated_fare_inr
-                ? `<span class="badge bg-success">₹${m.estimated_fare_inr}</span>`
-                : ""}
-    </div>
-
-  </div>
-
-</div>
-`;
-          }
-        });
-        infoHtml += "</ul>";
-        document.getElementById("routeInfo").innerHTML = infoHtml;
-
-        window.currentRoutes = j.modes;
-        window.currentDest = { lat, lng, name };
-        /* AUTO SHOW FIRST ROUTE */
-        showRoute(0, name);
-      } else {
-        document.getElementById("routeInfo").innerText = "No routes returned.";
-      }
-    }
-
-    function selectTransportMode(el, idx, name) {
-
-      document.querySelectorAll('.transport-card')
-        .forEach(card => card.classList.remove('active-mode'));
-
-      el.classList.add('active-mode');
-
-      showRoute(idx, name);
-    }
-
-    function showRoute(idx, name) {
-      if (routeLayer) routeLayer.clearLayers();
-      const route = window.currentRoutes && window.currentRoutes[idx];
-      if (!route || !route.geometry) return;
-
-      const coords = route.geometry.map(c => [c[1], c[0]]);
-      // GLOW EFFECT
-      L.polyline(coords, {
-        color: "#ff4d4d",
-        weight: 18,
-        opacity: 0.22,
-        lineCap: 'round',
-        lineJoin: 'round'
-      }).addTo(routeLayer);
-
-      // MAIN ROUTE
-      const poly = L.polyline(coords, {
-        color: "#ff0000",
-        weight: 7,
-        opacity: 1,
-        lineCap: 'round',
-        lineJoin: 'round'
-      }).addTo(routeLayer);
-      if (map) map.fitBounds(poly.getBounds(), { padding: [30, 30] });
-
-      /* SOURCE AGAIN */
+      // SOURCE AGAIN
       L.marker([userLat, userLng], {
         icon: sourceIcon
       })
-        .addTo(routeLayer)
+        .addTo(markers)
         .bindPopup("Source Location");
 
       L.circle([userLat, userLng], {
@@ -967,41 +897,267 @@ onclick="selectTransportMode(this, ${idx}, '${(name || 'Destination').replace(/'
         fillColor: "#28a745",
         fillOpacity: 0.2,
         weight: 3
-      }).addTo(routeLayer);
+      }).addTo(markers);
 
-      L.marker(
-        [window.currentDest.lat, window.currentDest.lng],
-        { icon: destIcon }
+      j.places.forEach(p => {
+
+        html += `
+      <div class="place"
+      onclick="selectPlace(this, ${p.lat}, ${p.lng}, '${(p.name || 'Destination').replace(/'/g, "\\'")}')">
+
+        <div class="d-flex justify-content-between align-items-center">
+
+          <div>
+            <strong>${p.name}</strong><br>
+            <small>${p.address}</small>
+          </div>
+
+          <span class="badge rounded-pill text-bg-primary">
+            ${Math.round(p.distance_km)} km
+          </span>
+
+        </div>
+
+      </div>
+      `;
+
+        L.marker([p.lat, p.lng])
+          .addTo(markers)
+          .bindPopup(p.name);
+
+      });
+
+      document.getElementById("results").innerHTML = html;
+    }
+
+    // NEW HIGHLIGHT FUNCTION
+    function highlightDestination(lat, lng, name) {
+
+      if (destinationMarker) {
+        routeLayer.removeLayer(destinationMarker);
+      }
+
+      if (destinationCircle) {
+        routeLayer.removeLayer(destinationCircle);
+      }
+
+      destinationMarker = L.marker(
+        [lat, lng],
+        { icon: selectedDestIcon }
       )
         .addTo(routeLayer)
-        .bindPopup("Destination: " + name)
+        .bindPopup(`
+        <div style="text-align:center;padding:6px;">
+          <strong style="
+            color:#dc3545;
+            font-size:16px;
+          ">
+            ${name}
+          </strong>
+
+          <br>
+
+          <span style="
+            color:#555;
+            font-size:14px;
+          ">
+            This is your destination
+          </span>
+        </div>
+      `)
         .openPopup();
 
-      L.circle(
-        [window.currentDest.lat, window.currentDest.lng],
+      // GLOWING AREA
+      destinationCircle = L.circle(
+        [lat, lng],
         {
-          radius: 120,
+          radius: 400,
           color: "#dc3545",
-          fillColor: "#dc3545",
-          fillOpacity: 0.2,
+          fillColor: "#ff4d4d",
+          fillOpacity: 0.18,
           weight: 3
-        }).addTo(routeLayer);
+        }
+      ).addTo(routeLayer);
+
+      // SMOOTH ZOOM
+      map.flyTo(
+        [lat, lng],
+        14,
+        {
+          duration: 1.8
+        }
+      );
     }
 
-    // helper to safely use CSS var in JS
-    function varColor(fallback) {
-      try { return getComputedStyle(document.documentElement).getPropertyValue('--accent') || fallback } catch (e) { return fallback }
+    function selectPlace(el, lat, lng, name) {
+
+      document.querySelectorAll('.place')
+        .forEach(place =>
+          place.classList.remove('active-place')
+        );
+
+      el.classList.add('active-place');
+
+      // NEW HIGHLIGHT
+      highlightDestination(lat, lng, name);
+
+      drawRoute(lat, lng, name);
     }
 
-    document.getElementById('dynamicScheduleBtn').addEventListener('click', () => {
-      if (typeof userLat !== 'undefined' && typeof userLng !== 'undefined') {
-        window.location.href = `dynamic.html?lat=${encodeURIComponent(userLat)}&lng=${encodeURIComponent(userLng)}`;
-      } else {
-        window.location.href = 'dynamic.html';
+    async function drawRoute(lat, lng, name) {
+
+      if (routeLayer) routeLayer.clearLayers();
+
+      const res = await fetch("/api/route_coords", {
+
+        method: "POST",
+
+        headers: {
+          "Content-Type": "application/json"
+        },
+
+        body: JSON.stringify({
+          src_lat: userLat,
+          src_lng: userLng,
+          dst_lat: lat,
+          dst_lng: lng
+        })
+      });
+
+      let j = await res.json();
+
+      if (j.modes) {
+
+        let infoHtml =
+          "<h5>Available Transport Modes:</h5>";
+
+        j.modes.forEach((m, idx) => {
+
+          infoHtml += `
+        <div class="transport-card"
+        onclick="selectTransportMode(this, ${idx}, '${name}')">
+
+          <div class="d-flex justify-content-between align-items-center">
+
+            <div>
+              <h6 class="fw-bold">
+                ${getModeIcon(m.label)} ${m.label}
+              </h6>
+
+              <small class="text-muted">
+                ${Math.round(m.distance_km)} km •
+                ${Math.round(m.duration_min)} min
+              </small>
+            </div>
+
+          </div>
+
+        </div>
+        `;
+        });
+
+        document.getElementById("routeInfo").innerHTML =
+          infoHtml;
+
+        window.currentRoutes = j.modes;
+
+        window.currentDest = {
+          lat,
+          lng,
+          name
+        };
+
+        showRoute(0, name);
       }
-    });
+    }
 
-    // init
+    function selectTransportMode(el, idx, name) {
+
+      document.querySelectorAll('.transport-card')
+        .forEach(card =>
+          card.classList.remove('active-mode')
+        );
+
+      el.classList.add('active-mode');
+
+      showRoute(idx, name);
+    }
+
+    function showRoute(idx, name) {
+
+      if (routeLayer) routeLayer.clearLayers();
+
+      const route =
+        window.currentRoutes &&
+        window.currentRoutes[idx];
+
+      if (!route || !route.geometry) return;
+
+      const coords =
+        route.geometry.map(c => [c[1], c[0]]);
+
+      // GLOW ROUTE
+      L.polyline(coords, {
+        color: "#ff4d4d",
+        weight: 18,
+        opacity: 0.22
+      }).addTo(routeLayer);
+
+      // MAIN ROUTE
+      const poly = L.polyline(coords, {
+        color: "#ff0000",
+        weight: 7,
+        opacity: 1
+      }).addTo(routeLayer);
+
+      map.fitBounds(poly.getBounds(), {
+        padding: [30, 30]
+      });
+
+      // SOURCE
+      L.marker([userLat, userLng], {
+        icon: sourceIcon
+      })
+        .addTo(routeLayer)
+        .bindPopup("Source Location");
+
+      // DESTINATION
+      L.marker(
+        [window.currentDest.lat,
+        window.currentDest.lng],
+        {
+          icon: selectedDestIcon
+        }
+      )
+        .addTo(routeLayer)
+        .bindPopup(`
+        <div style="text-align:center;">
+          <strong>${name}</strong>
+          <br>
+          This is your destination
+        </div>
+      `)
+        .openPopup();
+    }
+
+    document.getElementById('dynamicScheduleBtn')
+      .addEventListener('click', () => {
+
+        if (
+          typeof userLat !== 'undefined' &&
+          typeof userLng !== 'undefined'
+        ) {
+
+          window.location.href =
+            `dynamic.html?lat=${encodeURIComponent(userLat)}&lng=${encodeURIComponent(userLng)}`;
+
+        } else {
+
+          window.location.href = 'dynamic.html';
+        }
+      });
+
+    // INIT
     detectLocation();
   </script>
 

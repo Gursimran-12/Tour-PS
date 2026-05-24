@@ -17,58 +17,37 @@
 
   <style>
     :root {
+      --primary: #7c3aed;
+      --secondary: #4f46e5;
 
-      --bg: #fffaf8;
-      --surface: #ffffff;
+      --accent: #2155ff;
+      --accent-2: #6b3be8;
 
-      --pastel-sky: #c2e2f4;
-      --pastel-mint: #cdeee6;
-      --pastel-peach: #f7d4bf;
-      --pastel-lav: #e0c6f2;
-      --pastel-sand: #ffe8c9;
-
-      --accent: #6b3be8;
-      --accent-light: #8d6bff;
-
-      --text: #253238;
+      --light: #ffffff;
+      --dark: #111827;
+      --text: #1f2937;
       --muted: #6b7280;
-
-      --success: #16a34a;
-      --warning: #ca8a04;
-      --danger: #dc2626;
-
-      --radius: 20px;
-
-      --shadow:
-        0 10px 40px rgba(15, 23, 42, 0.08);
-
-      --glass:
-        rgba(255, 255, 255, 0.75);
-
-      --border:
-        rgba(255, 255, 255, 0.35);
+      --glass: rgba(255, 255, 255, 0.18);
+      --border: rgba(255, 255, 255, 0.2);
+      --shadow: 0 20px 60px rgba(0, 0, 0, 0.12);
+      --radius: 28px;
     }
 
-    html,
-    body {
-      min-height: 100%;
-    }
-
-    body {
+    * {
       margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      scroll-behavior: smooth;
+    }
 
+    body {
       font-family: "Poppins", sans-serif;
-
-      background:
-        linear-gradient(180deg,
-          #c2e2f4 0%,
-          #fffaf8 65%);
-
-      color: var(--text);
-
       overflow-x: hidden;
-
-      -webkit-font-smoothing: antialiased;
+      background:
+        radial-gradient(circle at top left, #dbeafe 0%, transparent 30%),
+        radial-gradient(circle at bottom right, #f5d0fe 0%, transparent 30%),
+        #f8fafc;
+      color: var(--text);
     }
 
     /* SCROLLBAR */
@@ -78,83 +57,57 @@
     }
 
     ::-webkit-scrollbar-thumb {
-      background:
-        linear-gradient(180deg,
-          var(--accent),
+      background: linear-gradient(180deg,
+          var(--primary),
           #9d7cff);
-
       border-radius: 999px;
     }
 
     /* NAVBAR */
 
     .navbar {
-      background:
-        linear-gradient(90deg,
-          rgba(255, 255, 255, 0.78),
-          rgba(255, 255, 255, 0.72));
-
-      padding: 1rem;
-
-      transition:
-        padding .3s ease,
-        box-shadow .3s ease;
-
-      backdrop-filter: blur(8px);
-
+      background: rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(18px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+      padding: 16px 0;
+      transition: 0.4s ease;
       z-index: 999;
     }
 
     .navbar.shrink {
-      padding: .5rem 1rem;
-
-      box-shadow:
-        0 12px 28px rgba(20, 20, 30, 0.07);
+      padding: 10px 0;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
     }
 
     .navbar-brand {
+      font-size: 1.7rem;
       font-weight: 800;
-
-      font-size: 1.35rem;
-
-      background:
-        linear-gradient(90deg,
-          #6b3be8,
-          #8b5cf6);
-
+      background: linear-gradient(90deg,
+          var(--primary),
+          var(--secondary));
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
 
     .nav-link {
-      color: var(--text) !important;
-
+      position: relative;
       font-weight: 500;
-
-      padding:
-        0.65rem 1rem !important;
-
-      border-radius: 12px;
-
-      transition: all .3s ease;
+      color: var(--text) !important;
+      margin: 0 4px;
+      padding: 10px 16px !important;
+      border-radius: 14px;
+      transition: 0.3s ease;
     }
 
     .nav-link:hover {
-      color: var(--accent) !important;
-
-      background:
-        rgba(107, 59, 232, 0.08);
-
-      transform:
-        translateY(-2px);
+      color: var(--primary) !important;
+      background: rgba(124, 58, 237, 0.08);
+      transform: translateY(-2px);
     }
 
     .nav-link.active {
-      background:
-        rgba(107, 59, 232, 0.1);
-
-      color: var(--accent) !important;
-
+      background: rgba(124, 58, 237, 0.1);
+      color: var(--primary) !important;
       font-weight: 600;
     }
 
@@ -192,6 +145,10 @@
       position: relative;
     }
 
+    .card-glass {
+      height: auto;
+    }
+
     .card-glass::before {
       content: "";
 
@@ -214,19 +171,27 @@
 
     .btn {
       border-radius: 16px !important;
-
-      padding: 12px 20px;
-
+      padding: 12px 22px;
       font-weight: 600;
-
       transition: all .35s ease;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .btn-sm {
+      padding: 10px 18px !important;
+      font-size: 0.92rem;
+      min-height: 46px;
     }
 
     .btn-primary {
-      background:
-        linear-gradient(135deg,
-          var(--accent),
-          var(--accent-light));
+      background: linear-gradient(135deg,
+          #2155ff,
+          #7c3aed);
+
+      color: white !important;
 
       border: none;
 
@@ -235,11 +200,7 @@
     }
 
     .btn-primary:hover {
-      transform:
-        translateY(-3px);
-
-      box-shadow:
-        0 18px 35px rgba(107, 59, 232, 0.3);
+      color: white !important;
     }
 
     .btn-outline-primary {
@@ -257,7 +218,52 @@
       color: var(--accent);
     }
 
-    /* CHIPS */
+    .btn-outline-secondary {
+      background: rgba(255, 255, 255, 0.8);
+      border: 1px solid rgba(124, 58, 237, 0.25);
+      color: #5b4b8a;
+      backdrop-filter: blur(12px);
+    }
+
+    .btn-outline-secondary:hover {
+      background: #7c3aed;
+      color: white;
+    }
+
+    .toolbelt {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 16px;
+      margin-top: 18px;
+    }
+
+    .toolbelt .form-check {
+      margin-bottom: 0;
+    }
+
+    .toolbelt .form-select {
+      min-width: 170px;
+      height: 48px;
+    }
+
+    .toolbelt .btn {
+      height: 48px;
+    }
+
+    .weather-card,
+    .nearby-card,
+    .card-glass {
+      padding: 24px;
+    }
+
+    .weather-card .tiny,
+    .card-glass .tiny {
+      font-size: 0.92rem;
+    }
+
+    /* C
+    HIPS */
 
     .chip,
     .pill {
@@ -344,22 +350,59 @@
     /* DAY TABS */
 
     .nav-pills .nav-link {
+
       border-radius: 999px;
+
+      padding: 14px 28px !important;
+
+      font-size: 1rem;
+
+      font-weight: 600;
+
+      color: #374151 !important;
+
+      background: rgba(255, 255, 255, 0.7);
+
+      border: 1px solid rgba(124, 58, 237, 0.08);
+
+      transition: all 0.3s ease;
     }
+
+    .nav-pills .nav-link:hover {
+
+      background: rgba(124, 58, 237, 0.08);
+
+      color: #7c3aed !important;
+
+      transform: translateY(-2px);
+    }
+
+    #dayTabs {
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    #dayTabs .nav-item {
+      margin-right: 0;
+    }
+
 
     .nav-pills .nav-link.active {
 
-      background:
-        linear-gradient(135deg,
-          var(--accent),
-          var(--accent-light));
+      background: linear-gradient(135deg,
+          #7c3aed,
+          #5b21b6);
 
-      color: white !important;
+      color: #ffffff !important;
 
       font-weight: 700;
 
+      border: none;
+
       box-shadow:
-        0 10px 25px rgba(107, 59, 232, 0.25);
+        0 8px 22px rgba(124, 58, 237, 0.28);
+
+      transform: translateY(-1px);
     }
 
     /* WEATHER */
@@ -422,6 +465,120 @@
         font-size: 1.15rem;
       }
     }
+
+    /* FOOTER */
+
+    footer {
+      margin-top: 100px;
+      background: #111827;
+      color: white;
+      padding: 80px 0 30px;
+    }
+
+    footer h5 {
+      font-weight: 700;
+      margin-bottom: 20px;
+    }
+
+    footer a {
+      color: #d1d5db;
+      text-decoration: none;
+      transition: 0.3s ease;
+    }
+
+    footer a:hover {
+      color: white;
+    }
+
+    footer p {
+      color: #d1d5db;
+    }
+
+    /* TOAST */
+
+    .toast-container {
+      position: fixed;
+      top: 1rem;
+      right: 1rem;
+      z-index: 1080;
+    }
+
+    /* ANIMATION */
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(40px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0px);
+      }
+    }
+
+    /* RESPONSIVE */
+
+    @media(max-width:768px) {
+
+      .hero-card {
+        padding: 40px 25px;
+      }
+
+      .hero h1 {
+        font-size: 2.7rem;
+      }
+
+      .carousel-item img {
+        height: 400px;
+      }
+
+      .section-title {
+        font-size: 2rem;
+      }
+
+    }
+
+    .footer-links {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .footer-links h5 {
+      margin-bottom: 18px;
+    }
+
+    .footer-links a {
+      color: #d1d5db;
+      text-decoration: none;
+      margin-bottom: 12px;
+      transition: 0.3s ease;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .footer-links a i {
+      font-size: 12px;
+      color: var(--secondary);
+    }
+
+    .footer-links a:hover {
+      color: white;
+      transform: translateX(6px);
+    }
+
+    .logo-img {
+      width: 48px;
+      height: 48px;
+      object-fit: cover;
+      border-radius: 12px;
+      background: white;
+      padding: 4px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
   </style>
 
 </head>
@@ -431,24 +588,32 @@
   <!-- GLOBAL LOAD BAR -->
   <div id="loadbar"></div>
 
-  <nav class="navbar navbar-expand-lg fixed-top">
+  <!-- NAVBAR -->
+
+  <nav class="navbar navbar-expand-lg fixed-top navbar-light">
+
     <div class="container">
 
-      <a class="navbar-brand" href="/">
-        AI Tour Planner
+      <a class="navbar-brand d-flex align-items-center gap-2" href="/">
+
+        <img src="/static/images/tour-ps-logo.png" alt="Logo" class="logo-img">
+
+        <span>TRIP MY WAY</span>
+
       </a>
 
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav">
 
         <span class="navbar-toggler-icon"></span>
+
       </button>
 
       <div class="collapse navbar-collapse" id="nav">
 
-        <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-1">
+        <ul class="navbar-nav ms-auto align-items-lg-center">
 
           <li class="nav-item">
-            <a class="nav-link" href="/home">
+            <a class="nav-link active" href="{{ url_for('trip.home_page') }}">
               <i class="fas fa-house me-1"></i>
               Home
             </a>
@@ -483,18 +648,18 @@
           </li>
 
           <li class="nav-item">
-            <a class="nav-link" href="/generate">
+            <a class="nav-link" href="/routefinder">
               <i class="fas fa-route me-1"></i>
-              Generated Plan
+              Route Finder
             </a>
           </li>
-
         </ul>
 
       </div>
-    </div>
-  </nav>
 
+    </div>
+
+  </nav>
 
   <!-- HEADER -->
   <section class="hero">
@@ -671,6 +836,83 @@
   <button id="backToTop" class="btn btn-primary rounded-circle btn-lg" aria-label="Back to top">
     <i class="bi bi-arrow-up"></i>
   </button>
+  <!-- FOOTER -->
+
+  <footer>
+
+    <div class="container text-center">
+
+      <div class="row">
+
+        <div class="col-md-4 mb-4">
+
+          <h5>About</h5>
+
+          <p>
+            AI-powered trip planning platform crafted for modern travelers.
+          </p>
+
+        </div>
+
+        <div class="col-md-4 mb-4">
+
+          <h5>Contact</h5>
+
+          <p>
+
+            <i class="fas fa-envelope me-2"></i>
+
+            info@example.com
+
+          </p>
+
+        </div>
+
+        <div class="col-md-4 mb-4">
+          <div class="col-md-4 mb-4 footer-links">
+
+            <h5>Quick Links</h5>
+
+            <a href="/home">
+              <i class="fas fa-chevron-right"></i> Home
+            </a>
+
+            <a href="/sightseeing_suggestion">
+              <i class="fas fa-chevron-right"></i> Locations
+            </a>
+
+            <a href="/hotel">
+              <i class="fas fa-chevron-right"></i> Hotels
+            </a>
+
+            <a href="/findmyway">
+              <i class="fas fa-chevron-right"></i> Find My Way
+            </a>
+
+            <a href="/hotel_reviews">
+              <i class="fas fa-chevron-right"></i> Reviews
+            </a>
+
+            <a href="/routefinder">
+              <i class="fas fa-chevron-right"></i> Route Finder
+            </a>
+
+          </div>
+
+
+        </div>
+
+      </div>
+
+      <hr>
+
+      <p>
+        &copy; 2025 GNDEC | Designed by G13
+      </p>
+
+    </div>
+
+  </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   <script>
@@ -860,7 +1102,9 @@
           <button class="nav-link ${idx === 0 ? 'active' : ''}" id="tab-${key}" data-bs-toggle="pill"
                   data-bs-target="#pane-${key}" type="button" role="tab" aria-controls="pane-${key}"
                   aria-selected="${idx === 0 ? 'true' : 'false'}">
-            ${key.replace('_', ' ')}
+            ${key
+            .replace('_', ' ')
+            .replace(/\b\w/g, c => c.toUpperCase())}
           </button>`;
         tabs.appendChild(li);
 
@@ -930,8 +1174,8 @@
 
     /* ============================== ADDED: WEATHER + NEARBY ============================== */
 
-    const GEOAPIFY_KEY ="{{ GEOAPIFY_KEY }}";     
-    const OPENWEATHER_KEY ="{{ OPENWEATHER_KEY }}";   
+    const GEOAPIFY_KEY = "{{ GEOAPIFY_KEY }}";
+    const OPENWEATHER_KEY = "{{ OPENWEATHER_KEY }}";
 
     // Wire buttons
     document.getElementById('btnWeather')?.addEventListener('click', handleWeatherClick, { passive: true });

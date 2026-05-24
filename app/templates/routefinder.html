@@ -607,6 +607,47 @@
         padding: 24px;
       }
     }
+
+    .footer-links {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .footer-links h5 {
+      margin-bottom: 18px;
+    }
+
+    .footer-links a {
+      color: #d1d5db;
+      text-decoration: none;
+      margin-bottom: 12px;
+      transition: 0.3s ease;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .footer-links a i {
+      font-size: 12px;
+      color: var(--secondary);
+    }
+
+    .footer-links a:hover {
+      color: white;
+      transform: translateX(6px);
+    }
+
+    .logo-img {
+      width: 48px;
+      height: 48px;
+      object-fit: cover;
+      border-radius: 12px;
+      background: white;
+      padding: 4px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
   </style>
 
 </head>
@@ -619,7 +660,13 @@
 
     <div class="container">
 
-      <a class="navbar-brand" href="/">TRIP MY WAY</a>
+      <a class="navbar-brand d-flex align-items-center gap-2" href="/">
+
+        <img src="/static/images/tour-ps-logo.png" alt="Logo" class="logo-img">
+
+        <span>TRIP MY WAY</span>
+
+      </a>
 
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav">
 
@@ -865,11 +912,36 @@
 
         <div class="col-md-4 mb-4">
 
-          <h5>Quick Links</h5>
+          <div class="col-md-4 mb-4 footer-links">
 
-          <a href="/">Home</a>
-          <br>
-          <a href="#">Privacy</a>
+            <h5>Quick Links</h5>
+
+            <a href="/home">
+              <i class="fas fa-chevron-right"></i> Home
+            </a>
+
+            <a href="/sightseeing_suggestion">
+              <i class="fas fa-chevron-right"></i> Locations
+            </a>
+
+            <a href="/hotel">
+              <i class="fas fa-chevron-right"></i> Hotels
+            </a>
+
+            <a href="/findmyway">
+              <i class="fas fa-chevron-right"></i> Find My Way
+            </a>
+
+            <a href="/hotel_reviews">
+              <i class="fas fa-chevron-right"></i> Reviews
+            </a>
+
+            <a href="/routefinder">
+              <i class="fas fa-chevron-right"></i> Route Finder
+            </a>
+
+          </div>
+
 
         </div>
 
@@ -981,18 +1053,17 @@
             ${m.label}
           </span>
         </td>
-
-        <td>
-          ${m.distance_km != null
-              ? m.distance_km.toFixed(2)
+<td>
+  ${m.distance_km != null
+              ? Math.round(m.distance_km)
               : "—"}
-        </td>
+</td>
 
-        <td>
-          ${m.duration_hr != null
-              ? m.duration_hr.toFixed(2) + " hrs"
+<td>
+  ${m.duration_hr != null
+              ? Math.round(m.duration_hr) + " hrs"
               : "—"}
-        </td>
+</td>
 
         <td>
           ${m.estimated_fare_inr != null

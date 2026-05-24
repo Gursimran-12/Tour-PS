@@ -16,51 +16,98 @@
 
   <style>
     :root {
-      --brand: #111827;
-      --muted: #667085;
-      --primary: #6C63FF;
-      --primary-dark: #5a52e6;
-      --glass-bg: #ffffff;
-      --shadow: 0 20px 60px rgba(17, 24, 39, .18), 0 8px 24px rgba(17, 24, 39, .08);
+      --primary: #7c3aed;
+      --secondary: #4f46e5;
+
+      --accent: #2155ff;
+      --accent-2: #6b3be8;
+
+      --light: #ffffff;
+      --dark: #111827;
+      --text: #1f2937;
+      --muted: #6b7280;
+      --glass: rgba(255, 255, 255, 0.18);
+      --border: rgba(255, 255, 255, 0.2);
+      --shadow: 0 20px 60px rgba(0, 0, 0, 0.12);
       --radius: 28px;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      scroll-behavior: smooth;
     }
 
     body {
       font-family: "Poppins", sans-serif;
-      color: var(--brand);
-      background: radial-gradient(1400px 900px at 80% 10%, #f3f7ff 0%, #f2f5ff 25%, rgba(240, 248, 255, .6) 40%, transparent 60%),
-        radial-gradient(1200px 800px at 10% 20%, #ffeef5 0%, #ffeff7 35%, rgba(255, 239, 247, .35) 55%, transparent 70%),
-        radial-gradient(1100px 900px at 30% 80%, #eafaf2 0%, #edfbf4 35%, rgba(234, 250, 242, .38) 55%, transparent 70%),
-        linear-gradient(135deg, #f7e7ff 0%, #e7f6ff 50%, #fff6ea 100%);
-      min-height: 100vh;
+      overflow-x: hidden;
+      background:
+        radial-gradient(circle at top left, #dbeafe 0%, transparent 30%),
+        radial-gradient(circle at bottom right, #f5d0fe 0%, transparent 30%),
+        #f8fafc;
+      color: var(--text);
     }
 
-    .navbar-nav {
-      align-items: center;
+    /* SCROLLBAR */
+
+    ::-webkit-scrollbar {
+      width: 10px;
     }
 
-    #profileMenu {
-      display: flex;
-      align-items: center;
-      gap: 10px;
+    ::-webkit-scrollbar-thumb {
+      background: linear-gradient(180deg,
+          var(--primary),
+          #9d7cff);
+      border-radius: 999px;
     }
 
+    /* NAVBAR */
 
     .navbar {
-      background: rgba(255, 255, 255, 0.72);
+      background: rgba(255, 255, 255, 0.7);
       backdrop-filter: blur(18px);
-      -webkit-backdrop-filter: blur(18px);
-
-      border-bottom: 1px solid rgba(255, 255, 255, 0.35);
-
-      padding: 0.55rem 1.2rem;
-      transition:
-        all 0.35s ease;
-
+      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+      padding: 16px 0;
+      transition: 0.4s ease;
       z-index: 999;
+    }
 
-      box-shadow:
-        0 8px 30px rgba(0, 0, 0, 0.05);
+    .navbar.shrink {
+      padding: 10px 0;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    }
+
+    .navbar-brand {
+      font-size: 1.7rem;
+      font-weight: 800;
+      background: linear-gradient(90deg,
+          var(--primary),
+          var(--secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .nav-link {
+      position: relative;
+      font-weight: 500;
+      color: var(--text) !important;
+      margin: 0 4px;
+      padding: 10px 16px !important;
+      border-radius: 14px;
+      transition: 0.3s ease;
+    }
+
+    .nav-link:hover {
+      color: var(--primary) !important;
+      background: rgba(124, 58, 237, 0.08);
+      transform: translateY(-2px);
+    }
+
+    .nav-link.active {
+      background: rgba(124, 58, 237, 0.1);
+      color: var(--primary) !important;
+      font-weight: 600;
     }
 
     .btn-primary {
@@ -119,6 +166,16 @@
       font-size: 2rem;
       font-weight: 700;
     }
+
+    .logo-img {
+      width: 48px;
+      height: 48px;
+      object-fit: cover;
+      border-radius: 12px;
+      background: white;
+      padding: 4px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
   </style>
 </head>
 
@@ -127,19 +184,17 @@
   <!-- Navbar -->
   <nav class="navbar navbar-expand-lg sticky-top">
     <div class="container">
-      <a class="navbar-brand fw-bold" href="{{ url_for('trip.home_page') }}">
-        AI Tour Planner
+      <a class="navbar-brand d-flex align-items-center gap-2" href="/">
+
+        <img src="/static/images/tour-ps-logo.png" alt="Logo" class="logo-img">
+
+        <span>TRIP MY WAY</span>
+
       </a>
 
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav">
         <span class="navbar-toggler-icon"></span>
       </button>
-
-      <div id="nav" class="collapse navbar-collapse">
-        <ul class="navbar-nav ms-auto gap-lg-2">
-          <li class="nav-item"><a class="nav-link" href="{{ url_for('trip.home_page') }}">Home</a></li>
-        </ul>
-      </div>
     </div>
   </nav>
 

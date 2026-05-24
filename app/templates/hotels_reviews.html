@@ -16,12 +16,10 @@
     rel="stylesheet">
 
   <!-- Bootstrap -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
-    rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
   <!-- Font Awesome -->
-  <link rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
 
   <style>
     :root {
@@ -513,6 +511,47 @@
       }
 
     }
+
+    .footer-links {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .footer-links h5 {
+      margin-bottom: 18px;
+    }
+
+    .footer-links a {
+      color: #d1d5db;
+      text-decoration: none;
+      margin-bottom: 12px;
+      transition: 0.3s ease;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .footer-links a i {
+      font-size: 12px;
+      color: var(--secondary);
+    }
+
+    .footer-links a:hover {
+      color: white;
+      transform: translateX(6px);
+    }
+
+    .logo-img {
+      width: 48px;
+      height: 48px;
+      object-fit: cover;
+      border-radius: 12px;
+      background: white;
+      padding: 4px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
   </style>
 
 </head>
@@ -525,65 +564,61 @@
 
     <div class="container">
 
-      <a class="navbar-brand" href="/">TRIP MY WAY</a>
+      <a class="navbar-brand d-flex align-items-center gap-2" href="/">
 
-      <button class="navbar-toggler"
-        type="button"
-        data-bs-toggle="collapse"
-        data-bs-target="#nav">
+        <img src="/static/images/tour-ps-logo.png" alt="Logo" class="logo-img">
+
+        <span>TRIP MY WAY</span>
+
+      </a>
+
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav">
 
         <span class="navbar-toggler-icon"></span>
 
       </button>
 
-      <div class="collapse navbar-collapse"
-        id="nav">
+      <div class="collapse navbar-collapse" id="nav">
 
         <ul class="navbar-nav ms-auto align-items-lg-center">
 
           <li class="nav-item">
-            <a class="nav-link"
-              href="/home">
+            <a class="nav-link" href="/home">
               <i class="fas fa-house me-1"></i>
               Home
             </a>
           </li>
 
           <li class="nav-item">
-            <a class="nav-link"
-              href="/sightseeing_suggestion">
+            <a class="nav-link" href="/sightseeing_suggestion">
               <i class="fas fa-location-dot me-1"></i>
               Locations
             </a>
           </li>
 
           <li class="nav-item">
-            <a class="nav-link"
-              href="/hotel">
+            <a class="nav-link" href="/hotel">
               <i class="fas fa-hotel me-1"></i>
               Hotels
             </a>
           </li>
 
           <li class="nav-item">
-            <a class="nav-link"
-              href="/findmyway">
+            <a class="nav-link" href="/findmyway">
               <i class="fas fa-map-location-dot me-1"></i>
               Find My Way
             </a>
           </li>
 
           <li class="nav-item">
-            <a class="nav-link active"
-              href="/hotels_reviews">
+            <a class="nav-link active" href="/hotels_reviews">
               <i class="fas fa-star me-1"></i>
               Reviews
             </a>
           </li>
 
           <li class="nav-item">
-            <a class="nav-link"
-              href="/routefinder">
+            <a class="nav-link" href="/routefinder">
               <i class="fas fa-route me-1"></i>
               Route Finder
             </a>
@@ -605,15 +640,10 @@
 
       <h1>
 
-        AI Hotel & Restaurant Reviews
+        Hotel & Restaurant Reviews
 
       </h1>
 
-      <p>
-
-        Discover nearby places, explore authentic user reviews and analyze sentiments using AI-powered insights.
-
-      </p>
 
     </div>
 
@@ -684,14 +714,11 @@
 
       <!-- ERROR -->
 
-      <div id="errorBox"
-        class="error"
-        style="display:none;"></div>
+      <div id="errorBox" class="error" style="display:none;"></div>
 
       <!-- STATUS -->
 
-      <div class="status"
-        id="status">
+      <div class="status" id="status">
 
         Detecting location…
 
@@ -703,8 +730,7 @@
 
         <div class="col-12 col-md-6 mb-3">
 
-          <select id="choice"
-            class="form-select">
+          <select id="choice" class="form-select">
 
             <option value="">
 
@@ -730,9 +756,7 @@
 
         <div class="col-12 col-md-6 mb-3 text-md-end">
 
-          <button class="btn btn-modern"
-            id="searchBtn"
-            disabled>
+          <button class="btn btn-modern" id="searchBtn" disabled>
 
             Search Nearby
 
@@ -754,16 +778,13 @@
 
         </label>
 
-        <select id="placesDropdown"
-          class="form-select"></select>
+        <select id="placesDropdown" class="form-select"></select>
 
         <pre id="placeMeta"></pre>
 
         <div class="d-flex gap-2 mt-3 mb-3">
 
-          <button class="btn btn-modern"
-            id="getReviewsBtn"
-            style="display:none">
+          <button class="btn btn-modern" id="getReviewsBtn" style="display:none">
 
             Get Reviews
 
@@ -773,8 +794,7 @@
 
         <!-- REVIEWS -->
 
-        <div id="reviewsArea"
-          style="display:none">
+        <div id="reviewsArea" style="display:none">
 
           <h4 class="mb-4 fw-bold">
 
@@ -784,8 +804,7 @@
 
           <div id="reviewsList"></div>
 
-          <div id="reviewsFooter"
-            style="margin-top:12px;"></div>
+          <div id="reviewsFooter" style="margin-top:12px;"></div>
 
         </div>
 
@@ -827,13 +846,39 @@
 
         </div>
 
-        <div class="col-md-4 mb-4">
+        <div class="col-md-4 mb-4 footer-links">
 
           <h5>Quick Links</h5>
 
-          <a href="/">Home</a>
-          <br>
-          <a href="#">Privacy</a>
+          <a href="/">
+            <i class="fas fa-chevron-right"></i>
+            Home
+          </a>
+
+          <a href="/sightseeing_suggestion">
+            <i class="fas fa-chevron-right"></i>
+            Locations
+          </a>
+
+          <a href="/hotel">
+            <i class="fas fa-chevron-right"></i>
+            Hotels
+          </a>
+
+          <a href="/findmyway">
+            <i class="fas fa-chevron-right"></i>
+            Find My Way
+          </a>
+
+          <a href="/hotel_reviews">
+            <i class="fas fa-chevron-right"></i>
+            Reviews
+          </a>
+
+          <a href="/routefinder">
+            <i class="fas fa-chevron-right"></i>
+            Route Finder
+          </a>
 
         </div>
 
@@ -851,8 +896,7 @@
 
   <!-- Bootstrap JS -->
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
-    defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" defer></script>
 
   <!-- KEEPING YOUR ORIGINAL SCRIPT EXACTLY SAME -->
 
