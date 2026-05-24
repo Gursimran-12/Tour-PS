@@ -1,4 +1,5 @@
 import requests
+import traceback
 
 from flask import current_app
 
@@ -46,6 +47,14 @@ def geocode_location(
                     "Location text is required"
             }
 
+        # =============================================
+        # Force India Bias
+        # =============================================
+
+        if "india" not in text.lower():
+
+            text = f"{text}, India"
+
         url = (
             "https://api.geoapify.com/"
             "v1/geocode/search"
@@ -58,6 +67,19 @@ def geocode_location(
 
             "limit":
                 limit,
+
+            # =============================================
+            # Deployment Safe Bias
+            # =============================================
+
+            "filter":
+                "countrycode:in",
+
+            "bias":
+                "countrycode:in",
+
+            "format":
+                "json",
 
             "apiKey":
                 current_app.config[
@@ -74,9 +96,34 @@ def geocode_location(
             timeout=DEFAULT_TIMEOUT
         )
 
+        print("\n========== GEOCODE STATUS ==========")
+        print(response.status_code)
+
         response.raise_for_status()
 
         data = response.json()
+
+        print("\n========== GEOCODE RESPONSE ==========")
+        print(data)
+
+        # =============================================
+        # Empty Results Check
+        # =============================================
+
+        features = data.get(
+            "features",
+            []
+        )
+
+        if not features:
+
+            return {
+
+                "success": False,
+
+                "error":
+                    "No matching location found"
+            }
 
         return {
 
@@ -86,6 +133,10 @@ def geocode_location(
         }
 
     except Exception as e:
+
+        print("\n========== GEOCODE ERROR ==========")
+
+        print(traceback.format_exc())
 
         return {
 
@@ -151,9 +202,15 @@ def reverse_geocode_service(
             timeout=DEFAULT_TIMEOUT
         )
 
+        print("\n========== REVERSE GEOCODE STATUS ==========")
+        print(response.status_code)
+
         response.raise_for_status()
 
         data = response.json()
+
+        print("\n========== REVERSE GEOCODE RESPONSE ==========")
+        print(data)
 
         # =============================================
         # Extract Formatted Address
@@ -187,6 +244,10 @@ def reverse_geocode_service(
         }
 
     except Exception as e:
+
+        print("\n========== REVERSE GEOCODE ERROR ==========")
+
+        print(traceback.format_exc())
 
         return {
 
@@ -234,6 +295,16 @@ def autocomplete_places(
             "limit":
                 limit,
 
+            # =============================================
+            # India Bias
+            # =============================================
+
+            "filter":
+                "countrycode:in",
+
+            "bias":
+                "countrycode:in",
+
             "apiKey":
                 current_app.config[
                     "GEOAPIFY_KEY"
@@ -249,9 +320,15 @@ def autocomplete_places(
             timeout=DEFAULT_TIMEOUT
         )
 
+        print("\n========== AUTOCOMPLETE STATUS ==========")
+        print(response.status_code)
+
         response.raise_for_status()
 
         data = response.json()
+
+        print("\n========== AUTOCOMPLETE RESPONSE ==========")
+        print(data)
 
         suggestions = []
 
@@ -291,6 +368,10 @@ def autocomplete_places(
         }
 
     except Exception as e:
+
+        print("\n========== AUTOCOMPLETE ERROR ==========")
+
+        print(traceback.format_exc())
 
         return {
 
@@ -375,9 +456,15 @@ def fetch_nearby_places(
             timeout=DEFAULT_TIMEOUT
         )
 
+        print("\n========== PLACES STATUS ==========")
+        print(response.status_code)
+
         response.raise_for_status()
 
         data = response.json()
+
+        print("\n========== PLACES RESPONSE ==========")
+        print(data)
 
         return {
 
@@ -387,6 +474,10 @@ def fetch_nearby_places(
         }
 
     except Exception as e:
+
+        print("\n========== PLACES ERROR ==========")
+
+        print(traceback.format_exc())
 
         return {
 
@@ -443,6 +534,33 @@ def get_route_between_points(
                     "Invalid destination coordinates"
             }
 
+        # =============================================
+        # Safe Mode Mapping
+        # =============================================
+
+        mode_mapping = {
+
+            "drive":
+                "drive",
+
+            "car":
+                "drive",
+
+            "bicycle":
+                "bicycle",
+
+            "bike":
+                "bicycle",
+
+            "walk":
+                "walk"
+        }
+
+        safe_mode = mode_mapping.get(
+            mode,
+            "drive"
+        )
+
         url = (
             "https://api.geoapify.com/"
             "v1/routing"
@@ -459,10 +577,20 @@ def get_route_between_points(
                 ),
 
             "mode":
-                mode,
+                safe_mode,
 
             "details":
                 "instruction_details",
+
+            # =============================================
+            # Better Route Optimization
+            # =============================================
+
+            "traffic":
+                "approximated",
+
+            "units":
+                "metric",
 
             "apiKey":
                 current_app.config[
@@ -479,9 +607,34 @@ def get_route_between_points(
             timeout=ROUTING_TIMEOUT
         )
 
+        print("\n========== ROUTING STATUS ==========")
+        print(response.status_code)
+
         response.raise_for_status()
 
         data = response.json()
+
+        print("\n========== ROUTING RESPONSE ==========")
+        print(data)
+
+        # =============================================
+        # Empty Route Validation
+        # =============================================
+
+        features = data.get(
+            "features",
+            []
+        )
+
+        if not features:
+
+            return {
+
+                "success": False,
+
+                "error":
+                    "No route found"
+            }
 
         return {
 
@@ -491,6 +644,10 @@ def get_route_between_points(
         }
 
     except Exception as e:
+
+        print("\n========== ROUTING ERROR ==========")
+
+        print(traceback.format_exc())
 
         return {
 

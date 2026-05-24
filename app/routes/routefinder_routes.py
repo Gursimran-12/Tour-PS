@@ -4,6 +4,8 @@ from flask import (
     jsonify
 )
 
+import traceback
+
 from app.utils.validators import (
     validate_coordinates,
     is_empty
@@ -15,15 +17,10 @@ from app.utils.constants import (
 )
 
 from app.services.geoapify_service import (
-
     geocode_location,
-
     extract_coordinates,
-
     get_route_between_points,
-
     reverse_geocode_service,
-
     fetch_nearby_places
 )
 
@@ -36,7 +33,6 @@ routefinder_bp = Blueprint(
     __name__
 )
 
-
 # =====================================================
 # Route API
 # =====================================================
@@ -44,50 +40,39 @@ routefinder_bp = Blueprint(
 @routefinder_bp.route("/api/route")
 def api_route():
 
-    start = request.args.get(
-        "start"
-    )
-
-    destination = request.args.get(
-        "destination"
-    )
-
-    # =============================================
-    # Validation
-    # =============================================
+    start = request.args.get("start")
+    destination = request.args.get("destination")
 
     if is_empty(start) or is_empty(destination):
 
         return jsonify({
-
             "success": False,
-
-            "error":
-                "Missing start or destination"
-
+            "error": "Missing start or destination"
         }), 400
 
     try:
 
-        # =============================================
+        # =================================================
+        # Force India Bias
+        # =================================================
+
+        start_query = f"{start}, India"
+        destination_query = f"{destination}, India"
+
+        # =================================================
         # Geocode Start
-        # =============================================
+        # =================================================
 
-        start_geo = geocode_location(
-            start
-        )
+        start_geo = geocode_location(start_query)
 
-        if not start_geo.get(
-            "success"
-        ):
+        print("\n========== START GEO ==========")
+        print(start_geo)
+
+        if not start_geo.get("success"):
 
             return jsonify({
-
                 "success": False,
-
-                "error":
-                    "Start location not found"
-
+                "error": "Start location not found"
             }), 404
 
         start_lat, start_lon = extract_coordinates(
@@ -100,33 +85,24 @@ def api_route():
         ):
 
             return jsonify({
-
                 "success": False,
-
-                "error":
-                    "Invalid start location"
-
+                "error": "Invalid start location"
             }), 404
 
-        # =============================================
+        # =================================================
         # Geocode Destination
-        # =============================================
+        # =================================================
 
-        destination_geo = geocode_location(
-            destination
-        )
+        destination_geo = geocode_location(destination_query)
 
-        if not destination_geo.get(
-            "success"
-        ):
+        print("\n========== DESTINATION GEO ==========")
+        print(destination_geo)
+
+        if not destination_geo.get("success"):
 
             return jsonify({
-
                 "success": False,
-
-                "error":
-                    "Destination not found"
-
+                "error": "Destination not found"
             }), 404
 
         destination_lat, destination_lon = extract_coordinates(
@@ -139,17 +115,13 @@ def api_route():
         ):
 
             return jsonify({
-
                 "success": False,
-
-                "error":
-                    "Invalid destination location"
-
+                "error": "Invalid destination location"
             }), 404
 
-        # =============================================
-        # Fetch Route
-        # =============================================
+        # =================================================
+        # Car Route
+        # =================================================
 
         route_result = get_route_between_points(
 
@@ -157,12 +129,15 @@ def api_route():
             start_lon,
 
             destination_lat,
-            destination_lon
+            destination_lon,
+
+            mode="drive"
         )
 
-        if not route_result.get(
-            "success"
-        ):
+        print("\n========== ROUTE RESULT ==========")
+        print(route_result)
+
+        if not route_result.get("success"):
 
             return jsonify({
 
@@ -172,10 +147,6 @@ def api_route():
                     "Route generation failed"
 
             }), 500
-
-        # =============================================
-        # Route Formatting
-        # =============================================
 
         route_data = route_result["data"]
 
@@ -210,10 +181,6 @@ def api_route():
             0
         )
 
-        # =============================================
-        # Distance + Duration
-        # =============================================
-
         distance_km = round(
             distance_m / 1000,
             2
@@ -224,9 +191,9 @@ def api_route():
             2
         )
 
-        # =============================================
+        # =================================================
         # Weather
-        # =============================================
+        # =================================================
 
         weather_result = fetch_current_weather(
 
@@ -235,9 +202,12 @@ def api_route():
             destination_lon
         )
 
-        # =============================================
-        # Transport Modes
-        # =============================================
+        print("\n========== WEATHER ==========")
+        print(weather_result)
+
+        # =================================================
+        # Modes
+        # =================================================
 
         modes = [
 
@@ -257,13 +227,13 @@ def api_route():
 
             {
 
-                "label": "Bus",
+                "label": "Public Transport",
 
                 "distance_km":
                     distance_km,
 
                 "duration_hr":
-                    round(drive_duration_hr * 1.4, 2),
+                    round(drive_duration_hr * 1.5, 2),
 
                 "estimated_fare_inr":
                     round(distance_km * 2.5)
@@ -277,7 +247,7 @@ def api_route():
                     distance_km,
 
                 "duration_hr":
-                    round(drive_duration_hr * 1.1, 2),
+                    round(drive_duration_hr * 1.15, 2),
 
                 "estimated_fare_inr":
                     round(distance_km * 4)
@@ -298,9 +268,25 @@ def api_route():
             }
         ]
 
-        # =============================================
+        # =================================================
+        # Formatted Address
+        # =================================================
+
+        formatted_start = (
+            start_geo["data"]["features"][0]
+            ["properties"]
+            .get("formatted", start)
+        )
+
+        formatted_destination = (
+            destination_geo["data"]["features"][0]
+            ["properties"]
+            .get("formatted", destination)
+        )
+
+        # =================================================
         # Final Response
-        # =============================================
+        # =================================================
 
         response = {
 
@@ -308,12 +294,25 @@ def api_route():
 
             "source": {
 
-                "address": start
+                "address": formatted_start
             },
 
             "destination": {
 
-                "address": destination
+                "address": formatted_destination
+            },
+
+            "coordinates": {
+
+                "start": {
+                    "lat": start_lat,
+                    "lon": start_lon
+                },
+
+                "destination": {
+                    "lat": destination_lat,
+                    "lon": destination_lon
+                }
             },
 
             "modes": modes,
@@ -349,254 +348,8 @@ def api_route():
 
     except Exception as e:
 
-        return jsonify({
-
-            "success": False,
-
-            "error": str(e)
-
-        }), 500
-
-
-# =====================================================
-# Route Coordinates API
-# =====================================================
-
-@routefinder_bp.route("/api/route_coords")
-def api_route_coords():
-
-    start_lat = request.args.get(
-        "start_lat",
-        type=float
-    )
-
-    start_lon = request.args.get(
-        "start_lon",
-        type=float
-    )
-
-    destination_lat = request.args.get(
-        "destination_lat",
-        type=float
-    )
-
-    destination_lon = request.args.get(
-        "destination_lon",
-        type=float
-    )
-
-    # =============================================
-    # Validation
-    # =============================================
-
-    if not validate_coordinates(
-        start_lat,
-        start_lon
-    ):
-
-        return jsonify({
-
-            "success": False,
-
-            "error":
-                "Invalid start coordinates"
-
-        }), 400
-
-    if not validate_coordinates(
-        destination_lat,
-        destination_lon
-    ):
-
-        return jsonify({
-
-            "success": False,
-
-            "error":
-                "Invalid destination coordinates"
-
-        }), 400
-
-    try:
-
-        route_result = get_route_between_points(
-
-            start_lat,
-            start_lon,
-
-            destination_lat,
-            destination_lon
-        )
-
-        if not route_result.get(
-            "success"
-        ):
-
-            return jsonify({
-
-                "success": False,
-
-                "error":
-                    "Route generation failed"
-
-            }), 500
-
-        return jsonify(
-            route_result["data"]
-        )
-
-    except Exception as e:
-
-        return jsonify({
-
-            "success": False,
-
-            "error": str(e)
-
-        }), 500
-
-
-# =====================================================
-# Nearby Places API
-# =====================================================
-
-@routefinder_bp.route("/api/places")
-def api_places():
-
-    lat = request.args.get(
-        "lat",
-        type=float
-    )
-
-    lon = request.args.get(
-        "lon",
-        type=float
-    )
-
-    category = request.args.get(
-        "category",
-        "tourism"
-    )
-
-    radius = request.args.get(
-        "radius",
-        default=DEFAULT_RADIUS_M,
-        type=int
-    )
-
-    if not validate_coordinates(
-        lat,
-        lon
-    ):
-
-        return jsonify({
-
-            "success": False,
-
-            "error":
-                "Invalid coordinates"
-
-        }), 400
-
-    try:
-
-        result = fetch_nearby_places(
-
-            lat=lat,
-
-            lon=lon,
-
-            categories=category,
-
-            radius_m=radius,
-
-            limit=DEFAULT_PLACE_LIMIT
-        )
-
-        if not result.get(
-            "success"
-        ):
-
-            return jsonify({
-
-                "success": False,
-
-                "error":
-                    "Places fetch failed"
-
-            }), 500
-
-        return jsonify(
-            result["data"]
-        )
-
-    except Exception as e:
-
-        return jsonify({
-
-            "success": False,
-
-            "error": str(e)
-
-        }), 500
-
-
-# =====================================================
-# Reverse Geocoding API
-# =====================================================
-
-@routefinder_bp.route("/reverse_geocode")
-def reverse_geocode():
-
-    lat = request.args.get(
-        "lat",
-        type=float
-    )
-
-    lon = request.args.get(
-        "lon",
-        type=float
-    )
-
-    if not validate_coordinates(
-        lat,
-        lon
-    ):
-
-        return jsonify({
-
-            "success": False,
-
-            "error":
-                "Invalid coordinates"
-
-        }), 400
-
-    try:
-
-        result = reverse_geocode_service(
-            lat,
-            lon
-        )
-
-        if not result.get(
-            "success"
-        ):
-
-            return jsonify({
-
-                "success": False,
-
-                "error":
-                    "Reverse geocoding failed"
-
-            }), 500
-
-        return jsonify(
-            result["data"]
-        )
-
-    except Exception as e:
+        print("\n========== FULL ERROR ==========")
+        print(traceback.format_exc())
 
         return jsonify({
 

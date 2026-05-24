@@ -3,6 +3,9 @@ import pymysql
 pymysql.install_as_MySQLdb()
 
 from flask_cors import CORS
+
+
+CORS(app)
 import logging
 
 from config import Config

@@ -396,123 +396,153 @@
     const weatherBox = document.getElementById("weatherBox");
 
     async function queryRoutes() {
+
       const src = document.getElementById("src").value.trim();
+
       const dst = document.getElementById("dst").value.trim();
 
       if (!src || !dst) {
-        status.textContent = "Please enter both source and destination.";
+
+        status.textContent =
+          "Please enter both source and destination.";
+
         return;
       }
+
+      goBtn.disabled = true;
+
+      goBtn.innerText = "Loading...";
+
       status.textContent = "Fetching routes...";
+
       resultWrap.style.display = "none";
+
       modesTableBody.innerHTML = "";
+
       weatherBox.innerHTML = "";
 
       try {
+
+        const API_BASE =
+          "https://tour-ps.onrender.com/";
+
         const res = await fetch(
-
-          `/api/route?start=${encodeURIComponent(src)}&destination=${encodeURIComponent(dst)}`
-
+          `${API_BASE}/api/route?start=${encodeURIComponent(src)}&destination=${encodeURIComponent(dst)}`
         );
+
         const data = await res.json();
-        if (!res.ok) {
-          status.textContent = data.error || "Error from server";
+
+        console.log("ROUTE RESPONSE:");
+        console.log(data);
+
+        if (!res.ok || !data.success) {
+
+          status.textContent =
+            data.error || "Error from server";
+
+          goBtn.disabled = false;
+
+          goBtn.innerText = "Get Options";
+
           return;
         }
+
         status.textContent = "Done.";
+
         resultWrap.style.display = "block";
 
-        summary.innerHTML = `<strong>From:</strong> ${data.source.address}<br>
-                             <strong>To:</strong> ${data.destination.address}`;
+        summary.innerHTML = `
+
+      <strong>From:</strong>
+      ${data.source.address}
+
+      <br>
+
+      <strong>To:</strong>
+      ${data.destination.address}
+
+    `;
 
         modesTableBody.innerHTML = "";
 
         (data.modes || []).forEach(m => {
 
-          let label = (m.label || "").toLowerCase();
-
-          // =========================================
-          // Rename Transport Modes
-          // =========================================
-
-          if (
-            label === "drive" ||
-            label === "car"
-          ) {
-
-            label = "Car";
-          }
-
-          else if (
-            label === "truck" ||
-            label === "bus" ||
-            label === "public transport"
-          ) {
-
-            label = "Public Transport";
-          }
-
-          else if (
-            label === "bike"
-          ) {
-
-            label = "Bike";
-          }
-
-          else if (
-            label === "walk"
-          ) {
-
-            label = "Walk";
-          }
-
-          // =========================================
-          // Create Table Row
-          // =========================================
-
           const tr = document.createElement("tr");
 
           tr.innerHTML = `
 
-            <td>
-              <span class="mode-pill">
-                ${label}
-              </span>
-            </td>
+        <td>
+          <span class="mode-pill">
+            ${m.label}
+          </span>
+        </td>
 
-            <td>
-              ${m.distance_km != null
-              ? Math.round(m.distance_km)
+        <td>
+          ${m.distance_km != null
+              ? m.distance_km.toFixed(2)
               : "—"}
-            </td>
+        </td>
 
-            <td>
-              ${m.duration_hr != null
-              ? Math.round(m.duration_hr) + " hrs"
+        <td>
+          ${m.duration_hr != null
+              ? m.duration_hr.toFixed(2) + " hrs"
               : "—"}
-            </td>
+        </td>
 
-            <td>
-              ${m.estimated_fare_inr != null
+        <td>
+          ${m.estimated_fare_inr != null
               ? "₹ " + m.estimated_fare_inr
               : "—"}
-            </td>
+        </td>
 
-          `;
+      `;
 
           modesTableBody.appendChild(tr);
 
         });
 
         if (data.weather_at_destination) {
+
           const w = data.weather_at_destination;
-          weatherBox.innerHTML = `<div>Temp: ${w.temperature_c} °C<br>
-                                  Condition: ${w.description}<br>
-                                  Wind: ${w.windspeed_m_s} m/s</div>`;
+
+          weatherBox.innerHTML = `
+
+        <div>
+
+          Temp:
+          ${w.temperature_c} °C
+
+          <br>
+
+          Condition:
+          ${w.description}
+
+          <br>
+
+          Wind:
+          ${w.windspeed_m_s} m/s
+
+        </div>
+
+      `;
         }
-      } catch (err) {
+
+        goBtn.disabled = false;
+
+        goBtn.innerText = "Get Options";
+
+      }
+
+      catch (err) {
+
         console.error(err);
-        status.textContent = "Network/server error";
+
+        status.textContent =
+          "Network/server error";
+
+        goBtn.disabled = false;
+
+        goBtn.innerText = "Get Options";
       }
     }
 
