@@ -565,7 +565,18 @@
         method: "POST", headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ lat: userLat, lng: userLng, category })
       });
-      const j = await res.json();
+      if (!res.ok) {
+        console.error("Server error");
+        return;
+      }
+      let j;
+
+      try {
+        j = await res.json();
+      } catch (e) {
+        console.error("Invalid JSON response");
+        return;
+      }
       let html = "<h5>Places found:</h5>";
       if (markers) markers.clearLayers();
       if (routeLayer) routeLayer.clearLayers();
@@ -651,7 +662,14 @@ onclick="selectPlace(this, ${p.lat}, ${p.lng}, '${(p.name || 'Destination').repl
         method: "POST", headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ src_lat: userLat, src_lng: userLng, dst_lat: lat, dst_lng: lng })
       });
-      const j = await res.json();
+      let j;
+
+      try {
+        j = await res.json();
+      } catch (e) {
+        console.error("Invalid JSON response");
+        return;
+      }
 
       if (j.modes) {
         let infoHtml = "<h5>Available Transport Modes (click to view route):</h5><ul style='list-style:none;padding-left:0;'>";

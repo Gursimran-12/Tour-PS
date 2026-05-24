@@ -45,10 +45,22 @@ def reverse_geocode():
 
     try:
 
-        body = request.get_json()
+        body = request.get_json(silent=True) or {}
 
-        lat = float(body.get("lat"))
-        lng = float(body.get("lng"))
+        lat = body.get("lat")
+        lng = body.get("lng")
+
+        if lat is None or lng is None:
+
+            return jsonify({
+
+                "success": False,
+                "error": "Latitude and Longitude required"
+
+            }), 400
+
+        lat = float(lat)
+        lng = float(lng)
 
         if not validate_coordinates(lat, lng):
 
@@ -131,10 +143,22 @@ def places_api():
 
     try:
 
-        body = request.get_json()
+        body = request.get_json(silent=True) or {}
 
-        lat = float(body.get("lat"))
-        lng = float(body.get("lng"))
+        lat = body.get("lat")
+        lng = body.get("lng")
+
+        if lat is None or lng is None:
+
+            return jsonify({
+
+                "success": False,
+                "error": "Latitude and Longitude required"
+
+            }), 400
+
+        lat = float(lat)
+        lng = float(lng)
 
         category = body.get(
             "category",
@@ -257,13 +281,28 @@ def route_coords():
 
     try:
 
-        body = request.get_json()
+        body = request.get_json(silent=True) or {}
 
-        src_lat = float(body.get("src_lat"))
-        src_lng = float(body.get("src_lng"))
+        src_lat = body.get("src_lat")
+        src_lng = body.get("src_lng")
 
-        dst_lat = float(body.get("dst_lat"))
-        dst_lng = float(body.get("dst_lng"))
+        dst_lat = body.get("dst_lat")
+        dst_lng = body.get("dst_lng")
+
+        if None in [src_lat, src_lng, dst_lat, dst_lng]:
+
+            return jsonify({
+
+                "success": False,
+                "error": "All coordinates required"
+
+            }), 400
+
+        src_lat = float(src_lat)
+        src_lng = float(src_lng)
+
+        dst_lat = float(dst_lat)
+        dst_lng = float(dst_lng)
 
         if not validate_coordinates(src_lat, src_lng):
 
@@ -337,10 +376,10 @@ def route_coords():
                 {}
             )
 
-            geometry = features[0].get(
-                "geometry",
-                {}
-            )
+            geometry = features[0].get("geometry")
+
+            if not geometry:
+                continue
 
             distance_m = properties.get(
                 "distance",
@@ -407,3 +446,4 @@ def route_coords():
             "error": str(e)
 
         }), 500
+

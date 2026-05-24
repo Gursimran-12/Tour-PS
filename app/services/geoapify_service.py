@@ -89,7 +89,7 @@ def geocode_location(
 
             params=params,
 
-            timeout=DEFAULT_TIMEOUT
+            timeout=30
         )
 
         print(response.url)
@@ -238,7 +238,7 @@ def reverse_geocode_service(
 
             params=params,
 
-            timeout=DEFAULT_TIMEOUT
+            timeout=30
         )
 
         print("\n========== REVERSE GEOCODE STATUS ==========")
@@ -348,7 +348,7 @@ def autocomplete_places(
 
             params=params,
 
-            timeout=DEFAULT_TIMEOUT
+            timeout=30
         )
 
         print("\n========== AUTOCOMPLETE STATUS ==========")
@@ -480,7 +480,7 @@ def fetch_nearby_places(
 
             params=params,
 
-            timeout=DEFAULT_TIMEOUT
+            timeout=30
         )
 
         print("\n========== PLACES STATUS ==========")
@@ -626,7 +626,7 @@ def get_route_between_points(
 
             params=params,
 
-            timeout=ROUTING_TIMEOUT
+            timeout=60
         )
 
         print("\n========== ROUTING STATUS ==========")

@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, jsonify
 import pymysql
 pymysql.install_as_MySQLdb()
 
@@ -59,6 +59,20 @@ def create_app():
     logger = logging.getLogger("main_app")
 
     logger.info("Application initialized successfully")
+
+    # =================================================
+    # Global Error Handler
+    # =================================================
+
+    @app.errorhandler(Exception)
+    def handle_exception(e):
+
+        logger.exception("Unhandled Exception Occurred")
+
+        return jsonify({
+            "success": False,
+            "error": str(e)
+        }), 500
 
     # =================================================
     # Register Blueprints
