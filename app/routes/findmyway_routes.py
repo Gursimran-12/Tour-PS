@@ -29,7 +29,7 @@ findmyway_bp = Blueprint(
 def findmyway_view():
 
     return render_template(
-        "findmyway.html"
+        "findMyway.html"
     )
 
 

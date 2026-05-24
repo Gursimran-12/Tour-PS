@@ -274,7 +274,7 @@ def AboutUs():
 def findmyway_view():
 
     return render_template(
-        "findmyway.html"
+        "findMyway.html"
     )
 
 
