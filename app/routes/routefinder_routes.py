@@ -58,7 +58,7 @@ def api_route():
 
         if "india" not in start.lower():
 
-            start_query = f"{start}, India"
+            start_query = start.strip()
 
         else:
 
@@ -66,7 +66,7 @@ def api_route():
 
         if "india" not in destination.lower():
 
-            destination_query = f"{destination}, India"
+            destination_query = destination.strip()
 
         else:
 
@@ -107,6 +107,12 @@ def api_route():
         # =================================================
 
         destination_geo = geocode_location(destination_query)
+        
+        print("DESTINATION QUERY:")
+        print(destination_query)
+        
+        print("DESTINATION RESPONSE:")
+        print(destination_geo)
 
         print("\n========== DESTINATION GEO ==========")
         print(destination_geo)

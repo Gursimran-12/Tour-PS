@@ -61,7 +61,7 @@ def geocode_location(
             # =============================================
 
             "limit":
-                5,
+                20,
 
             # =============================================
             # India Restriction
@@ -118,21 +118,18 @@ def geocode_location(
         # =============================================
 
         best_feature = None
-
+        
+        search_text = text.lower().replace(", india", "").strip()
+        
         for feature in features:
-
-            props = feature.get(
-                "properties",
-                {}
-            )
-
+            
+            props = feature.get("properties", {})
             formatted = props.get(
                 "formatted",
                 ""
-            ).lower()
-
-            if text.lower() in formatted:
-
+                ).lower()
+            
+            if search_text in formatted:
                 best_feature = feature
                 break
 
