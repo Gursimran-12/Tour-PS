@@ -277,6 +277,10 @@ def places_api():
     "/api/route_coords",
     methods=["POST"]
 )
+@findmyway_bp.route(
+    "/api/route_coords",
+    methods=["POST"]
+)
 def route_coords():
 
     try:
@@ -355,6 +359,14 @@ def route_coords():
                 mode=mode_data["mode"]
             )
 
+            # =========================================
+            # DEBUG LOGS
+            # =========================================
+
+            print("=" * 60)
+            print("MODE :", mode_data["mode"])
+            print("ROUTE RESULT :", route_result)
+
             if not route_result.get("success"):
                 continue
 
@@ -376,20 +388,64 @@ def route_coords():
                 {}
             )
 
-            geometry = features[0].get("geometry")
+            geometry = features[0].get(
+                "geometry",
+                {}
+            )
 
-            if not geometry:
-                continue
+            # =========================================
+            # DISTANCE & TIME EXTRACTION
+            # =========================================
 
             distance_m = properties.get(
                 "distance",
                 0
             )
 
-            time_s = properties.get(
+            time_sec = properties.get(
                 "time",
                 0
             )
+
+            # =========================================
+            # OPTIONAL TURN BY TURN STEPS
+            # =========================================
+
+            steps = []
+
+            if properties.get("legs"):
+
+                for leg in properties.get(
+                    "legs",
+                    []
+                ):
+
+                    for step in leg.get(
+                        "steps",
+                        []
+                    ):
+
+                        instruction = step.get(
+                            "instruction",
+                            {}
+                        )
+
+                        if isinstance(
+                            instruction,
+                            dict
+                        ):
+
+                            text = instruction.get(
+                                "text",
+                                ""
+                            )
+
+                            if text:
+                                steps.append(text)
+
+            # =========================================
+            # APPEND ROUTE
+            # =========================================
 
             all_routes.append({
 
@@ -397,16 +453,25 @@ def route_coords():
                     mode_data["label"],
 
                 "distance_km":
-                    round(distance_m / 1000, 2),
+                    round(
+                        distance_m / 1000,
+                        2
+                    ),
 
                 "duration_min":
-                    round(time_s / 60),
-
-                "estimated_fare_inr":
-                    round((distance_m / 1000) * 12),
+                    round(
+                        time_sec / 60,
+                        2
+                    ),
 
                 "geometry":
-                    geometry
+                    geometry.get(
+                        "coordinates",
+                        []
+                    ),
+
+                "steps":
+                    steps
             })
 
         # =========================================
@@ -417,7 +482,8 @@ def route_coords():
 
             all_routes.append({
 
-                "label": "Public Transport",
+                "label":
+                    "Public Transport",
 
                 "distance_km":
                     all_routes[0]["distance_km"],
@@ -425,11 +491,22 @@ def route_coords():
                 "duration_min":
                     all_routes[0]["duration_min"] + 20,
 
-                "estimated_fare_inr": 80,
+                "estimated_fare_inr":
+                    80,
 
                 "geometry":
-                    all_routes[0]["geometry"]
+                    all_routes[0]["geometry"],
+
+                "steps":
+                    all_routes[0].get(
+                        "steps",
+                        []
+                    )
             })
+
+        print("=" * 60)
+        print("FINAL ROUTES :", all_routes)
+        print("=" * 60)
 
         return jsonify({
 
@@ -440,10 +517,11 @@ def route_coords():
 
     except Exception as e:
 
+        print("ROUTE API ERROR :", str(e))
+
         return jsonify({
 
             "success": False,
             "error": str(e)
 
         }), 500
-

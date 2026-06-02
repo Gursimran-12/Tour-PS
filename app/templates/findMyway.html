@@ -606,6 +606,7 @@
     <!-- ROUTE INFO -->
 
     <div id="routeInfo" class="text-center"></div>
+    <div id="routeSteps" class="mt-4"></div>
 
     <!-- BUTTON -->
 
@@ -649,7 +650,7 @@
 
             <i class="fas fa-envelope me-2"></i>
 
-            info@example.com
+            tripmyway@gmail.com
 
           </p>
 
@@ -706,6 +707,9 @@
   <!-- Leaflet -->
 
   <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+  <!-- Polyline Decorator -->
+  <script src="https://unpkg.com/leaflet-polylinedecorator"></script>
 
   <!-- Bootstrap -->
 
@@ -843,8 +847,11 @@
           icon: sourceIcon
         })
           .addTo(markers)
-          .bindPopup("Source Location")
-          .openPopup();
+          .bindTooltip("Your Location", {
+            permanent: true,
+            direction: "top",
+            offset: [0, -20]
+          });
 
         L.circle([userLat, userLng], {
           radius: 120,
@@ -888,6 +895,8 @@
 
       if (routeLayer) routeLayer.clearLayers();
 
+      
+
       // SOURCE AGAIN
       L.marker([userLat, userLng], {
         icon: sourceIcon
@@ -927,7 +936,11 @@
 
         L.marker([p.lat, p.lng])
           .addTo(markers)
-          .bindPopup(p.name);
+          .bindTooltip(p.name, {
+            permanent: true,
+            direction: "top",
+            offset: [0, -15]
+          });
 
       });
 
@@ -950,26 +963,13 @@
         { icon: selectedDestIcon }
       )
         .addTo(routeLayer)
-        .bindPopup(`
-        <div style="text-align:center;padding:6px;">
-          <strong style="
-            color:#dc3545;
-            font-size:16px;
-          ">
-            ${name}
-          </strong>
-
-          <br>
-
-          <span style="
-            color:#555;
-            font-size:14px;
-          ">
-            This is your destination
-          </span>
-        </div>
-      `)
-        .openPopup();
+        .bindTooltip(`
+📍 ${name}
+`, {
+          permanent: true,
+          direction: "top",
+          className: "destination-label"
+        });
 
       // GLOWING AREA
       destinationCircle = L.circle(
@@ -1095,53 +1095,170 @@
         window.currentRoutes &&
         window.currentRoutes[idx];
 
+      console.log("Selected Route:");
+      console.log(route);
+
+      console.log("Geometry:");
+      console.log(route.geometry);
+
       if (!route || !route.geometry) return;
 
-      const coords =
-        route.geometry.map(c => [c[1], c[0]]);
+      const geometryCoords =
+        Array.isArray(route.geometry[0][0])
+          ? route.geometry[0]
+          : route.geometry;
 
+      const coords =
+        geometryCoords.map(
+          c => [c[1], c[0]]
+        );
+
+      // ==========================
       // GLOW ROUTE
+      // ==========================
       L.polyline(coords, {
         color: "#ff4d4d",
         weight: 18,
         opacity: 0.22
       }).addTo(routeLayer);
 
+      // ==========================
       // MAIN ROUTE
+      // ==========================
       const poly = L.polyline(coords, {
         color: "#ff0000",
         weight: 7,
         opacity: 1
       }).addTo(routeLayer);
 
+      // ==========================
+      // ROUTE DIRECTION ARROWS
+      // ==========================
+      if (typeof L.polylineDecorator !== "undefined") {
+
+        L.polylineDecorator(poly, {
+          patterns: [{
+            offset: 25,
+            repeat: 50,
+            symbol: L.Symbol.arrowHead({
+              pixelSize: 10,
+              polygon: false,
+              pathOptions: {
+                color: '#ff0000',
+                weight: 3
+              }
+            })
+          }]
+        }).addTo(routeLayer);
+      }
+
+      // ==========================
+      // AUTO FIT MAP
+      // ==========================
       map.fitBounds(poly.getBounds(), {
         padding: [30, 30]
       });
 
-      // SOURCE
+      // ==========================
+      // SOURCE MARKER
+      // ==========================
       L.marker([userLat, userLng], {
         icon: sourceIcon
       })
         .addTo(routeLayer)
-        .bindPopup("Source Location");
+        .bindTooltip("📍 Your Location", {
+          permanent: true,
+          direction: "top",
+          offset: [0, -20]
+        });
 
-      // DESTINATION
+      // ==========================
+      // DESTINATION MARKER
+      // ==========================
       L.marker(
-        [window.currentDest.lat,
-        window.currentDest.lng],
+        [
+          window.currentDest.lat,
+          window.currentDest.lng
+        ],
         {
           icon: selectedDestIcon
         }
       )
         .addTo(routeLayer)
-        .bindPopup(`
-        <div style="text-align:center;">
-          <strong>${name}</strong>
-          <br>
-          This is your destination
+        .bindTooltip(`📍 ${name}`, {
+          permanent: true,
+          direction: "top",
+          offset: [0, -20]
+        });
+
+      // ==========================
+      // DISTANCE & TIME INFO
+      // ==========================
+      let routeSummary = `
+        <div class="alert alert-success mt-3">
+            <strong>Distance:</strong> ${Math.round(route.distance_km)} km
+            <br>
+            <strong>Estimated Time:</strong> ${Math.round(route.duration_min)} min
         </div>
-      `)
-        .openPopup();
+    `;
+
+      // ==========================
+      // TURN BY TURN DIRECTIONS
+      // ==========================
+      let stepsHtml = "";
+
+      if (route.steps && route.steps.length > 0) {
+
+        stepsHtml = `
+            <div class="card mt-3 shadow-sm">
+                <div class="card-body">
+                    <h5 class="fw-bold mb-3">
+                        <i class="bi bi-signpost-split"></i>
+                        Route Directions
+                    </h5>
+
+                    <ol class="mb-0">
+        `;
+
+        route.steps.forEach(step => {
+
+          if (typeof step === "string") {
+
+            stepsHtml += `
+                    <li class="mb-2">
+                        ${step}
+                    </li>
+                `;
+
+          } else if (step.instruction) {
+
+            stepsHtml += `
+                    <li class="mb-2">
+                        ${step.instruction}
+                    </li>
+                `;
+          }
+
+        });
+
+        stepsHtml += `
+                    </ol>
+                </div>
+            </div>
+        `;
+      }
+
+      // ==========================
+      // SHOW INFO
+      // ==========================
+      const routeStepsDiv =
+        document.getElementById("routeSteps");
+
+      if (routeStepsDiv) {
+
+        routeStepsDiv.innerHTML =
+          routeSummary + stepsHtml;
+      }
     }
 
     document.getElementById('dynamicScheduleBtn')
