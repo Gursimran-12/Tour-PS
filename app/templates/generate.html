@@ -778,17 +778,26 @@
     }
 
     @media(max-width:992px) {
-  
-    /* controls row */
-    .search-controls {
-      display: flex;
-      align-items: center;
-      gap: 20px;
-      flex-wrap: wrap;
-    }
-   
-}
 
+      /* controls row */
+      .search-controls {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        flex-wrap: wrap;
+      }
+
+    }
+
+    .weather-card,
+    .weather-card * {
+      pointer-events: auto !important;
+    }
+
+    #btnWeather {
+      position: relative;
+      z-index: 9999 !important;
+    }
   </style>
 
 </head>
@@ -883,6 +892,8 @@
               <span id="summary-state">{{ state or '' }}</span> •
               <span id="summary-days">{{ days or '' }}</span> day(s) •
               <span id="summary-time">{{ start_time or '' }}–{{ stop_time or '' }}</span>
+              <span id="summary-lat" hidden>{{ lat }}</span>
+              <span id="summary-lon" hidden>{{ lon }}</span>
             </div>
           </div>
 
@@ -902,8 +913,12 @@
                     <div class="tiny">Powered by OpenWeather</div>
                   </div>
                   <div class="d-flex align-items-center gap-2">
-                    <button id="btnWeather" class="btn btn-sm btn-primary"><i class="bi bi-arrow-clockwise me-1"></i>Get
-                      Weather</button>
+                    <button id="btnWeather" type="button" class="btn btn-sm btn-primary" onclick="handleWeatherClick()">
+
+                      <i class="bi bi-arrow-clockwise me-1"></i>
+                      Get Weather
+
+                    </button>
                   </div>
                 </div>
                 <div id="weatherPanel" class="mt-2">
@@ -1200,6 +1215,12 @@
       return ctx;
     }
 
+    document.getElementById('btnWeather')
+      ?.addEventListener('click', handleWeatherClick, { passive: true });
+
+    document.getElementById('btnNearby')
+      ?.addEventListener('click', handleNearbyClick, { passive: true });
+
     // Copy coords
     document.getElementById('copyCoords')?.addEventListener('click', async () => {
       const ctx = readContext();
@@ -1405,14 +1426,6 @@
     // init
     buildPlan();
 
-    /* ============================== ADDED: WEATHER + NEARBY ============================== */
-
-    const GEOAPIFY_KEY = "{{ GEOAPIFY_KEY }}";
-    const OPENWEATHER_KEY = "{{ OPENWEATHER_KEY }}";
-
-    // Wire buttons
-    document.getElementById('btnWeather')?.addEventListener('click', handleWeatherClick, { passive: true });
-    document.getElementById('btnNearby')?.addEventListener('click', handleNearbyClick, { passive: true });
 
     function ctxOrError() {
       const ctx = readContext();
@@ -1423,44 +1436,123 @@
     }
 
     async function handleWeatherClick() {
-      const panel = document.getElementById('weatherPanel');
-      try {
-        panel.innerHTML = `<div class="spinner"><div class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></div><span>Loading weather…</span></div>`;
-        const { lat, lon, city, state } = ctxOrError();
-        if (!OPENWEATHER_KEY || OPENWEATHER_KEY.includes('YOUR_OPENWEATHER_KEY_HERE')) {
-          panel.innerHTML = `<div class="text-danger tiny">OpenWeather API key missing. Please configure it in the code.</div>`;
-          return;
-        }
-        const url = new URL('https://api.openweathermap.org/data/2.5/weather');
-        url.searchParams.set('lat', lat);
-        url.searchParams.set('lon', lon);
-        url.searchParams.set('units', 'metric');
-        url.searchParams.set('appid', OPENWEATHER_KEY);
-        const r = await fetch(url);
-        if (!r.ok) throw new Error('Weather API error: ' + r.status);
-        const w = await r.json();
 
-        const name = (city || w.name || 'Destination') + (state ? `, ${state}` : '');
-        const temp = Math.round(w.main?.temp ?? 0);
-        const feels = Math.round(w.main?.feels_like ?? temp);
-        const cond = (w.weather && w.weather[0]?.description) ? w.weather[0].description : '—';
-        const humid = w.main?.humidity ?? '—';
-        const wind = w.wind?.speed != null ? `${w.wind.speed} m/s` : '—';
-        const icon = w.weather && w.weather[0]?.icon ? `https://openweathermap.org/img/wn/${w.weather[0].icon}@2x.png` : '';
+      console.log("Weather button clicked");
+
+      const panel = document.getElementById('weatherPanel');
+
+
+      try {
 
         panel.innerHTML = `
-          <div class="d-flex align-items-center gap-3">
-            ${icon ? `<img alt="icon" src="${icon}" width="60" height="60" />` : ''}
-            <div>
-              <div class="fw-semibold">${name}</div>
-              <div class="h4 m-0">${temp}°C <span class="tiny">feels ${feels}°C</span></div>
-              <div class="tiny text-capitalize">${cond}</div>
-              <div class="tiny">Humidity ${humid}% • Wind ${wind}</div>
+            <div class="d-flex align-items-center gap-2">
+                <div class="spinner-border spinner-border-sm"></div>
+                <span>Loading weather...</span>
             </div>
-          </div>`;
-      } catch (err) {
-        console.error(err);
-        panel.innerHTML = `<div class="text-danger tiny">Could not load weather.</div>`;
+        `;
+
+        const ctx = readContext();
+
+        console.log("Context:", ctx);
+
+        if (isNaN(ctx.lat) || isNaN(ctx.lon)) {
+
+          panel.innerHTML = `
+                <div class="text-danger tiny">
+                    Latitude / Longitude not found
+                </div>
+            `;
+
+          return;
+        }
+
+        const response = await fetch(
+          `/api/weather_current?lat=${ctx.lat}&lon=${ctx.lon}`
+        );
+
+        console.log("Response Status:", response.status);
+
+        if (!response.ok) {
+
+          throw new Error(
+            `Weather API Error: ${response.status}`
+          );
+
+        }
+
+        const weather = await response.json();
+
+        console.log("Weather Data:", weather);
+
+        if (!weather.success) {
+
+          throw new Error(
+            weather.error || "Weather unavailable"
+          );
+
+        }
+
+        const iconUrl = weather.icon
+          ? `https://openweathermap.org/img/wn/${weather.icon}@2x.png`
+          : "";
+
+        panel.innerHTML = `
+            <div class="d-flex align-items-center gap-3">
+
+                ${iconUrl
+            ? `<img src="${iconUrl}" width="60" height="60">`
+            : ''
+          }
+
+                <div>
+
+                    <div class="fw-semibold">
+                        ${weather.name || "Destination"}
+                    </div>
+
+                    <div class="h4 mb-1">
+                        ${weather.temp_c}°C
+                    </div>
+
+                    <div class="tiny text-capitalize">
+                        ${weather.condition || "Unknown"}
+                    </div>
+
+                    <div class="tiny">
+                        Feels Like:
+                        ${weather.feels_like_c}°C
+                    </div>
+
+                    <div class="tiny">
+                        Humidity:
+                        ${weather.humidity}%
+                    </div>
+
+                    <div class="tiny">
+                        Wind:
+                        ${weather.wind_m_s} m/s
+                    </div>
+
+                </div>
+
+            </div>
+        `;
+
+      }
+
+      catch (error) {
+
+        console.error(
+          "Weather Error:",
+          error
+        );
+
+        panel.innerHTML = `
+            <div class="text-danger tiny">
+                Could not load weather:
+                ${error.message}
+            </div>
+        `;
       }
     }
 
@@ -1472,10 +1564,6 @@
 
       if (!hotels && !restaurants) {
         panel.innerHTML = `<div class="tiny dim">Please select at least one option.</div>`;
-        return;
-      }
-      if (!GEOAPIFY_KEY || GEOAPIFY_KEY.includes('YOUR_GEOAPIFY_KEY_HERE')) {
-        panel.innerHTML = `<div class="text-danger tiny">Geoapify API key missing. Please configure it in the code.</div>`;
         return;
       }
 
@@ -1553,59 +1641,35 @@
       }
     }
 
-    async function fetchGeoapify(lat, lon, radius, category) {
+    async function fetchGeoapify(
+      lat,
+      lon,
+      radius,
+      category
+    ) {
 
-      const url = new URL(
-        'https://api.geoapify.com/v2/places'
-      );
-
-      url.searchParams.set(
-        'categories',
-        category
-      );
-
-      url.searchParams.set(
-        'filter',
-        `circle:${lon},${lat},${radius}`
-      );
-
-      url.searchParams.set(
-        'bias',
-        `proximity:${lon},${lat}`
-      );
-
-      url.searchParams.set(
-        'limit',
-        '30'
-      );
-
-      url.searchParams.set(
-        'apiKey',
-        GEOAPIFY_KEY
-      );
+      const url =
+        `/api/nearby_places?lat=${lat}` +
+        `&lon=${lon}` +
+        `&radius=${radius}` +
+        `&category=${encodeURIComponent(category)}`;
 
       const r = await fetch(url);
 
       if (!r.ok) {
 
         throw new Error(
-          'Geoapify error: ' + r.status
+          "Nearby API failed"
         );
 
       }
 
       const data = await r.json();
 
-      // =========================================
-      // IMPORTANT FIX
-      // Geoapify returns "features"
-      // not "success"
-      // =========================================
-
-      if (!data.features) {
+      if (!data.success) {
 
         throw new Error(
-          "No nearby places found"
+          data.error || "No nearby places found"
         );
 
       }
@@ -1613,7 +1677,8 @@
       return (data.features || []).map(f => {
 
         const [flon, flat] =
-          f.geometry?.coordinates || [lon, lat];
+          f.geometry?.coordinates ||
+          [lon, lat];
 
         const distance = haversine(
           lat,

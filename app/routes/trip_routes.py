@@ -5,12 +5,14 @@ from flask import (
     session,
     redirect,
     url_for,
-    current_app
+    current_app,
+    jsonify
 )
 
 from app.services.geoapify_service import (
     geocode_location,
-    extract_coordinates
+    extract_coordinates,
+    fetch_nearby_places
 )
 
 trip_bp = Blueprint(
@@ -192,13 +194,6 @@ def generate():
 
         lon=lon,
         
-        GEOAPIFY_KEY=current_app.config[
-            "GEOAPIFY_KEY"
-        ],
-
-        OPENWEATHER_KEY=current_app.config[
-            "OPENWEATHER_KEY"
-        ]
     )
 
 
@@ -309,6 +304,73 @@ def serve_dynamic():
         "dynamic.html"
     )
 
+# =====================================================
+# Nearby Places API
+# =====================================================
+
+@trip_bp.route("/api/nearby_places")
+def nearby_places():
+
+    try:
+
+        lat = request.args.get(
+            "lat",
+            type=float
+        )
+
+        lon = request.args.get(
+            "lon",
+            type=float
+        )
+
+        radius = request.args.get(
+            "radius",
+            default=3000,
+            type=int
+        )
+
+        category = request.args.get(
+            "category"
+        )
+
+        result = fetch_nearby_places(
+
+            lat=lat,
+
+            lon=lon,
+
+            categories=category,
+
+            radius_m=radius,
+
+            limit=30
+        )
+
+        if not result.get("success"):
+
+            return jsonify(result), 500
+
+        return jsonify({
+
+            "success": True,
+
+            "features":
+                result["data"].get(
+                    "features",
+                    []
+                )
+
+        })
+
+    except Exception as e:
+
+        return jsonify({
+
+            "success": False,
+
+            "error": str(e)
+
+        }), 500
 
 @trip_bp.route("/dynamic.html")
 def serve_dynamic_html_file():
