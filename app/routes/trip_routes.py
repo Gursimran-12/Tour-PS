@@ -12,7 +12,8 @@ from flask import (
 from app.services.geoapify_service import (
     geocode_location,
     extract_coordinates,
-    fetch_nearby_places
+    fetch_nearby_places,
+    reverse_geocode_service
 )
 
 trip_bp = Blueprint(
@@ -377,4 +378,48 @@ def serve_dynamic_html_file():
 
     return render_template(
         "dynamic.html"
+    )
+    
+    # =====================================================
+# Reverse Geocode API
+# =====================================================
+
+@trip_bp.route("/reverse_geocode")
+def reverse_geocode():
+
+    lat = request.args.get(
+        "lat",
+        type=float
+    )
+
+    lon = request.args.get(
+        "lon",
+        type=float
+    )
+
+    if lat is None or lon is None:
+
+        return jsonify({
+
+            "error":
+                "Latitude and Longitude required"
+
+        }), 400
+
+    result = reverse_geocode_service(
+        lat,
+        lon
+    )
+
+    if not result.get("success"):
+
+        return jsonify({
+
+            "error":
+                result.get("error")
+
+        }), 500
+
+    return jsonify(
+        result["data"]
     )
