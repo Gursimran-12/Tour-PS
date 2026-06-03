@@ -200,6 +200,6 @@ gunicorn run:app
 
 # Author
 
-Trip My Way Team
+Team: Tour-PS
 
 ---
