@@ -346,10 +346,17 @@ def nearby_places():
 
             limit=30
         )
-
+        
+        print("\n========== NEARBY RESULT ==========")
+        print(result)
+        
         if not result.get("success"):
-
-            return jsonify(result), 500
+            return jsonify({
+                "success": True,
+                "features": [],
+                "message":
+                    "No nearby places found"
+                    })
 
         return jsonify({
 

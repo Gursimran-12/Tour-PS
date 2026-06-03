@@ -715,8 +715,18 @@
         }
 
         .nearby-btn {
-          width: 100%;
-          min-width: 100%;
+
+          min-width: 220px;
+
+          height: 56px;
+
+          display: flex;
+
+          align-items: center;
+
+          justify-content: center;
+
+          white-space: nowrap;
         }
 
         .radius-select {
@@ -797,6 +807,17 @@
     #btnWeather {
       position: relative;
       z-index: 9999 !important;
+    }
+
+    .weather-card {
+      padding: 32px !important;
+    }
+
+    .weather-card,
+    .nearby-search-card {
+      height: 100%;
+      min-height: 235px;
+      /* adjust as needed */
     }
   </style>
 
@@ -904,9 +925,9 @@
 
         <!-- ---------------- ADDED: WEATHER + NEARBY CONTROLS ---------------- -->
         <div class="mt-4">
-          <div class="row g-3">
+          <div class="row g-3 align-items-stretch">
             <div class="col-12 col-lg-6">
-              <div class="weather-card">
+              <div class="weather-card h-100">
                 <div class="d-flex align-items-center justify-content-between">
                   <div>
                     <div class="fw-semibold"><i class="bi bi-cloud-sun me-1"></i>Destination Weather</div>
@@ -927,47 +948,27 @@
               </div>
             </div>
             <div class="col-12 col-lg-6">
-              <div class="card-glass nearby-search-card">
+              <div class="card-glass nearby-search-card h-100">
                 <div class="d-flex align-items-center justify-content-between">
                   <div class="fw-semibold"><i class="bi bi-geo-alt me-1"></i>Search Nearby</div>
                 </div>
                 <div class="toolbelt mt-3">
 
-                  <div class="search-options">
+                  <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
 
-                    <label class="custom-check">
-                      <input type="checkbox" id="optHotels" value="hotels">
-                      <span>Hotels</span>
-                    </label>
+                    <div class="search-options">
 
-                    <label class="custom-check">
-                      <input type="checkbox" id="optRestaurants" value="restaurants">
-                      <span>Restaurants</span>
-                    </label>
+                      <label class="custom-check">
+                        <input type="checkbox" id="optHotels" value="hotels">
+                        <span>Hotels</span>
+                      </label>
 
-                  </div>
+                      <label class="custom-check">
+                        <input type="checkbox" id="optRestaurants" value="restaurants">
+                        <span>Restaurants</span>
+                      </label>
 
-                  <div class="search-controls d-flex align-items-center gap-3">
-
-                    <select id="radiusSelect" class="form-select radius-select">
-
-                      <option value="1500">
-                        Radius: 1.5 km
-                      </option>
-
-                      <option value="3000" selected>
-                        Radius: 3 km
-                      </option>
-
-                      <option value="5000">
-                        Radius: 5 km
-                      </option>
-
-                      <option value="10000">
-                        Radius: 10 km
-                      </option>
-
-                    </select>
+                    </div>
 
                     <button id="btnNearby" class="btn btn-primary nearby-btn">
 
@@ -1560,7 +1561,7 @@
       const panel = document.getElementById('nearbyPanel');
       const hotels = document.getElementById('optHotels')?.checked;
       const restaurants = document.getElementById('optRestaurants')?.checked;
-      const radius = parseInt(document.getElementById('radiusSelect')?.value || '3000', 10);
+      const radius = 3000;
 
       if (!hotels && !restaurants) {
         panel.innerHTML = `<div class="tiny dim">Please select at least one option.</div>`;
@@ -1591,7 +1592,28 @@
         });
 
         if (!results.length) {
-          panel.innerHTML = `<div class="alert alert-warning tiny mb-0">No places found within ${Math.round(radius / 1000)} km.</div>`;
+
+          let selected = [];
+
+          if (hotels) {
+            selected.push("hotels");
+          }
+
+          if (restaurants) {
+            selected.push("restaurants");
+          }
+
+          panel.innerHTML = `
+        <div class="alert alert-info mb-0">
+
+            Currently no nearby
+            ${selected.join(" or ")}
+            are available within
+            ${Math.round(radius / 1000)} km.
+
+        </div>
+    `;
+
           return;
         }
 
@@ -1636,8 +1658,17 @@
             </div>`;
           }).join('');
       } catch (err) {
-        console.error(err);
-        panel.innerHTML = `<div class="text-danger tiny">Search failed. Please try again.</div>`;
+
+        console.error("Nearby Search Error:", err);
+
+        panel.innerHTML = `
+        <div class="alert alert-warning mb-0">
+
+            Currently nearby places data
+            is unavailable.
+
+        </div>
+    `;
       }
     }
 

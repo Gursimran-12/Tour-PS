@@ -5,6 +5,7 @@ from flask import (
 )
 
 import traceback
+from math import radians, sin, cos, sqrt, atan2
 
 from app.utils.validators import (
     validate_coordinates,
@@ -155,60 +156,87 @@ def api_route():
 
         print("\n========== ROUTE RESULT ==========")
         print(route_result)
-
         if not route_result.get("success"):
-
-            return jsonify({
-
-                "success": False,
-
-                "error":
-                    "Route generation failed"
-
-            }), 500
-
-        route_data = route_result["data"]
-
-        features = route_data.get(
-            "features",
-            []
-        )
-
-        if not features:
-
-            return jsonify({
-
-                "success": False,
-
-                "error":
-                    "No route found"
-
-            }), 404
-
-        properties = features[0].get(
-            "properties",
-            {}
-        )
-
-        distance_m = properties.get(
-            "distance",
-            0
-        )
-
-        time_s = properties.get(
-            "time",
-            0
-        )
-
-        distance_km = round(
+            R = 6371
+            
+            lat1 = radians(start_lat)
+            lon1 = radians(start_lon)
+            
+            lat2 = radians(destination_lat)
+            lon2 = radians(destination_lon)
+            
+            dlat = lat2 - lat1
+            dlon = lon2 - lon1
+            
+            a = (
+                sin(dlat / 2) ** 2
+                + cos(lat1)
+                * cos(lat2)
+                * sin(dlon / 2) ** 2
+                )
+            
+            c = 2 * atan2(
+                sqrt(a),
+                sqrt(1 - a)
+                )
+            
+            straight_distance = R * c
+            estimated_distance_km = round(
+                straight_distance * 1.2,
+                2
+                )
+            
+            estimated_duration_hr = round(
+                estimated_distance_km / 55,
+                2
+                )
+            
+            route_available = False
+            
+        else:
+            
+            route_available = True
+            route_data = route_result["data"]
+            
+        if route_available:
+            features = route_data.get(
+                "features",
+                []
+                )
+        else:
+            features = []
+            
+        if route_available:
+            
+            properties = features[0].get(
+                "properties",
+                {}
+                )
+            
+            distance_m = properties.get(
+                "distance",
+                0
+                )
+            
+            time_s = properties.get(
+                "time",
+                0
+                )
+        
+        if route_available:
+            distance_km = round(
             distance_m / 1000,
             2
-        )
-
-        drive_duration_hr = round(
-            time_s / 3600,
-            2
-        )
+            )
+            
+            drive_duration_hr = round(
+                time_s / 3600,
+                2
+                )
+            
+        else:
+            distance_km = estimated_distance_km
+            drive_duration_hr = estimated_duration_hr
 
         # =================================================
         # Weather
@@ -308,6 +336,13 @@ def api_route():
         # =================================================
 
         response = {
+            
+            "route_available": route_available,
+            
+            "route_note":
+                "Exact road route currently unavailable. Showing estimated values."
+                if not route_available
+                else "",
 
             "success": True,
 

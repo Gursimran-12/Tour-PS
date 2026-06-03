@@ -1016,31 +1016,61 @@
 
         if (!res.ok || !data.success) {
 
-          status.textContent =
-            data.error || "Error from server";
+          status.innerHTML = `
+    <div style="
+      background:#fff3cd;
+      color:#856404;
+      padding:14px;
+      border-radius:12px;
+      margin-top:10px;
+      border:1px solid #ffeeba;
+    ">
+      ${data.error ||
+            "Currently we do not have route information available for these locations."
+            }
+    </div>
+  `;
+
+          resultWrap.style.display = "none";
 
           goBtn.disabled = false;
-
           goBtn.innerText = "Get Options";
 
           return;
         }
-
         status.textContent = "Done.";
 
         resultWrap.style.display = "block";
 
         summary.innerHTML = `
 
-      <strong>From:</strong>
-      ${data.source.address}
+<strong>From:</strong>
+${data.source.address}
 
-      <br>
+<br>
 
-      <strong>To:</strong>
-      ${data.destination.address}
+<strong>To:</strong>
+${data.destination.address}
 
-    `;
+${!data.route_available ? `
+
+<div style="
+    margin-top:15px;
+    padding:15px;
+    border-radius:12px;
+    background:#fff8e1;
+    border:1px solid #facc15;
+    color:#92400e;
+">
+    <strong>Estimated Route</strong>
+    <br>
+    Exact road route currently unavailable.
+    Showing estimated distance and travel time.
+</div>
+
+` : ""}
+
+`;
 
         modesTableBody.innerHTML = "";
 

@@ -895,7 +895,7 @@
 
       if (routeLayer) routeLayer.clearLayers();
 
-      
+
 
       // SOURCE AGAIN
       L.marker([userLat, userLng], {
@@ -911,17 +911,26 @@
         fillOpacity: 0.2,
         weight: 3
       }).addTo(markers);
-
       j.places.forEach(p => {
 
+        const placeName = (p.name || "").trim();
+
+        if (
+          !placeName ||
+          ["unnamed", "unknown", "n/a", "-"]
+            .includes(placeName.toLowerCase())
+        ) {
+          return;
+        }
+
         html += `
-      <div class="place"
-      onclick="selectPlace(this, ${p.lat}, ${p.lng}, '${(p.name || 'Destination').replace(/'/g, "\\'")}')">
+  <div class="place"
+  onclick="selectPlace(this, ${p.lat}, ${p.lng}, '${placeName.replace(/'/g, "\\'")}')">
 
         <div class="d-flex justify-content-between align-items-center">
 
           <div>
-            <strong>${p.name}</strong><br>
+            <strong>${placeName}</strong><br>
             <small>${p.address}</small>
           </div>
 
@@ -936,7 +945,7 @@
 
         L.marker([p.lat, p.lng])
           .addTo(markers)
-          .bindTooltip(p.name, {
+          .bindTooltip(placeName, {
             permanent: true,
             direction: "top",
             offset: [0, -15]
