@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Generated Plan — AI Tour Planner</title>
+  <title>Generated Plan — Trip My Way</title>
 
   <!-- Favicon -->
   <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico') }}?v=2">
@@ -548,12 +548,8 @@
       }
 
       /* =========================
-   SEARCH NEARBY UI FIX
-========================= */
-
-      /* =========================
-   SEARCH NEARBY UI FIX
-========================= */
+      SEARCH NEARBY UI FIX
+      ========================= */
 
       .toolbelt {
         display: flex;
@@ -692,8 +688,8 @@
       }
 
       /* =========================
-   MOBILE FIX
-========================= */
+      MOBILE FIX
+      ========================= */
 
       @media(max-width:768px) {
 
@@ -1050,25 +1046,31 @@
       <h5 class="offcanvas-title" id="filtersCanvasLabel"><i class="bi bi-sliders me-1"></i>Display Options</h5>
       <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
+
     <div class="offcanvas-body">
       <div class="form-check mb-2">
         <input class="form-check-input" type="checkbox" value="" id="toggleDescriptions" checked>
         <label class="form-check-label" for="toggleDescriptions">Show descriptions</label>
       </div>
+
       <div class="form-check mb-2">
         <input class="form-check-input" type="checkbox" value="" id="toggleDistances" checked>
         <label class="form-check-label" for="toggleDistances">Show distances</label>
       </div>
+
       <div class="form-check mb-2">
         <input class="form-check-input" type="checkbox" value="" id="toggleTransport" checked>
         <label class="form-check-label" for="toggleTransport">Show travel mode badges</label>
       </div>
+
       <div class="mt-3">
         <button class="btn btn-sm btn-primary" data-bs-dismiss="offcanvas">Apply</button>
       </div>
+
       <hr>
       <p class="tiny mb-0">These options only affect what you see; they don't change your saved plan.</p>
     </div>
+    
   </div>
 
   <!-- TOASTS -->
