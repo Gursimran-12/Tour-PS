@@ -200,6 +200,6 @@ gunicorn run:app
 
 # Author
 
-Gursimran Kaur
+Team: Tour-PS
 
 ---
