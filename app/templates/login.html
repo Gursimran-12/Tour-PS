@@ -22,6 +22,13 @@
       --accent: #6b3be8;
       --text: #253238;
       --muted: #606366;
+
+      /* Single width for Username, Password and Login */
+      --field-width: 300px;
+    }
+
+    * {
+      box-sizing: border-box;
     }
 
     /* PAGE BACKGROUND */
@@ -37,7 +44,7 @@
       overflow: hidden;
     }
 
-    /* PASTEL GLOW (same style as hero section) */
+    /* PASTEL GLOW */
 
     body::before {
       content: "";
@@ -86,18 +93,25 @@
       color: var(--text);
     }
 
+    /* FORM */
+
+    form {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
     /* INPUTS */
 
     .input-group {
       margin-bottom: 18px;
-      width: 100%;
       display: flex;
       justify-content: center;
+      width: 100%;
     }
 
     .input-group input {
-      width: 100%;
-      max-width: 320px;
+      width: var(--field-width);
       padding: 14px 16px;
       border-radius: 12px;
       border: 1px solid #e6e6e6;
@@ -112,10 +126,36 @@
       box-shadow: 0 0 8px rgba(107, 59, 232, .25);
     }
 
+    /* PASSWORD */
+
+    .password-wrapper {
+      position: relative;
+      width: var(--field-width);
+    }
+
+    .password-wrapper input {
+      width: 100%;
+      padding: 14px 45px 14px 16px;
+    }
+
+    .toggle-password {
+      position: absolute;
+      right: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      cursor: pointer;
+      color: #666;
+      font-size: 18px;
+    }
+
+    .toggle-password:hover {
+      color: var(--accent);
+    }
+
     /* LOGIN BUTTON */
 
     .btn-login {
-      width: 100%;
+      width: var(--field-width);
       padding: 14px;
       margin-top: 5px;
       border: none;
@@ -180,6 +220,10 @@
         width: 90%;
         padding: 28px;
       }
+
+      :root {
+        --field-width: 100%;
+      }
     }
   </style>
 </head>
@@ -199,9 +243,11 @@
       <div class="input-group">
         <input type="text" name="username" placeholder="Username" required>
       </div>
-
       <div class="input-group">
-        <input type="password" name="password" placeholder="Password" required>
+        <div class="password-wrapper">
+          <input type="password" id="password" name="password" placeholder="Password" required>
+          <i class="bi bi-eye-slash-fill toggle-password" id="togglePassword"></i>
+        </div>
       </div>
 
       <button type="submit" class="btn-login">Login</button>
@@ -213,6 +259,24 @@
     </div>
 
   </div>
+
+  <script>
+    const togglePassword = document.getElementById("togglePassword");
+    const password = document.getElementById("password");
+
+    togglePassword.addEventListener("click", function () {
+
+      const type =
+        password.getAttribute("type") === "password"
+          ? "text"
+          : "password";
+
+      password.setAttribute("type", type);
+
+      this.classList.toggle("bi-eye");
+      this.classList.toggle("bi-eye-slash-fill");
+    });
+  </script>
 
 </body>
 

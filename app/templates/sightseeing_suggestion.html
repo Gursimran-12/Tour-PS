@@ -933,6 +933,29 @@
 
     }
 
+    function getPlaceScore(place) {
+
+      const text = (
+        (place.name || '') +
+        ' ' +
+        (place.category || '') +
+        ' ' +
+        (place.kinds || '')
+      ).toLowerCase();
+
+      let score = 0;
+
+      if (text.includes('unesco')) score += 10;
+      if (text.includes('heritage')) score += 8;
+      if (text.includes('fort')) score += 7;
+      if (text.includes('palace')) score += 7;
+      if (text.includes('museum')) score += 6;
+      if (text.includes('temple')) score += 5;
+
+      return score;
+    }
+
+
     // Remove duplicates
     function removeDuplicatePlaces(places) {
 
@@ -1032,23 +1055,34 @@
 
         // Remove duplicates
         places = removeDuplicatePlaces(places);
+        const totalResults = places.length;
 
         // Famous mode
         if (selectedPlaceMode === "famous") {
 
-          places = places.filter(place =>
+          const famousPlaces = places.filter(place =>
             isFamousPlace(place)
           );
+
+          // If famous places exist, show only them
+          // Otherwise show all places
+          if (famousPlaces.length > 0) {
+            places = famousPlaces;
+          }
 
         }
 
         // Sort by distance if available
         places.sort((a, b) => {
 
-          const d1 = a.distance_km || 99999;
-          const d2 = b.distance_km || 99999;
+          const scoreDiff =
+            getPlaceScore(b) - getPlaceScore(a);
 
-          return d1 - d2;
+          if (scoreDiff !== 0)
+            return scoreDiff;
+
+          return (a.distance_km || 99999) -
+            (b.distance_km || 99999);
 
         });
 
@@ -1065,7 +1099,12 @@
 
         }
 
-        resultsDiv.innerHTML = "";
+        resultsDiv.innerHTML = `
+<div class="alert alert-light border rounded-4 mb-4">
+  <i class="fas fa-location-dot text-primary me-2"></i>
+  Found <strong>${totalResults}</strong> sightseeing places
+</div>
+`;
 
         places.forEach((p, idx) => {
 
@@ -1075,14 +1114,20 @@
 
           card.innerHTML = `
 
-          <div class="place-title">
+         <div class="place-title">
 
-            <i class="fas fa-map-marker-alt place-icon"></i>
+    <i class="fas fa-map-marker-alt place-icon"></i>
 
-            <strong>${escapeHtml(p.name)}</strong>
+    <strong>${escapeHtml(p.name)}</strong>
 
-          </div>
+</div>
 
+${isFamousPlace(p) ? `
+<span class="badge bg-warning text-dark mb-2">
+    <i class="fas fa-star me-1"></i>
+    Famous Attraction
+</span>
+` : ''}
           <em class="muted">
 
             <i class="fas fa-layer-group me-1"></i>

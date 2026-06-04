@@ -25,6 +25,13 @@
             --accent: #6b3be8;
             --text: #253238;
             --muted: #606366;
+
+            /* Common width for all fields */
+            --field-width: 300px;
+        }
+
+        * {
+            box-sizing: border-box;
         }
 
         /* PAGE BACKGROUND */
@@ -32,7 +39,7 @@
         body {
             margin: 0;
             font-family: "Poppins", sans-serif;
-            height: 100vh;
+            min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -40,13 +47,16 @@
             overflow: hidden;
         }
 
-        /* PASTEL GLOW (same as home hero background) */
+        /* PASTEL GLOW */
 
         body::before {
             content: "";
             position: absolute;
             inset: 0;
-            background: linear-gradient(130deg, var(--pastel-peach), var(--pastel-lav), var(--pastel-mint));
+            background: linear-gradient(130deg,
+                    var(--pastel-peach),
+                    var(--pastel-lav),
+                    var(--pastel-mint));
             filter: blur(70px);
             opacity: .65;
             z-index: -1;
@@ -55,19 +65,19 @@
 
         @keyframes moveBg {
             0% {
-                transform: translateX(-6%) scale(1.02)
+                transform: translateX(-6%) scale(1.02);
             }
 
             50% {
-                transform: translateX(6%) scale(1.04)
+                transform: translateX(6%) scale(1.04);
             }
 
             100% {
-                transform: translateX(-6%) scale(1.02)
+                transform: translateX(-6%) scale(1.02);
             }
         }
 
-        /* GLASS CARD */
+        /* SIGNUP CARD */
 
         .signup-container {
             width: 390px;
@@ -89,18 +99,25 @@
             color: var(--text);
         }
 
+        /* FORM */
+
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
         /* INPUT GROUP */
 
         .input-group {
             margin-bottom: 18px;
+            width: 100%;
             display: flex;
             justify-content: center;
-            position: relative;
         }
 
         .input-group input {
-            width: 100%;
-            max-width: 320px;
+            width: var(--field-width);
             padding: 14px 16px;
             border-radius: 12px;
             border: 1px solid #e6e6e6;
@@ -115,21 +132,39 @@
             box-shadow: 0 0 8px rgba(107, 59, 232, .25);
         }
 
-        /* ICON */
+        /* PASSWORD WRAPPER */
 
-        .input-group i {
+        .password-wrapper {
+            position: relative;
+            width: var(--field-width);
+        }
+
+        .password-wrapper input {
+            width: 100%;
+            padding: 14px 45px 14px 16px;
+        }
+
+        /* PASSWORD EYE */
+
+        .toggle-password {
             position: absolute;
-            right: 22px;
+            right: 15px;
             top: 50%;
             transform: translateY(-50%);
+            cursor: pointer;
+            font-size: 18px;
             color: #666;
+            transition: .2s;
+        }
+
+        .toggle-password:hover {
+            color: var(--accent);
         }
 
         /* SIGNUP BUTTON */
 
         .btn-signup {
-            width: 100%;
-            max-width: 320px;
+            width: var(--field-width);
             padding: 14px;
             border: none;
             border-radius: 999px;
@@ -177,19 +212,25 @@
         @keyframes fadeIn {
             from {
                 opacity: 0;
-                transform: translateY(12px)
+                transform: translateY(12px);
             }
 
             to {
                 opacity: 1;
-                transform: translateY(0)
+                transform: translateY(0);
             }
         }
 
-        @media(max-width:450px) {
+        /* MOBILE */
+
+        @media (max-width: 450px) {
             .signup-container {
-                width: 90%;
+                width: 92%;
                 padding: 28px;
+            }
+
+            :root {
+                --field-width: 100%;
             }
         }
     </style>
@@ -218,8 +259,10 @@
             </div>
 
             <div class="input-group">
-                <input type="password" name="password" placeholder="Password" required>
-                <i class="fas fa-lock"></i>
+                <div class="password-wrapper">
+                    <input type="password" id="password" name="password" placeholder="Password" required>
+                    <i class="bi bi-eye-slash-fill toggle-password" id="togglePassword"></i>
+                </div>
             </div>
 
             <button type="submit" class="btn-signup">Sign Up</button>
@@ -231,6 +274,24 @@
         </div>
 
     </div>
+
+    <script>
+        const togglePassword = document.getElementById("togglePassword");
+        const password = document.getElementById("password");
+
+        togglePassword.addEventListener("click", function () {
+
+            const type =
+                password.getAttribute("type") === "password"
+                    ? "text"
+                    : "password";
+
+            password.setAttribute("type", type);
+
+            this.classList.toggle("bi-eye");
+            this.classList.toggle("bi-eye-slash-fill");
+        });
+    </script>
 
 </body>
 
